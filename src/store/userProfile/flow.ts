@@ -38,6 +38,7 @@ function* fetchUserProfileSaga(): SagaIterator {
       return;
     }
 
+    // FIXME: handle errors here, .e.g by disabling this in Firebase security rules
     const channel = yield* call(firebaseSyncUserProfile, uid);
 
     yield takeEvery(channel, function* (userProfileData: UserProfileData) {

@@ -27,8 +27,7 @@ export const HeaderBar = ({ showBackButton }: HeaderBarProps): ReactElement => {
       {showBackButton && (
         <StyledBackButton
           accessibilityLabel={HEADER_BAR_BACK_BUTTON_LABEL}
-          onPress={onBackPress}
-        >
+          onPress={onBackPress}>
           <StyledChevronLeftIcon fill={colors.primaryText} />
         </StyledBackButton>
       )}
@@ -37,7 +36,7 @@ export const HeaderBar = ({ showBackButton }: HeaderBarProps): ReactElement => {
 
       <Logo />
 
-      <Typography bold>AISLE 5</Typography>
+      <Typography bold>DBL</Typography>
     </Container>
   );
 };

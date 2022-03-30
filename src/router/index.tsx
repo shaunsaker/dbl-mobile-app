@@ -39,8 +39,7 @@ const RootTabsComponent = () => (
     screenOptions={{
       headerShown: false,
     }}
-    tabBar={() => null}
-  >
+    tabBar={() => null}>
     <RootTabs.Screen name={Routes.home} component={Home} />
   </RootTabs.Navigator>
 );
@@ -61,13 +60,12 @@ export const Router = () => {
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
-          }}
-        >
+          }}>
           {isAuthenticated ? (
             <>
               <Stack.Group key="pages">
                 <Stack.Screen
-                  name={Routes.home}
+                  name={Routes.authenticatedScreens}
                   component={RootTabsComponent}
                 />
               </Stack.Group>

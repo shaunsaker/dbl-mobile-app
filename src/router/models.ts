@@ -4,12 +4,14 @@ import { StackNavigationProp } from '@react-navigation/stack';
 export enum Routes {
   signUp = 'signUp',
   signIn = 'signIn',
+  authenticatedScreens = 'authenticatedScreens',
   home = 'home',
 }
 
 export type RouteStackParamList = {
   [Routes.signUp]: undefined;
   [Routes.signIn]: undefined;
+  [Routes.authenticatedScreens]: undefined;
   [Routes.home]: undefined;
 };
 
