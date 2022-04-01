@@ -139,6 +139,8 @@ android {
         versionName "1.0"
         // Firebase
         multiDexEnabled true
+        // react-native-qrcode-scanner
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
         abi {

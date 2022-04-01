@@ -14,7 +14,7 @@ interface PrimaryButtonProps
     ContainerProps {
   children: ReactNode;
   disabled?: boolean;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 export const PrimaryButton = ({

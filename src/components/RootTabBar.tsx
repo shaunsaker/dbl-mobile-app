@@ -5,7 +5,7 @@ import { TabBar, Tabs } from './TabBar';
 export const ROOT_TABS: Tabs = [
   {
     label: 'LIST',
-    route: Routes.home,
+    route: Routes.homeTabs,
     enabled: true,
   },
 ];

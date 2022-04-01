@@ -10,10 +10,13 @@ import { Typography } from './Typography';
 import { CustomTouchableOpacity } from './CustomTouchableOpacity';
 import CloseIcon from '../icons/close.svg';
 
+const CLOSE_ICON_SIZE = 24;
+
 const BACKDROP_COLOR = colors.backdrop;
 
 export interface ModalProps {
   title: string;
+  subtitle?: string;
   isVisible: boolean;
   disableSwipeAway?: boolean; // useful for when you have a ScrollView in the Modal
   closeButtonAccessiblityLabel?: string;
@@ -24,6 +27,7 @@ export interface ModalProps {
 // istanbul ignore next: we don't care much about ui
 export const Modal = ({
   title,
+  subtitle,
   isVisible,
   disableSwipeAway,
   closeButtonAccessiblityLabel,
@@ -45,20 +49,24 @@ export const Modal = ({
       onBackButtonPress={onClose}
     >
       <ContentContainer>
-        <HeaderContainer>
-          <StyledTypography large bold>
-            {title}
-          </StyledTypography>
-        </HeaderContainer>
+        <Typography large bold>
+          {title}
+        </Typography>
+
+        {subtitle && <Typography>{subtitle}</Typography>}
+
+        {children}
 
         <StyledCloseButton
           accessibilityLabel={closeButtonAccessiblityLabel}
           onPress={onClose}
         >
-          <StyledCloseIcon fill={colors.primaryText} />
+          <CloseIcon
+            width={CLOSE_ICON_SIZE}
+            height={CLOSE_ICON_SIZE}
+            fill={colors.primaryText}
+          />
         </StyledCloseButton>
-
-        {children}
       </ContentContainer>
 
       <StatusBar backgroundColor={BACKDROP_COLOR} />
@@ -74,23 +82,12 @@ const StyledModal = styled(ReactNativeModal)`
   border-top-right-radius: ${BORDER_RADIUS}px;
 `;
 
-const HeaderContainer = styled.View`
-  flex-direction: row;
-`;
-
-const StyledTypography = styled(Typography)`
-  flex: 1;
-`;
-
 const StyledCloseButton = styled(CustomTouchableOpacity)`
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  padding: ${RHYTHM}px;
 `;
-
-const StyledCloseIcon = styled(CloseIcon)``;
 
 const ContentContainer = styled.View`
   background-color: ${colors.white};

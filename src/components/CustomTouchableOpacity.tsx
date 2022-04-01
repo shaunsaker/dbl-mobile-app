@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode } from 'react';
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 
 export interface CustomTouchableOpacityProps extends TouchableOpacityProps {
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const CustomTouchableOpacity = ({

@@ -11,16 +11,24 @@ import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../store/auth/selectors';
 import { SignIn } from '../pages/SignIn';
 import { Routes, RouteStackParamList } from './models';
-import { selectUsername } from '../store/userProfile/selectors';
+import {
+  selectHasCompletedOnboarding,
+  selectUsername,
+} from '../store/userProfile/selectors';
 import { SignUp } from '../pages/SignUp';
 import { Home } from '../pages/Home';
+import { Onboarding } from '../pages/Onboarding';
+import { QuitOnboardingModal } from '../modals/QuitOnboardingModal';
+import { EditWalletModal } from '../modals/EditWalletModal';
+import { QRCodeScannerModal } from '../modals/QRCodeScannerModal';
 
 const Stack = createStackNavigator<RouteStackParamList>();
 
 const RootTabs = createBottomTabNavigator<RouteStackParamList>();
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
-export const navigate = (
+
+export const navigateInternal = (
   name?: keyof RouteStackParamList,
   params?: RouteStackParamList[keyof RouteStackParamList],
 ) => {
@@ -39,14 +47,16 @@ const RootTabsComponent = () => (
     screenOptions={{
       headerShown: false,
     }}
-    tabBar={() => null}>
-    <RootTabs.Screen name={Routes.home} component={Home} />
+    tabBar={() => null}
+  >
+    <RootTabs.Screen name={Routes.dashboard} component={Home} />
   </RootTabs.Navigator>
 );
 
 export const Router = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const hasSignedUp = Boolean(useSelector(selectUsername));
+  const hasCompletedOnboarding = useSelector(selectHasCompletedOnboarding);
 
   useEffect(() => {
     enableScreens();
@@ -60,13 +70,42 @@ export const Router = () => {
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
-          }}>
+          }}
+        >
           {isAuthenticated ? (
             <>
+              {!hasCompletedOnboarding && (
+                <Stack.Screen name={Routes.onboarding} component={Onboarding} />
+              )}
+
               <Stack.Group key="pages">
                 <Stack.Screen
-                  name={Routes.authenticatedScreens}
+                  name={Routes.homeTabs}
                   component={RootTabsComponent}
+                />
+              </Stack.Group>
+
+              <Stack.Group
+                key="modals"
+                screenOptions={{
+                  presentation: 'transparentModal',
+                }}
+              >
+                {!hasCompletedOnboarding && (
+                  <Stack.Screen
+                    name={Routes.quitOnboardingModal}
+                    component={QuitOnboardingModal}
+                  />
+                )}
+
+                <Stack.Screen
+                  name={Routes.editWalletModal}
+                  component={EditWalletModal}
+                />
+
+                <Stack.Screen
+                  name={Routes.QRScannerModal}
+                  component={QRCodeScannerModal}
                 />
               </Stack.Group>
             </>

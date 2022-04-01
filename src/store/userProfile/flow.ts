@@ -11,14 +11,23 @@ import { firebaseSyncUserProfile } from '../../firebase/firestore/firebaseSyncUs
 import { firebaseUpdateUserProfile } from '../../firebase/firestore/firebaseUpdateUserProfile';
 import { call } from '../../utils/call';
 import { errorSaga } from '../../utils/errorSaga';
+import { getUuid } from '../../utils/getUuid';
 import { select } from '../../utils/typedSelect';
 import { signOut, signUp } from '../auth/actions';
 import { selectUid } from '../auth/selectors';
 import { showSnackbar } from '../snackbars/actions';
 import { SnackbarType } from '../snackbars/models';
-import { fetchUserProfile, createUser, editUsername } from './actions';
-import { makeUserProfileData } from './data';
-import { UserProfileData } from './models';
+import {
+  fetchUserProfile,
+  createUser,
+  editUsername,
+  editHasCompletedOnboarding,
+  addUserWalletAddress,
+  editUserWallet,
+} from './actions';
+import { makeUserProfileData, makeWalletData } from './data';
+import { UserProfileData, Wallets } from './models';
+import { selectUserWallets } from './selectors';
 
 // istanbul ignore next
 function* fetchUserProfileSaga(): SagaIterator {
@@ -107,8 +116,108 @@ export function* editUsernameFlow(): SagaIterator {
   );
 }
 
+export function* editHasCompletedOnboardingFlow(): SagaIterator {
+  yield takeLatest(
+    getType(editHasCompletedOnboarding.request),
+    function* (
+      action: ActionType<typeof editHasCompletedOnboarding.request>,
+    ): SagaIterator {
+      try {
+        yield* call(firebaseUpdateUserProfile, {
+          ...action.payload,
+        });
+
+        yield put(editHasCompletedOnboarding.success());
+      } catch (error) {
+        yield* call(errorSaga, error, editHasCompletedOnboarding.failure);
+      }
+    },
+  );
+}
+
+export function* addUserWalletAddressFlow(): SagaIterator {
+  yield takeLatest(
+    getType(addUserWalletAddress.request),
+    function* (
+      action: ActionType<typeof addUserWalletAddress.request>,
+    ): SagaIterator {
+      try {
+        const userWallets = yield* select(selectUserWallets);
+        const hasExistingWallets = Object.keys(userWallets).length;
+        const addedWalletId = getUuid();
+        const addedWallet = makeWalletData({
+          id: addedWalletId,
+          address: action.payload.address,
+          preferred: !hasExistingWallets,
+        });
+        const newWallets: Wallets = {
+          ...userWallets,
+          [addedWalletId]: addedWallet,
+        };
+
+        yield* call(firebaseUpdateUserProfile, {
+          wallets: newWallets,
+        });
+
+        yield put(addUserWalletAddress.success());
+
+        yield put(
+          showSnackbar({
+            type: SnackbarType.success,
+            title: 'Success',
+            description: 'We successfully added your wallet',
+          }),
+        );
+      } catch (error) {
+        yield* call(errorSaga, error, addUserWalletAddress.failure);
+      }
+    },
+  );
+}
+
+export function* editUserWalletFlow(): SagaIterator {
+  yield takeLatest(
+    getType(editUserWallet.request),
+    function* (
+      action: ActionType<typeof editUserWallet.request>,
+    ): SagaIterator {
+      try {
+        const userWallets = yield* select(selectUserWallets);
+        const editedWalletId = action.payload.id;
+        const editedWallet = {
+          ...userWallets[editedWalletId],
+          ...action.payload,
+        };
+        const newWallets: Wallets = {
+          ...userWallets,
+          [editedWalletId]: editedWallet,
+        };
+
+        yield* call(firebaseUpdateUserProfile, {
+          wallets: newWallets,
+        });
+
+        yield put(editUserWallet.success());
+
+        yield put(
+          showSnackbar({
+            type: SnackbarType.success,
+            title: 'Success',
+            description: 'We successfully edited your wallet',
+          }),
+        );
+      } catch (error) {
+        yield* call(errorSaga, error, editUserWallet.failure);
+      }
+    },
+  );
+}
+
 // istanbul ignore next
 export function* userProfileFlow(): SagaIterator {
   yield fork(fetchUserProfileSaga);
   yield fork(editUsernameFlow);
+  yield fork(editHasCompletedOnboardingFlow);
+  yield fork(addUserWalletAddressFlow);
+  yield fork(editUserWalletFlow);
 }

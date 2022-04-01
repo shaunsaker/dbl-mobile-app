@@ -1,18 +1,31 @@
 import { RouteProp } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { WalletAddress } from '../store/lots/models';
+import { WalletId } from '../store/userProfile/models';
 
 export enum Routes {
   signUp = 'signUp',
   signIn = 'signIn',
-  authenticatedScreens = 'authenticatedScreens',
-  home = 'home',
+  onboarding = 'onboarding',
+  quitOnboardingModal = 'quitOnboardingModal',
+  homeTabs = 'homeTabs',
+  dashboard = 'dashboard',
+  editWalletModal = 'editWalletModal',
+  QRScannerModal = 'QRScannerModal',
 }
 
 export type RouteStackParamList = {
   [Routes.signUp]: undefined;
   [Routes.signIn]: undefined;
-  [Routes.authenticatedScreens]: undefined;
-  [Routes.home]: undefined;
+  [Routes.onboarding]: undefined;
+  [Routes.quitOnboardingModal]: undefined;
+  [Routes.homeTabs]: undefined;
+  [Routes.dashboard]: undefined;
+  [Routes.editWalletModal]: {
+    walletId?: WalletId;
+    QRCodeScannerWalletAddress?: WalletAddress;
+  };
+  [Routes.QRScannerModal]: undefined;
 };
 
 type ScreenNavigationProps<T extends Routes> = StackNavigationProp<

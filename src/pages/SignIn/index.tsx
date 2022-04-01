@@ -85,7 +85,8 @@ export const SignIn = ({}: SignInProps): ReactElement => {
       <ScrollView
         style={{ flex: 1 }}
         contentContainerStyle={{ flex: 1, justifyContent: 'center' }}
-        keyboardShouldPersistTaps="handled">
+        keyboardShouldPersistTaps="handled"
+      >
         <ContentContainer>
           <StyledImage source={0} />
 
@@ -123,20 +124,23 @@ export const SignIn = ({}: SignInProps): ReactElement => {
           <TextButton
             accessibilityLabel={SIGN_IN_FORGOT_PASSWORD_BUTTON_LABEL}
             disabled={isForgotPasswordDisabled}
-            onPress={onForgotPasswordPress}>
+            onPress={onForgotPasswordPress}
+          >
             Forgot Password?
           </TextButton>
 
           <PrimaryButton
             accessibilityLabel={SIGN_IN_SUBMIT_BUTTON_LABEL}
             disabled={isSignInDisabled}
-            onPress={onSubmit}>
+            onPress={onSubmit}
+          >
             SIGN IN
           </PrimaryButton>
 
           <TextButton
             accessibilityLabel={SIGN_IN_SIGN_UP_BUTTON_LABEL}
-            onPress={onSignUpInsteadPress}>
+            onPress={onSignUpInsteadPress}
+          >
             Sign up instead?
           </TextButton>
         </ContentContainer>
