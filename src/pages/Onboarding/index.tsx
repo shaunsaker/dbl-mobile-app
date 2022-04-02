@@ -72,7 +72,8 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
         initialPage={
           // if the user has tickets pending deposits, just show the last slide
           userHasActiveLotTicketsPendingDeposit ? SLIDES.length - 1 : 0
-        }>
+        }
+      >
         {SLIDES.map((Slide, index) => (
           <Slide
             key={index + 1}

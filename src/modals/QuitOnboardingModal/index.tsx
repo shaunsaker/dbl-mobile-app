@@ -29,7 +29,8 @@ export const QuitOnboardingModal =
         title="Are you sure you want to quit?"
         subtitle="This action will sign you out of the app."
         isVisible
-        onClose={onClose}>
+        onClose={onClose}
+      >
         <ContentContainer>
           <PrimaryButton secondary onPress={onYesPress}>
             YES
