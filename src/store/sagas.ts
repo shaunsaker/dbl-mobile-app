@@ -9,6 +9,7 @@ import { snackbarsFlow } from './snackbars/flow';
 import { createUserFlow, userProfileFlow } from './userProfile/flow';
 import { analyticsFlow } from './analytics/flow';
 import { lotsFlow } from './lots/flow';
+import { userActiveLotTicketsFlow } from './userActiveLotTickets/flow';
 
 function* omnipresentFlows() {
   yield fork(authSagas);
@@ -23,6 +24,7 @@ function* authenticatedFlows() {
     yield fork(userProfileFlow);
     yield fork(analyticsFlow);
     yield fork(lotsFlow);
+    yield fork(userActiveLotTicketsFlow);
   }
 }
 

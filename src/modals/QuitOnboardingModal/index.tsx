@@ -26,11 +26,10 @@ export const QuitOnboardingModal =
 
     return (
       <Modal
-        title="Are you sure you want to quit our Onboarding?"
-        subtitle="This action will sign you out of the app. You will only be allowed to join our community after you purchase a ticket for the lottery."
+        title="Are you sure you want to quit?"
+        subtitle="This action will sign you out of the app."
         isVisible
-        onClose={onClose}
-      >
+        onClose={onClose}>
         <ContentContainer>
           <PrimaryButton secondary onPress={onYesPress}>
             YES

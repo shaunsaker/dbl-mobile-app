@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/native';
+import { TicketVerification } from '../../../components/TicketVerification';
 import { Typography } from '../../../components/Typography';
 
 interface OnboardingVerificationProps {}
@@ -11,6 +12,8 @@ export const OnboardingVerification =
         <Typography large bold>
           Onboarding Verification (4/4)
         </Typography>
+
+        <TicketVerification />
       </Container>
     );
   };

@@ -13,10 +13,11 @@ import { OnboardingBuyTickets } from './OnboardingBuyTickets';
 import { CustomTouchableOpacity } from '../../components/CustomTouchableOpacity';
 import CloseIcon from '../../icons/close.svg';
 import { colors } from '../../theme/colors';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { navigate } from '../../store/navigation/actions';
 import { Routes } from '../../router/models';
 import { OnboardingVerification } from './OnboardingVerification';
+import { selectUserHasActiveLotTicketsPendingDeposit } from '../../store/userActiveLotTickets/selectors';
 
 const SLIDES = [
   OnboardingIntro,
@@ -35,6 +36,10 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
   const pagerViewRef = createRef<PagerView>();
 
   const [pageIndex, setPageIndex] = useState(0);
+
+  const userHasActiveLotTicketsPendingDeposit = useSelector(
+    selectUserHasActiveLotTicketsPendingDeposit,
+  );
 
   useLayoutEffect(() => {
     // disable gesture scrolling
@@ -61,7 +66,13 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
 
   return (
     <Container>
-      <StyledPagerView ref={pagerViewRef} onPageSelected={onPageSelected}>
+      <StyledPagerView
+        ref={pagerViewRef}
+        onPageSelected={onPageSelected}
+        initialPage={
+          // if the user has tickets pending deposits, just show the last slide
+          userHasActiveLotTicketsPendingDeposit ? SLIDES.length - 1 : 0
+        }>
         {SLIDES.map((Slide, index) => (
           <Slide
             key={index + 1}
@@ -79,17 +90,21 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
       </CloseButtonContainer>
 
       <DotsContainer>
-        {SLIDES.map((_, index) => (
-          <Dot
-            key={`dot-${index}`}
-            active={pageIndex === index}
-            disabled={index >= pageIndex}
-            onPress={
-              // only allow navigating backwards
-              index < pageIndex ? () => onNavigatePress(index) : undefined
-            }
-          />
-        ))}
+        {SLIDES.map((_, index) => {
+          // we disable the next slides and going back from the last slide
+          const isLastSlide = pageIndex === SLIDES.length - 1;
+          const isDotDisabled =
+            index >= pageIndex || (isLastSlide && index < pageIndex);
+
+          return (
+            <Dot
+              key={`dot-${index}`}
+              active={pageIndex === index}
+              disabled={isDotDisabled}
+              onPress={() => onNavigatePress(index)}
+            />
+          );
+        })}
       </DotsContainer>
     </Container>
   );

@@ -65,7 +65,7 @@ function* onReserveTicketsSaga(): SagaIterator {
             description: `We reserved ${maybePluralise(
               action.payload.ticketCount,
               'ticket',
-            )} successfully`,
+            )} for you successfully`,
           }),
         );
       } catch (error) {

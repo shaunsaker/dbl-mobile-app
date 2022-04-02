@@ -155,6 +155,9 @@ export const BuyTickets = ({
     );
 
     onSubmit();
+
+    // clear the tickets in case the user navigates back
+    setTickets(0);
   }, [dispatch, activeLot, tickets, preferredUserWallet, onSubmit]);
 
   if (!activeLot) {
@@ -237,8 +240,7 @@ export const BuyTickets = ({
         small
         secondary
         disabled={ticketLimitReached}
-        onPress={() => onAddTickets(1)}
-      >
+        onPress={() => onAddTickets(1)}>
         +1
       </StyledPrimaryButton>
 
@@ -246,8 +248,7 @@ export const BuyTickets = ({
         small
         secondary
         disabled={ticketLimitReached}
-        onPress={() => onAddTickets(10)}
-      >
+        onPress={() => onAddTickets(10)}>
         +10
       </StyledPrimaryButton>
 
@@ -255,8 +256,7 @@ export const BuyTickets = ({
         small
         secondary
         disabled={ticketLimitReached}
-        onPress={() => onAddTickets(100)}
-      >
+        onPress={() => onAddTickets(100)}>
         +100
       </StyledPrimaryButton>
 
@@ -280,8 +280,7 @@ export const BuyTickets = ({
           disabled={!tickets}
           small
           secondary
-          onPress={onAddWalletPress}
-        >
+          onPress={onAddWalletPress}>
           Add External Wallet Address
         </StyledPrimaryButton>
       )}
@@ -305,8 +304,7 @@ export const BuyTickets = ({
 
       <PrimaryButton
         disabled={!tickets || !preferredUserWalletAddress}
-        onPress={onSubmitPress}
-      >
+        onPress={onSubmitPress}>
         I've sent my BTC
       </PrimaryButton>
     </Container>

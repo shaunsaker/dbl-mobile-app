@@ -1,6 +1,6 @@
-export type LotId = string;
+import { Timestamp } from '../models';
 
-export type Timestamp = string;
+export type LotId = string;
 
 export type WalletAddress = string;
 
