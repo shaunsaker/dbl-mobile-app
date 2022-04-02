@@ -11,6 +11,7 @@ import { firebaseSyncUserProfile } from '../../firebase/firestore/firebaseSyncUs
 import { firebaseUpdateUserProfile } from '../../firebase/firestore/firebaseUpdateUserProfile';
 import { call } from '../../utils/call';
 import { errorSaga } from '../../utils/errorSaga';
+import { getTimeAsISOString } from '../../utils/getTimeAsISOString';
 import { getUuid } from '../../utils/getUuid';
 import { select } from '../../utils/typedSelect';
 import { signOut, signUp } from '../auth/actions';
@@ -78,6 +79,7 @@ export function* createUserFlow(): SagaIterator {
         const data = makeUserProfileData({
           username,
           email: action.payload.user.email || '',
+          dateJoined: getTimeAsISOString(),
         });
 
         yield* call(firebaseUpdateUserProfile, data);

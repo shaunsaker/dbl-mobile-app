@@ -17,6 +17,7 @@ export interface Lot {
   ticketTimeout: number; // milliseconds
   drawTime: Timestamp;
   walletAddress: WalletAddress;
+  dateCreated: Timestamp;
 }
 
 export type LotsData = Record<LotId, Lot>;

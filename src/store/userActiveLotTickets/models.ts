@@ -15,7 +15,7 @@ export interface Ticket {
   uid: UserProfileData;
   status: TicketStatus;
   walletAddress: WalletAddress; // the address we're expecting the deposit from
-  reservedTime: Timestamp;
+  dateCreated: Timestamp;
   activatedTime?: Timestamp; // only once the deposit has been received and verified
 }
 

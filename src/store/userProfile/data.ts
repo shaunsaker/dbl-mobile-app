@@ -7,16 +7,19 @@ export const makeUserProfileData = ({
   email = '',
   hasCompletedOnboarding = false,
   wallets = {},
+  dateJoined = '',
 }: {
   username?: string;
   email?: string;
   hasCompletedOnboarding?: boolean;
   wallets?: Wallets;
+  dateJoined?: string;
 }): UserProfileData => ({
   username,
   email,
   hasCompletedOnboarding,
   wallets,
+  dateJoined,
 });
 
 export const makeWalletData = ({

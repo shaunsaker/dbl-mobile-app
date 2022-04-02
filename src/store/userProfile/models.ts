@@ -1,4 +1,5 @@
 import { WalletAddress } from '../lots/models';
+import { Timestamp } from '../models';
 
 export type Username = string;
 
@@ -17,6 +18,7 @@ export interface UserProfileData {
   email: string;
   hasCompletedOnboarding: boolean;
   wallets: Wallets;
+  dateJoined: Timestamp;
 }
 
 export interface UserProfileState {
