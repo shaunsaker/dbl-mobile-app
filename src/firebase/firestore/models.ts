@@ -1,5 +1,5 @@
 export enum FirebaseCallableFunctions {
-  reserveTickets = 'reserveTickets',
+  bookie = 'bookie',
 }
 
 export interface FirebaseCallableFunctionsResponse<T> {

@@ -10,7 +10,7 @@ export const firebaseReserveTickets = async (
   payload: ReserveTicketsRequestPayload,
 ): Promise<FirebaseCallableFunctionsResponse<void>> => {
   const response = (await functions().httpsCallable(
-    FirebaseCallableFunctions.reserveTickets,
+    FirebaseCallableFunctions.bookie,
   )(payload)) as FirebaseCallableFunctionsResponse<void>;
 
   return response;
