@@ -1,19 +1,21 @@
 import { getTimeAsISOString } from '../../utils/getTimeAsISOString';
+import { getUuid } from '../../utils/getUuid';
 import { UserProfileData } from './models';
 
 export const makeUserProfileData = ({
-  username = '',
-  email = '',
-  hasCompletedOnboarding = false,
   dateCreated = getTimeAsISOString(),
-}: {
-  username?: string;
-  email?: string;
-  hasCompletedOnboarding?: boolean;
-  dateCreated?: string;
-}): UserProfileData => ({
-  username,
-  email,
-  hasCompletedOnboarding,
-  dateCreated,
-});
+  username = getUuid(),
+  email = getUuid(),
+  hasCompletedOnboarding = true,
+  fcmTokens = [getUuid()],
+  winnerWithdrawalLink = getUuid(),
+}: Partial<UserProfileData>): UserProfileData => {
+  return {
+    dateCreated,
+    username,
+    email,
+    hasCompletedOnboarding,
+    fcmTokens,
+    winnerWithdrawalLink,
+  };
+};

@@ -1,12 +1,12 @@
-import { Timestamp } from '../models';
-
 export type Username = string;
 
 export interface UserProfileData {
+  dateCreated: string;
   username: Username;
   email: string;
   hasCompletedOnboarding: boolean;
-  dateCreated: Timestamp;
+  fcmTokens: string[];
+  winnerWithdrawalLink?: string;
 }
 
 export interface UserProfileState {

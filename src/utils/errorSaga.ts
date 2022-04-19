@@ -6,13 +6,15 @@ import { SnackbarType } from '../store/snackbars/models';
 import { call } from './call';
 
 // FIXME: type the action correctly
-export function* errorSaga(error: unknown, action: any): SagaIterator {
+export function* errorSaga(error: unknown, action?: any): SagaIterator {
   if (error instanceof Error) {
     console.error(error);
 
     yield* call(sentry.captureException, error);
 
-    yield put(action(error));
+    if (action) {
+      yield put(action(error));
+    }
 
     yield put(
       showSnackbar({
