@@ -1,27 +1,27 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/native';
-import { LotStats } from '../../../components/LotStats';
 import { PrimaryButton } from '../../../components/PrimaryButton';
+
 import { Typography } from '../../../components/Typography';
 
-interface OnboardingEncouragementProps {
+interface OnboardingThreeProps {
   onSubmit: () => void;
 }
 
-export const OnboardingEncouragement = ({
+export const OnboardingThree = ({
   onSubmit,
-}: OnboardingEncouragementProps): ReactElement => {
+}: OnboardingThreeProps): ReactElement => {
   return (
     <Container collapsable={false}>
       <Typography large bold>
-        Onboarding Encouragement (2/4)
+        Onboarding Three
       </Typography>
 
-      <Typography>Here are some stats from our latest lot...</Typography>
+      <Typography bold>Entrancing Subheading</Typography>
 
-      <LotStats />
+      <Typography>Physics-defying Explanation</Typography>
 
-      <PrimaryButton onPress={onSubmit}>I WANT IN ON THE ACTION!</PrimaryButton>
+      <PrimaryButton onPress={onSubmit}>DONE</PrimaryButton>
     </Container>
   );
 };

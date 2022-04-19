@@ -1,30 +1,18 @@
-import React, {
-  createRef,
-  ReactElement,
-  useCallback,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import React, { createRef, ReactElement, useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 import PagerView from 'react-native-pager-view';
-import { OnboardingIntro } from './OnboardingIntro';
-import { OnboardingEncouragement } from './OnboardingEncouragement';
-import { OnboardingBuyTickets } from './OnboardingBuyTickets';
 import { CustomTouchableOpacity } from '../../components/CustomTouchableOpacity';
 import CloseIcon from '../../icons/close.svg';
 import { colors } from '../../theme/colors';
-import { useDispatch, useSelector } from 'react-redux';
-import { navigate } from '../../store/navigation/actions';
-import { Routes } from '../../router/models';
-import { OnboardingVerification } from './OnboardingVerification';
-import { selectUserHasActiveLotTicketsPendingDeposit } from '../../store/userActiveLotTickets/selectors';
+import { useDispatch } from 'react-redux';
+import { OnboardingOne } from './OnboardingOne';
+import { OnboardingTwo } from './OnboardingTwo';
+import { OnboardingThree } from './OnboardingThree';
+import { Page } from '../../components/Page';
+import { RHYTHM } from '../../theme/rhythm';
+import { updateUserProfile } from '../../store/userProfile/actions';
 
-const SLIDES = [
-  OnboardingIntro,
-  OnboardingEncouragement,
-  OnboardingBuyTickets,
-  OnboardingVerification,
-];
+const SLIDES = [OnboardingOne, OnboardingTwo, OnboardingThree];
 
 const CLOSE_ICON_SIZE = 24;
 
@@ -36,15 +24,6 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
   const pagerViewRef = createRef<PagerView>();
 
   const [pageIndex, setPageIndex] = useState(0);
-
-  const userHasActiveLotTicketsPendingDeposit = useSelector(
-    selectUserHasActiveLotTicketsPendingDeposit,
-  );
-
-  useLayoutEffect(() => {
-    // disable gesture scrolling
-    pagerViewRef.current?.setScrollEnabled(false);
-  });
 
   const onPageSelected = useCallback(
     event => {
@@ -60,25 +39,32 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
     [pagerViewRef],
   );
 
-  const onClosePress = useCallback(() => {
-    dispatch(navigate({ route: Routes.quitOnboardingModal }));
+  const markCompletedOnboarding = useCallback(() => {
+    dispatch(updateUserProfile.request({ hasCompletedOnboarding: true }));
   }, [dispatch]);
 
+  const onSubmitPress = useCallback(
+    (slideIndex: number) => {
+      const isFinalSlide = slideIndex === SLIDES.length - 1;
+
+      if (isFinalSlide) {
+        markCompletedOnboarding();
+      } else {
+        pagerViewRef.current?.setPage(slideIndex + 1);
+      }
+    },
+    [markCompletedOnboarding, pagerViewRef],
+  );
+
+  const onClosePress = useCallback(() => {
+    markCompletedOnboarding();
+  }, [markCompletedOnboarding]);
+
   return (
-    <Container>
-      <StyledPagerView
-        ref={pagerViewRef}
-        onPageSelected={onPageSelected}
-        initialPage={
-          // if the user has tickets pending deposits, just show the last slide
-          userHasActiveLotTicketsPendingDeposit ? SLIDES.length - 1 : 0
-        }
-      >
+    <Page>
+      <StyledPagerView ref={pagerViewRef} onPageSelected={onPageSelected}>
         {SLIDES.map((Slide, index) => (
-          <Slide
-            key={index + 1}
-            onSubmit={() => onNavigatePress(pageIndex + 1)}
-          />
+          <Slide key={index + 1} onSubmit={() => onSubmitPress(index)} />
         ))}
       </StyledPagerView>
 
@@ -92,28 +78,18 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
 
       <DotsContainer>
         {SLIDES.map((_, index) => {
-          // we disable the next slides and going back from the last slide
-          const isLastSlide = pageIndex === SLIDES.length - 1;
-          const isDotDisabled =
-            index >= pageIndex || (isLastSlide && index < pageIndex);
-
           return (
             <Dot
               key={`dot-${index}`}
               active={pageIndex === index}
-              disabled={isDotDisabled}
               onPress={() => onNavigatePress(index)}
             />
           );
         })}
       </DotsContainer>
-    </Container>
+    </Page>
   );
 };
-
-const Container = styled.View`
-  flex: 1;
-`;
 
 const StyledPagerView = styled(PagerView)`
   flex: 1;
@@ -121,8 +97,8 @@ const StyledPagerView = styled(PagerView)`
 
 const CloseButtonContainer = styled(CustomTouchableOpacity)`
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 50px; // TODO: statusBarHeight + margin
+  right: ${RHYTHM}px;
 `;
 
 const DotsContainer = styled.View`

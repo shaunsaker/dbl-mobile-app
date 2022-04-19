@@ -4,17 +4,17 @@ import { PrimaryButton } from '../../../components/PrimaryButton';
 
 import { Typography } from '../../../components/Typography';
 
-interface OnboardingIntroProps {
+interface OnboardingTwoProps {
   onSubmit: () => void;
 }
 
-export const OnboardingIntro = ({
+export const OnboardingTwo = ({
   onSubmit,
-}: OnboardingIntroProps): ReactElement => {
+}: OnboardingTwoProps): ReactElement => {
   return (
     <Container collapsable={false}>
       <Typography large bold>
-        Onboarding Intro (1/4)
+        Onboarding Two
       </Typography>
 
       <Typography bold>Entrancing Subheading</Typography>

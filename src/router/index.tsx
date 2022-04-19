@@ -18,7 +18,6 @@ import {
 import { SignUp } from '../pages/SignUp';
 import { Home } from '../pages/Home';
 import { Onboarding } from '../pages/Onboarding';
-import { QuitOnboardingModal } from '../modals/QuitOnboardingModal';
 import { QRCodeScannerModal } from '../modals/QRCodeScannerModal';
 
 const Stack = createStackNavigator<RouteStackParamList>();
@@ -90,13 +89,6 @@ export const Router = () => {
                   presentation: 'transparentModal',
                 }}
               >
-                {!hasCompletedOnboarding && (
-                  <Stack.Screen
-                    name={Routes.quitOnboardingModal}
-                    component={QuitOnboardingModal}
-                  />
-                )}
-
                 <Stack.Screen
                   name={Routes.QRScannerModal}
                   component={QRCodeScannerModal}
