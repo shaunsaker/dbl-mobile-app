@@ -13,14 +13,8 @@ export const createUser = createAsyncAction(
   'USER_PROFILE/createUserFailure',
 )<{ username: Username }, UserProfileData, Error>();
 
-export const editUsername = createAsyncAction(
-  'USER_PROFILE/editUsernameRequest',
-  'USER_PROFILE/editUsernameSuccess',
-  'USER_PROFILE/editUsernameFailure',
-)<{ username: Username }, void, Error>();
-
-export const editHasCompletedOnboarding = createAsyncAction(
-  'USER_PROFILE/editHasCompletedOnboardingRequest',
-  'USER_PROFILE/editHasCompletedOnboardingSuccess',
-  'USER_PROFILE/editHasCompletedOnboardingFailure',
-)<{ hasCompletedOnboarding: boolean }, void, Error>();
+export const updateUserProfile = createAsyncAction(
+  'USER_PROFILE/updateUserProfileRequest',
+  'USER_PROFILE/updateUserProfileSuccess',
+  'USER_PROFILE/updateUserProfileFailure',
+)<Partial<UserProfileData>, void, Error>();

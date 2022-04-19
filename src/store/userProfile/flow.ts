@@ -17,17 +17,12 @@ import { signOut, signUp } from '../auth/actions';
 import { selectUid } from '../auth/selectors';
 import { showSnackbar } from '../snackbars/actions';
 import { SnackbarType } from '../snackbars/models';
-import {
-  fetchUserProfile,
-  createUser,
-  editUsername,
-  editHasCompletedOnboarding,
-} from './actions';
+import { fetchUserProfile, createUser, updateUserProfile } from './actions';
 import { makeUserProfileData } from './data';
 import { UserProfileData } from './models';
 
 // istanbul ignore next
-function* fetchUserProfileSaga(): SagaIterator {
+function* fetchUserProfileFlow(): SagaIterator {
   yield put(fetchUserProfile.request());
 
   try {
@@ -89,45 +84,28 @@ export function* createUserFlow(): SagaIterator {
   );
 }
 
-export function* editUsernameFlow(): SagaIterator {
+export function* updateUserProfileFlow(): SagaIterator {
   yield takeLatest(
-    getType(editUsername.request),
-    function* (action: ActionType<typeof editUsername.request>): SagaIterator {
-      try {
-        yield* call(firebaseUpdateUserProfile, {
-          ...action.payload,
-        });
-
-        yield put(editUsername.success());
-
-        yield put(
-          showSnackbar({
-            type: SnackbarType.success,
-            title: 'Success',
-            description: 'We successfully updated your username',
-          }),
-        );
-      } catch (error) {
-        yield* call(errorSaga, error, editUsername.failure);
-      }
-    },
-  );
-}
-
-export function* editHasCompletedOnboardingFlow(): SagaIterator {
-  yield takeLatest(
-    getType(editHasCompletedOnboarding.request),
+    getType(updateUserProfile.request),
     function* (
-      action: ActionType<typeof editHasCompletedOnboarding.request>,
+      action: ActionType<typeof updateUserProfile.request>,
     ): SagaIterator {
       try {
         yield* call(firebaseUpdateUserProfile, {
           ...action.payload,
         });
 
-        yield put(editHasCompletedOnboarding.success());
+        yield put(updateUserProfile.success());
+
+        yield put(
+          showSnackbar({
+            type: SnackbarType.success,
+            title: 'Success',
+            description: 'We successfully updated your profile.',
+          }),
+        );
       } catch (error) {
-        yield* call(errorSaga, error, editHasCompletedOnboarding.failure);
+        yield* call(errorSaga, error, updateUserProfile.failure);
       }
     },
   );
@@ -135,7 +113,6 @@ export function* editHasCompletedOnboardingFlow(): SagaIterator {
 
 // istanbul ignore next
 export function* userProfileFlow(): SagaIterator {
-  yield fork(fetchUserProfileSaga);
-  yield fork(editUsernameFlow);
-  yield fork(editHasCompletedOnboardingFlow);
+  yield fork(fetchUserProfileFlow);
+  yield fork(updateUserProfileFlow);
 }
