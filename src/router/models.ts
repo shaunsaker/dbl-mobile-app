@@ -1,6 +1,6 @@
 import { RouteProp } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { WalletAddress } from '../store/lots/models';
+import { BlockchainAddress } from '../store/lots/models';
 import { WalletId } from '../store/userProfile/models';
 
 export enum Routes {
@@ -23,7 +23,7 @@ export type RouteStackParamList = {
   [Routes.dashboard]: undefined;
   [Routes.editWalletModal]: {
     walletId?: WalletId;
-    QRCodeScannerWalletAddress?: WalletAddress;
+    QRCodeScannerWalletAddress?: BlockchainAddress;
   };
   [Routes.QRScannerModal]: undefined;
 };

@@ -79,7 +79,7 @@ export function* createUserFlow(): SagaIterator {
         const data = makeUserProfileData({
           username,
           email: action.payload.user.email || '',
-          dateJoined: getTimeAsISOString(),
+          dateCreated: getTimeAsISOString(),
         });
 
         yield* call(firebaseUpdateUserProfile, data);

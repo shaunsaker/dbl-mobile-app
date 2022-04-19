@@ -1,5 +1,5 @@
 import { createAsyncAction } from 'typesafe-actions';
-import { WalletAddress } from '../lots/models';
+import { BlockchainAddress } from '../lots/models';
 import { Username, UserProfileData, WalletId } from './models';
 
 export const fetchUserProfile = createAsyncAction(
@@ -30,14 +30,14 @@ export const addUserWalletAddress = createAsyncAction(
   'USER_PROFILE/addUserWalletAddressRequest',
   'USER_PROFILE/addUserWalletAddressSuccess',
   'USER_PROFILE/addUserWalletAddressFailure',
-)<{ address: WalletAddress }, void, Error>();
+)<{ address: BlockchainAddress }, void, Error>();
 
 export const editUserWallet = createAsyncAction(
   'USER_PROFILE/editUserWalletRequest',
   'USER_PROFILE/editUserWalletSuccess',
   'USER_PROFILE/editUserWalletFailure',
 )<
-  { id: WalletId; address?: WalletAddress; preferred?: boolean },
+  { id: WalletId; address?: BlockchainAddress; preferred?: boolean },
   void,
   Error
 >();

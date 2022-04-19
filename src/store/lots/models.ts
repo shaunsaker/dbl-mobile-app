@@ -2,7 +2,7 @@ import { Timestamp } from '../models';
 
 export type LotId = string;
 
-export type WalletAddress = string;
+export type BlockchainAddress = string;
 
 export interface Lot {
   id: LotId;
@@ -16,7 +16,7 @@ export interface Lot {
   perUserTicketLimit: number;
   ticketTimeout: number; // milliseconds
   drawTime: Timestamp;
-  walletAddress: WalletAddress;
+  walletAddress: BlockchainAddress;
   dateCreated: Timestamp;
 }
 

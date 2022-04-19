@@ -1,5 +1,5 @@
 import { getUuid } from '../../utils/getUuid';
-import { WalletAddress } from '../lots/models';
+import { BlockchainAddress } from '../lots/models';
 import { UserProfileData, WalletData, Wallets } from './models';
 
 export const makeUserProfileData = ({
@@ -7,19 +7,19 @@ export const makeUserProfileData = ({
   email = '',
   hasCompletedOnboarding = false,
   wallets = {},
-  dateJoined = '',
+  dateCreated = '',
 }: {
   username?: string;
   email?: string;
   hasCompletedOnboarding?: boolean;
   wallets?: Wallets;
-  dateJoined?: string;
+  dateCreated?: string;
 }): UserProfileData => ({
   username,
   email,
   hasCompletedOnboarding,
   wallets,
-  dateJoined,
+  dateCreated,
 });
 
 export const makeWalletData = ({
@@ -28,7 +28,7 @@ export const makeWalletData = ({
   preferred = true,
 }: {
   id?: string;
-  address?: WalletAddress;
+  address?: BlockchainAddress;
   preferred?: boolean;
 }): WalletData => ({
   id: id || getUuid(),

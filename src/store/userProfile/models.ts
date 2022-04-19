@@ -1,4 +1,4 @@
-import { WalletAddress } from '../lots/models';
+import { BlockchainAddress } from '../lots/models';
 import { Timestamp } from '../models';
 
 export type Username = string;
@@ -7,7 +7,7 @@ export type WalletId = string;
 
 export type WalletData = {
   id: WalletId;
-  address: WalletAddress;
+  address: BlockchainAddress;
   preferred: boolean;
 };
 
@@ -18,7 +18,7 @@ export interface UserProfileData {
   email: string;
   hasCompletedOnboarding: boolean;
   wallets: Wallets;
-  dateJoined: Timestamp;
+  dateCreated: Timestamp;
 }
 
 export interface UserProfileState {

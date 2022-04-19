@@ -1,4 +1,4 @@
-import { WalletAddress } from '../lots/models';
+import { BlockchainAddress } from '../lots/models';
 import { Timestamp } from '../models';
 import { UserProfileData } from '../userProfile/models';
 
@@ -14,7 +14,7 @@ export interface Ticket {
   id: TicketId;
   uid: UserProfileData;
   status: TicketStatus;
-  walletAddress: WalletAddress; // the address we're expecting the deposit from
+  walletAddress: BlockchainAddress; // the address we're expecting the deposit from
   dateCreated: Timestamp;
   activatedTime?: Timestamp; // only once the deposit has been received and verified
 }
