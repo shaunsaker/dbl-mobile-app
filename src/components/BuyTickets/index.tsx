@@ -6,15 +6,8 @@ import { numberToDigits } from '../../utils/numberToDigits';
 import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
 import { PrimaryButton } from '../PrimaryButton';
 import { Typography } from '../Typography';
-import CopyIcon from '../../icons/copy.svg';
-import { colors } from '../../theme/colors';
-import Clipboard from '@react-native-community/clipboard';
-import { showSnackbar } from '../../store/snackbars/actions';
-import { SnackbarType } from '../../store/snackbars/models';
 import { selectActiveLot } from '../../store/lots/selectors';
 import { reserveTickets } from '../../store/lots/actions';
-
-const COPY_ICON_SIZE = 24;
 
 // TODO: SS this may need some work
 const getTicketOdds = ({
@@ -59,7 +52,7 @@ export const BuyTickets = ({
   // limit the amount of tickets a user can purchase
   const ticketLimitReached =
     tickets === activeLot?.perUserTicketLimit ||
-    tickets === activeLot?.ticketsLeft;
+    tickets === activeLot?.ticketsAvailable;
 
   const onToggleInstructions = useCallback(() => {
     setInstructionsCollapsed(!_instructionsCollapsed);
@@ -77,9 +70,9 @@ export const BuyTickets = ({
 
       let newTickets = tickets + ticketsToAdd;
 
-      // limit ticket purchases to the ticketsLeft
-      if (newTickets > activeLot.ticketsLeft) {
-        newTickets = activeLot.ticketsLeft;
+      // limit ticket purchases to the ticketsAvailable
+      if (newTickets > activeLot.ticketsAvailable) {
+        newTickets = activeLot.ticketsAvailable;
       }
 
       // or perUserTicketLimit
@@ -92,24 +85,9 @@ export const BuyTickets = ({
     [tickets, setTickets, activeLot],
   );
 
-  const copyLotAddressPress = useCallback(() => {
-    if (!activeLot) {
-      // TODO: SS show an error
-      return;
-    }
-
-    Clipboard.setString(activeLot.walletAddress);
-
-    dispatch(
-      showSnackbar({
-        type: SnackbarType.success,
-        title: 'Copied to your clipboard',
-        description: activeLot.walletAddress,
-      }),
-    );
-  }, [activeLot, dispatch]);
-
   const onSubmitPress = useCallback(() => {
+    // TODO: SS wait for the response before navigating forward
+
     if (!activeLot) {
       // TODO: SS show an error
       return;
@@ -188,7 +166,7 @@ export const BuyTickets = ({
       <Typography>
         {getTicketOdds({
           userTickets: tickets,
-          lotTickets: activeLot.ticketCount,
+          lotTickets: activeLot.ticketsAvailable,
         })}{' '}
         chance to become a Millionaire
       </Typography>
@@ -231,21 +209,8 @@ export const BuyTickets = ({
         +100
       </StyledPrimaryButton>
 
-      <Typography>
-        Send ${BTCToSend} BTC to this lot's wallet address:{' '}
-        {activeLot.walletAddress}
-      </Typography>
-
-      <StyledCopyButton onPress={copyLotAddressPress}>
-        <CopyIcon
-          width={COPY_ICON_SIZE}
-          height={COPY_ICON_SIZE}
-          fill={colors.primaryText}
-        />
-      </StyledCopyButton>
-
       <PrimaryButton disabled={!tickets} onPress={onSubmitPress}>
-        I've sent my BTC
+        Reserve Tickets
       </PrimaryButton>
     </Container>
   );
@@ -256,5 +221,3 @@ const Container = styled.View``;
 const StyledPrimaryButton = styled(PrimaryButton)`
   align-self: flex-start;
 `;
-
-const StyledCopyButton = styled(CustomTouchableOpacity)``;

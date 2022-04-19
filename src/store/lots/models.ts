@@ -1,23 +1,23 @@
-import { Timestamp } from '../models';
+import { Username } from '../userProfile/models';
 
 export type LotId = string;
 
 export type BlockchainAddress = string;
 
 export interface Lot {
-  id: LotId;
+  id: LotId; // it's not present when created but is present when fetched
   active: boolean; // only one lot is active at a time
   ticketPriceInBTC: number;
   BTCPriceInUSD: number;
   ticketCommissionInBTC: number;
   totalInBTC: number;
-  ticketCount: number;
-  ticketsLeft: number;
+  confirmedTicketCount: number;
+  ticketsAvailable: number;
   perUserTicketLimit: number;
-  ticketTimeout: number; // milliseconds
-  drawTime: Timestamp;
-  walletAddress: BlockchainAddress;
-  dateCreated: Timestamp;
+  drawTime: string;
+  lastCallTime: string;
+  dateCreated: string;
+  winnerUsername?: Username;
 }
 
 export type LotsData = Record<LotId, Lot>;

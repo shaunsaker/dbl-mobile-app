@@ -20,7 +20,7 @@ export const selectUserActiveLotTicketsPendingDeposit = (
   }
 
   const ticketsPendingDeposit = objectToArray(tickets).filter(
-    ticket => ticket.status === TicketStatus.pendingDeposit,
+    ticket => ticket.status === TicketStatus.reserved,
   );
 
   return ticketsPendingDeposit;

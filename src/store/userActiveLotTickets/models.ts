@@ -1,22 +1,20 @@
-import { BlockchainAddress } from '../lots/models';
-import { Timestamp } from '../models';
 import { UserProfileData } from '../userProfile/models';
 
 export type TicketId = string;
 
 export enum TicketStatus {
-  pendingDeposit = 'pendingDeposit',
-  active = 'active',
-  timeout = 'timeout',
+  reserved = 'Reserved',
+  paymentReceived = 'Payment Received',
+  confirmed = 'Confirmed',
+  expired = 'Expired',
 }
 
 export interface Ticket {
   id: TicketId;
   uid: UserProfileData;
+  price: number;
   status: TicketStatus;
-  walletAddress: BlockchainAddress; // the address we're expecting the deposit from
-  dateCreated: Timestamp;
-  activatedTime?: Timestamp; // only once the deposit has been received and verified
+  dateCreated: string;
 }
 
 export type TicketsData = Record<TicketId, Ticket>;

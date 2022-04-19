@@ -16,7 +16,7 @@ export const OnboardingBuyTickets = ({
         Onboarding Buy Ticket (3/4)
       </Typography>
 
-      <BuyTickets instructionsCollapsed={false} onSubmit={onSubmit} />
+      <BuyTickets instructionsCollapsed onSubmit={onSubmit} />
     </Container>
   );
 };
