@@ -4,6 +4,8 @@ import { fork, put, takeLatest } from 'redux-saga/effects';
 import { ActionType, getType } from 'typesafe-actions';
 import { firebaseGetMessagingToken } from '../../firebase/messaging/firebaseGetMessagingToken';
 import { firebaseRequestMessagingPermission } from '../../firebase/messaging/firebaseRequestMessagingPermission';
+import { firebaseSubscribeToMessagingTopic } from '../../firebase/messaging/firebaseSubscribeToMessagingTopic';
+import { FirebaseMessagingTopic } from '../../firebase/messaging/models';
 import { call } from '../../utils/call';
 import { errorSaga } from '../../utils/errorSaga';
 import { fetchUserProfile, updateUserProfile } from '../userProfile/actions';
@@ -34,6 +36,12 @@ export function* notificationsSetupFlow(): SagaIterator {
             const newFcmTokens = [...savedFcmTokens, deviceFcmToken];
             yield put(updateUserProfile.request({ fcmTokens: newFcmTokens }));
           }
+
+          // register for the winner topic
+          yield* call(
+            firebaseSubscribeToMessagingTopic,
+            FirebaseMessagingTopic.winner,
+          );
         } else {
           // don't do anything, if the user doesn't want notifications, that's their prerogative
         }
