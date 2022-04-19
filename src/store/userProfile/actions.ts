@@ -1,6 +1,5 @@
 import { createAsyncAction } from 'typesafe-actions';
-import { BlockchainAddress } from '../lots/models';
-import { Username, UserProfileData, WalletId } from './models';
+import { Username, UserProfileData } from './models';
 
 export const fetchUserProfile = createAsyncAction(
   'USER_PROFILE/fetchUserProfileRequest',
@@ -25,19 +24,3 @@ export const editHasCompletedOnboarding = createAsyncAction(
   'USER_PROFILE/editHasCompletedOnboardingSuccess',
   'USER_PROFILE/editHasCompletedOnboardingFailure',
 )<{ hasCompletedOnboarding: boolean }, void, Error>();
-
-export const addUserWalletAddress = createAsyncAction(
-  'USER_PROFILE/addUserWalletAddressRequest',
-  'USER_PROFILE/addUserWalletAddressSuccess',
-  'USER_PROFILE/addUserWalletAddressFailure',
-)<{ address: BlockchainAddress }, void, Error>();
-
-export const editUserWallet = createAsyncAction(
-  'USER_PROFILE/editUserWalletRequest',
-  'USER_PROFILE/editUserWalletSuccess',
-  'USER_PROFILE/editUserWalletFailure',
-)<
-  { id: WalletId; address?: BlockchainAddress; preferred?: boolean },
-  void,
-  Error
->();

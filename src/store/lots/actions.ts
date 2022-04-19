@@ -1,5 +1,4 @@
 import { createAsyncAction } from 'typesafe-actions';
-import { WalletId } from '../userProfile/models';
 import { LotId, LotsData } from './models';
 
 export const fetchActiveLot = createAsyncAction(
@@ -11,7 +10,6 @@ export const fetchActiveLot = createAsyncAction(
 export type ReserveTicketsRequestPayload = {
   lotId: LotId;
   ticketCount: number;
-  userWalletId: WalletId;
 };
 
 export const reserveTickets = createAsyncAction(

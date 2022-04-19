@@ -2,14 +2,10 @@ import React, { ReactElement, useCallback, useState } from 'react';
 import Collapsible from 'react-native-collapsible';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { Routes } from '../../router/models';
-import { navigate } from '../../store/navigation/actions';
-import { selectPreferredUserWallet } from '../../store/userProfile/selectors';
 import { numberToDigits } from '../../utils/numberToDigits';
 import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
 import { PrimaryButton } from '../PrimaryButton';
 import { Typography } from '../Typography';
-import EditIcon from '../../icons/edit.svg';
 import CopyIcon from '../../icons/copy.svg';
 import { colors } from '../../theme/colors';
 import Clipboard from '@react-native-community/clipboard';
@@ -18,7 +14,6 @@ import { SnackbarType } from '../../store/snackbars/models';
 import { selectActiveLot } from '../../store/lots/selectors';
 import { reserveTickets } from '../../store/lots/actions';
 
-const EDIT_ICON_SIZE = 24;
 const COPY_ICON_SIZE = 24;
 
 // TODO: SS this may need some work
@@ -66,10 +61,6 @@ export const BuyTickets = ({
     tickets === activeLot?.perUserTicketLimit ||
     tickets === activeLot?.ticketsLeft;
 
-  const preferredUserWallet = useSelector(selectPreferredUserWallet);
-  const preferredUserWalletAddress =
-    preferredUserWallet && preferredUserWallet.address;
-
   const onToggleInstructions = useCallback(() => {
     setInstructionsCollapsed(!_instructionsCollapsed);
   }, [_instructionsCollapsed, setInstructionsCollapsed]);
@@ -101,28 +92,6 @@ export const BuyTickets = ({
     [tickets, setTickets, activeLot],
   );
 
-  const onAddWalletPress = useCallback(() => {
-    dispatch(
-      navigate({
-        route: Routes.editWalletModal,
-        props: {
-          walletId: undefined, // we want to add a new wallet
-        },
-      }),
-    );
-  }, [dispatch]);
-
-  const onEditWalletAddressPress = useCallback(() => {
-    dispatch(
-      navigate({
-        route: Routes.editWalletModal,
-        props: {
-          walletId: preferredUserWallet.id,
-        },
-      }),
-    );
-  }, [dispatch, preferredUserWallet]);
-
   const copyLotAddressPress = useCallback(() => {
     if (!activeLot) {
       // TODO: SS show an error
@@ -150,7 +119,6 @@ export const BuyTickets = ({
       reserveTickets.request({
         lotId: activeLot.id,
         ticketCount: tickets,
-        userWalletId: preferredUserWallet.id,
       }),
     );
 
@@ -158,7 +126,7 @@ export const BuyTickets = ({
 
     // clear the tickets in case the user navigates back
     setTickets(0);
-  }, [dispatch, activeLot, tickets, preferredUserWallet, onSubmit]);
+  }, [dispatch, activeLot, tickets, onSubmit]);
 
   if (!activeLot) {
     return (
@@ -263,53 +231,20 @@ export const BuyTickets = ({
         +100
       </StyledPrimaryButton>
 
-      {preferredUserWalletAddress ? (
-        <>
-          <Typography>
-            We're expecting BTC from the wallet address you added:{' '}
-            {preferredUserWalletAddress}
-          </Typography>
+      <Typography>
+        Send ${BTCToSend} BTC to this lot's wallet address:{' '}
+        {activeLot.walletAddress}
+      </Typography>
 
-          <StyledEditButton onPress={onEditWalletAddressPress}>
-            <EditIcon
-              width={EDIT_ICON_SIZE}
-              height={EDIT_ICON_SIZE}
-              fill={colors.primaryText}
-            />
-          </StyledEditButton>
-        </>
-      ) : (
-        <StyledPrimaryButton
-          disabled={!tickets}
-          small
-          secondary
-          onPress={onAddWalletPress}
-        >
-          Add External Wallet Address
-        </StyledPrimaryButton>
-      )}
+      <StyledCopyButton onPress={copyLotAddressPress}>
+        <CopyIcon
+          width={COPY_ICON_SIZE}
+          height={COPY_ICON_SIZE}
+          fill={colors.primaryText}
+        />
+      </StyledCopyButton>
 
-      {preferredUserWalletAddress && (
-        <>
-          <Typography>
-            Send ${BTCToSend} BTC to this lot's wallet address:{' '}
-            {activeLot.walletAddress}
-          </Typography>
-
-          <StyledCopyButton onPress={copyLotAddressPress}>
-            <CopyIcon
-              width={COPY_ICON_SIZE}
-              height={COPY_ICON_SIZE}
-              fill={colors.primaryText}
-            />
-          </StyledCopyButton>
-        </>
-      )}
-
-      <PrimaryButton
-        disabled={!tickets || !preferredUserWalletAddress}
-        onPress={onSubmitPress}
-      >
+      <PrimaryButton disabled={!tickets} onPress={onSubmitPress}>
         I've sent my BTC
       </PrimaryButton>
     </Container>
@@ -321,7 +256,5 @@ const Container = styled.View``;
 const StyledPrimaryButton = styled(PrimaryButton)`
   align-self: flex-start;
 `;
-
-const StyledEditButton = styled(CustomTouchableOpacity)``;
 
 const StyledCopyButton = styled(CustomTouchableOpacity)``;

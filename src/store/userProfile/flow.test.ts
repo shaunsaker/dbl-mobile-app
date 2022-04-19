@@ -1,6 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan';
 import * as matchers from 'redux-saga-test-plan/matchers';
 import { throwError } from 'redux-saga-test-plan/providers';
+import MockDate from 'mockdate';
 import { firebaseUpdateUserProfile } from '../../firebase/firestore/firebaseUpdateUserProfile';
 import { errorSaga } from '../../utils/errorSaga';
 import { signUp } from '../auth/actions';
@@ -13,10 +14,22 @@ import { createUserFlow, editUsernameFlow } from './flow';
 
 describe('userProfile flows', () => {
   describe('createUserFlow', () => {
+    const today = '2021-12-02';
+
+    beforeEach(() => {
+      MockDate.set(today);
+    });
+
+    afterEach(() => {
+      MockDate.reset();
+    });
+
     it('creates a user', () => {
       const user = {};
       const username = 'sakerbos';
-      const data = makeUserProfileData({ username });
+      const data = makeUserProfileData({
+        username,
+      });
 
       return expectSaga(createUserFlow)
         .withReducer(rootReducer)

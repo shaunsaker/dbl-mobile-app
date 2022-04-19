@@ -7,8 +7,7 @@ import { CustomTouchableOpacity } from '../../components/CustomTouchableOpacity'
 import CloseIcon from '../../icons/close.svg';
 import { BarCodeReadEvent } from 'react-native-camera';
 import { useDispatch } from 'react-redux';
-import { navigate, navigateBack } from '../../store/navigation/actions';
-import { Routes } from '../../router/models';
+import { navigateBack } from '../../store/navigation/actions';
 
 const CLOSE_ICON_SIZE = 24;
 
@@ -42,15 +41,11 @@ export const QRCodeScannerModal = ({}: QRCodeScannerBaseProps) => {
   const dispatch = useDispatch();
 
   const onRead = useCallback(
+    // eslint-disable-next-line
     (event: BarCodeReadEvent) => {
-      dispatch(
-        navigate({
-          route: Routes.editWalletModal,
-          props: { QRCodeScannerWalletAddress: event.data },
-        }),
-      );
+      // TODO: SS
     },
-    [dispatch],
+    [],
   );
 
   const onClose = useCallback(() => {
