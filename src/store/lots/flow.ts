@@ -1,17 +1,11 @@
 import { SagaIterator } from 'redux-saga';
-import { fork, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
-import { ActionType } from 'typesafe-actions';
-import { firebaseReserveTickets } from '../../firebase/firestore/firebaseReserveTickets';
+import { fork, put, take, takeEvery } from 'redux-saga/effects';
 import { firebaseSyncActiveLot } from '../../firebase/firestore/firebaseSyncActiveLot';
-import { arrayToObject } from '../../utils/arrayToObject';
 import { call } from '../../utils/call';
 import { errorSaga } from '../../utils/errorSaga';
-import { maybePluralise } from '../../utils/maybePluralise';
 import { signOut } from '../auth/actions';
-import { showSnackbar } from '../snackbars/actions';
-import { SnackbarType } from '../snackbars/models';
-import { fetchActiveLot, reserveTickets } from './actions';
-import { Lot, LotsData } from './models';
+import { fetchActiveLot } from './actions';
+import { Lot } from './models';
 
 // istanbul ignore next
 function* fetchActiveLotSaga(): SagaIterator {
@@ -22,11 +16,11 @@ function* fetchActiveLotSaga(): SagaIterator {
     const channel = yield* call(firebaseSyncActiveLot);
 
     yield takeEvery(channel, function* (lotsArray: Lot[]) {
-      const data: LotsData = arrayToObject(lotsArray, 'id');
+      const activeLot = lotsArray[0]; // there can only be one active lot
 
       yield put(
         fetchActiveLot.success({
-          data,
+          data: activeLot,
         }),
       );
     });
@@ -39,44 +33,7 @@ function* fetchActiveLotSaga(): SagaIterator {
   }
 }
 
-function* onReserveTicketsSaga(): SagaIterator {
-  yield takeLatest(
-    reserveTickets.request,
-    function* (action: ActionType<typeof reserveTickets.request>) {
-      try {
-        const response = yield* call(firebaseReserveTickets, action.payload);
-
-        if (response.error) {
-          yield* call(
-            errorSaga,
-            new Error(response.message),
-            reserveTickets.failure,
-          );
-
-          return;
-        }
-
-        yield put(reserveTickets.success());
-
-        yield put(
-          showSnackbar({
-            type: SnackbarType.success,
-            title: 'Success',
-            description: `We reserved ${maybePluralise(
-              action.payload.ticketCount,
-              'ticket',
-            )} for you successfully`,
-          }),
-        );
-      } catch (error) {
-        yield* call(errorSaga, error, reserveTickets.failure);
-      }
-    },
-  );
-}
-
 // istanbul ignore next
 export function* lotsFlow(): SagaIterator {
   yield fork(fetchActiveLotSaga);
-  yield fork(onReserveTicketsSaga);
 }

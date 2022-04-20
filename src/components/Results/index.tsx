@@ -8,6 +8,8 @@ export const Results = ({}: ResultsProps): ReactElement => {
   return (
     <Container>
       <Typography bold>Results</Typography>
+
+      <Typography>TODO</Typography>
     </Container>
   );
 };

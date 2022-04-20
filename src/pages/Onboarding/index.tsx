@@ -97,7 +97,7 @@ const StyledPagerView = styled(PagerView)`
 
 const CloseButtonContainer = styled(CustomTouchableOpacity)`
   position: absolute;
-  top: 50px; // TODO: statusBarHeight + margin
+  top: 0;
   right: ${RHYTHM}px;
 `;
 

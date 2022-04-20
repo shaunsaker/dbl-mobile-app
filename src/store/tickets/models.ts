@@ -1,3 +1,4 @@
+import { LotId } from '../lots/models';
 import { UserProfileData } from '../userProfile/models';
 
 export type TicketId = string;
@@ -15,11 +16,20 @@ export interface Ticket {
   price: number;
   status: TicketStatus;
   dateCreated: string;
+  invoicePaymentAddress: string;
+  invoicePaymentTotal: number;
+  invoicePaymentExpiry: string;
 }
 
-export type TicketsData = Record<TicketId, Ticket>;
+export type TicketsData = {
+  [ticketId: TicketId]: Ticket;
+};
 
-export interface UserActiveLotTicketsState {
-  data: TicketsData | undefined;
+export type LotTicketsData = {
+  [lotId: LotId]: TicketsData;
+};
+
+export interface TicketsState {
+  data: LotTicketsData | undefined;
   loading: boolean;
 }

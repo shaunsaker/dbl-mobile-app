@@ -1,5 +1,7 @@
 import { Username } from '../userProfile/models';
 
+export const MAX_BTC_DIGITS = 8; // when rounded up, this is equivalent to $0.004 which is negligible
+
 export type LotId = string;
 
 export type BlockchainAddress = string;

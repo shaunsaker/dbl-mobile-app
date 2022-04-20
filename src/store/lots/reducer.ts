@@ -1,14 +1,11 @@
 import { ActionType, getType } from 'typesafe-actions';
-import { fetchActiveLot, reserveTickets } from './actions';
+import { fetchActiveLot } from './actions';
 import { LotsState } from './models';
 
 const reducerActions = {
   fetchActiveLotRequest: fetchActiveLot.request,
   fetchActiveLotSuccess: fetchActiveLot.success,
   fetchActiveLotFailure: fetchActiveLot.failure,
-  reserveTicketsRequest: reserveTickets.request,
-  reserveTicketsSuccess: reserveTickets.success,
-  reserveTicketsFailure: reserveTickets.failure,
 };
 
 export const initialState: LotsState = {
@@ -22,25 +19,34 @@ export const lotsReducer = (
 ): LotsState => {
   switch (action.type) {
     case getType(fetchActiveLot.request):
-    case getType(reserveTickets.request):
       return {
         ...state,
         loading: true,
       };
 
     case getType(fetchActiveLot.success):
+      // we can only have one active lot at a time, ie. lot.active === true
+      // since we're adding the active lot to existing lots here
+      // and the existing lots can have lot.active === true, we need to explicitly set it to false
+      // NOTE: if we just fetch all the lots, we can remove this but that would be expensive
+      const existingLots = {
+        ...state.data,
+      };
+
+      Object.keys(existingLots).forEach(lotId => {
+        existingLots[lotId].active = false;
+      });
+
       return {
         ...state,
         data: {
-          ...state.data,
-          ...action.payload.data,
+          ...existingLots,
+          [action.payload.data.id]: action.payload.data,
         },
         loading: false,
       };
 
     case getType(fetchActiveLot.failure):
-    case getType(reserveTickets.success):
-    case getType(reserveTickets.failure):
       return {
         ...state,
         loading: false,

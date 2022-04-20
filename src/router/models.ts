@@ -5,20 +5,18 @@ export enum Routes {
   signUp = 'signUp',
   signIn = 'signIn',
   onboarding = 'onboarding',
-  quitOnboardingModal = 'quitOnboardingModal',
-  homeTabs = 'homeTabs',
-  dashboard = 'dashboard',
-  QRScannerModal = 'QRScannerModal',
+  home = 'home',
+  buyTickets = 'buyTickets',
+  QRCodeScanner = 'QRCodeScanner',
 }
 
 export type RouteStackParamList = {
   [Routes.signUp]: undefined;
   [Routes.signIn]: undefined;
   [Routes.onboarding]: undefined;
-  [Routes.quitOnboardingModal]: undefined;
-  [Routes.homeTabs]: undefined;
-  [Routes.dashboard]: undefined;
-  [Routes.QRScannerModal]: undefined;
+  [Routes.home]: undefined;
+  [Routes.buyTickets]: undefined;
+  [Routes.QRCodeScanner]: undefined;
 };
 
 type ScreenNavigationProps<T extends Routes> = StackNavigationProp<

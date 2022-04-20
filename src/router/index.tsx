@@ -6,7 +6,6 @@ import {
 } from '@react-navigation/native';
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../store/auth/selectors';
 import { SignIn } from '../pages/SignIn';
@@ -18,11 +17,10 @@ import {
 import { SignUp } from '../pages/SignUp';
 import { Home } from '../pages/Home';
 import { Onboarding } from '../pages/Onboarding';
-import { QRCodeScannerModal } from '../modals/QRCodeScannerModal';
+import { QRCodeScanner } from '../pages/QRCodeScanner';
+import { BuyTickets } from '../pages/BuyTickets';
 
 const Stack = createStackNavigator<RouteStackParamList>();
-
-const RootTabs = createBottomTabNavigator<RouteStackParamList>();
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -39,17 +37,6 @@ export const navigateInternal = (
     }
   }
 };
-
-const RootTabsComponent = () => (
-  <RootTabs.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-    tabBar={() => null}
-  >
-    <RootTabs.Screen name={Routes.dashboard} component={Home} />
-  </RootTabs.Navigator>
-);
 
 export const Router = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -71,16 +58,13 @@ export const Router = () => {
           }}
         >
           {isAuthenticated ? (
-            <>
+            <Stack.Group key="authenticatedScreens">
               {!hasCompletedOnboarding && (
                 <Stack.Screen name={Routes.onboarding} component={Onboarding} />
               )}
 
               <Stack.Group key="pages">
-                <Stack.Screen
-                  name={Routes.homeTabs}
-                  component={RootTabsComponent}
-                />
+                <Stack.Screen name={Routes.home} component={Home} />
               </Stack.Group>
 
               <Stack.Group
@@ -89,24 +73,26 @@ export const Router = () => {
                   presentation: 'transparentModal',
                 }}
               >
+                <Stack.Screen name={Routes.buyTickets} component={BuyTickets} />
+
                 <Stack.Screen
-                  name={Routes.QRScannerModal}
-                  component={QRCodeScannerModal}
+                  name={Routes.QRCodeScanner}
+                  component={QRCodeScanner}
                 />
               </Stack.Group>
-            </>
+            </Stack.Group>
           ) : hasSignedUp ? (
-            <>
+            <Stack.Group key="unauthenticatedScreens">
               <Stack.Screen name={Routes.signIn} component={SignIn} />
 
               <Stack.Screen name={Routes.signUp} component={SignUp} />
-            </>
+            </Stack.Group>
           ) : (
-            <>
+            <Stack.Group key="unauthenticatedScreens">
               <Stack.Screen name={Routes.signUp} component={SignUp} />
 
               <Stack.Screen name={Routes.signIn} component={SignIn} />
-            </>
+            </Stack.Group>
           )}
         </Stack.Navigator>
       </NavigationContainer>

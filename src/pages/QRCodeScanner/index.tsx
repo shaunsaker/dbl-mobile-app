@@ -35,9 +35,9 @@ const TopSection = ({ onClose }: TopSectionProps) => {
   );
 };
 
-interface QRCodeScannerBaseProps {}
+interface QRCodeScannerProps {}
 
-export const QRCodeScannerModal = ({}: QRCodeScannerBaseProps) => {
+export const QRCodeScanner = ({}: QRCodeScannerProps) => {
   const dispatch = useDispatch();
 
   const onRead = useCallback(
