@@ -28,9 +28,9 @@ export const LotStats = ({}: LotStatsProps): ReactElement => {
 
   return (
     <Container>
-      <Typography>Lot Stats</Typography>
+      <Typography bold>Lot Stats</Typography>
 
-      <Typography bold>
+      <Typography>
         Value: {activeLot.totalInBTC} BTC ($
         {numberToDigits(activeLot.totalInBTC * activeLot.BTCPriceInUSD)})
       </Typography>
