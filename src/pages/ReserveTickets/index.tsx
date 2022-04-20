@@ -1,13 +1,15 @@
 import React, { ReactElement, useCallback, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { HeaderBar } from '../../components/HeaderBar';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { Typography } from '../../components/Typography';
 import { firebaseReserveTickets } from '../../firebase/firestore/firebaseReserveTickets';
+import { Routes } from '../../router/models';
 import { Lot, MAX_BTC_DIGITS } from '../../store/lots/models';
 import { selectActiveLot } from '../../store/lots/selectors';
+import { navigate } from '../../store/navigation/actions';
 import { numberToDigits } from '../../utils/numberToDigits';
 
 const getTicketOdds = ({
@@ -23,6 +25,8 @@ const getTicketOdds = ({
 interface ReserveTicketsProps {}
 
 export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
+  const dispatch = useDispatch();
+
   const [ticketCount, setTicketCount] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -68,12 +72,26 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
   const onSubmitPress = useCallback(async () => {
     setLoading(true);
 
-    await firebaseReserveTickets({ lotId: activeLot.id, ticketCount });
+    // FIXME: handle error
+    const reserveTicketsResponse = await firebaseReserveTickets({
+      lotId: activeLot.id,
+      ticketCount,
+    });
+
+    // TODO: SS reserveTicketsResponse is double response
+    console.log('HERE', { reserveTicketsResponse });
 
     setLoading(false);
 
-    // TODO: SS navigate to the TicketPayment page
-  }, [activeLot, ticketCount]);
+    dispatch(
+      navigate({
+        route: Routes.ticketPayment,
+        props: {
+          ticketIds: [],
+        },
+      }),
+    );
+  }, [activeLot, ticketCount, dispatch]);
 
   return (
     <Page>
