@@ -17,7 +17,7 @@ export const Home = ({}: HomeProps): ReactElement => {
   const dispatch = useDispatch();
 
   const onBuyTicketsPress = useCallback(() => {
-    dispatch(navigate({ route: Routes.buyTickets }));
+    dispatch(navigate({ route: Routes.reserveTickets }));
   }, [dispatch]);
 
   return (

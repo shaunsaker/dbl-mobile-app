@@ -18,7 +18,7 @@ import { SignUp } from '../pages/SignUp';
 import { Home } from '../pages/Home';
 import { Onboarding } from '../pages/Onboarding';
 import { QRCodeScanner } from '../pages/QRCodeScanner';
-import { BuyTickets } from '../pages/BuyTickets';
+import { ReserveTickets } from '../pages/ReserveTickets';
 
 const Stack = createStackNavigator<RouteStackParamList>();
 
@@ -73,7 +73,10 @@ export const Router = () => {
                   presentation: 'transparentModal',
                 }}
               >
-                <Stack.Screen name={Routes.buyTickets} component={BuyTickets} />
+                <Stack.Screen
+                  name={Routes.reserveTickets}
+                  component={ReserveTickets}
+                />
 
                 <Stack.Screen
                   name={Routes.QRCodeScanner}

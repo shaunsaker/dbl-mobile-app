@@ -1,12 +1,14 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { firebaseReserveTickets } from '../../../firebase/firestore/firebaseReserveTickets';
-import { Lot, MAX_BTC_DIGITS } from '../../../store/lots/models';
-import { selectActiveLot } from '../../../store/lots/selectors';
-import { numberToDigits } from '../../../utils/numberToDigits';
-import { PrimaryButton } from '../../PrimaryButton';
-import { Typography } from '../../Typography';
+import { HeaderBar } from '../../components/HeaderBar';
+import { Page } from '../../components/Page';
+import { PrimaryButton } from '../../components/PrimaryButton';
+import { Typography } from '../../components/Typography';
+import { firebaseReserveTickets } from '../../firebase/firestore/firebaseReserveTickets';
+import { Lot, MAX_BTC_DIGITS } from '../../store/lots/models';
+import { selectActiveLot } from '../../store/lots/selectors';
+import { numberToDigits } from '../../utils/numberToDigits';
 
 const getTicketOdds = ({
   userTickets,
@@ -18,13 +20,9 @@ const getTicketOdds = ({
   return `1 in ${numberToDigits(lotTickets / userTickets, 0)}`;
 };
 
-interface TicketSelectionProps {
-  onSubmit: () => void;
-}
+interface ReserveTicketsProps {}
 
-export const TicketSelection = ({
-  onSubmit,
-}: TicketSelectionProps): ReactElement => {
+export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
   const [ticketCount, setTicketCount] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -74,42 +72,46 @@ export const TicketSelection = ({
 
     setLoading(false);
 
-    onSubmit();
-  }, [activeLot, ticketCount, onSubmit]);
+    // TODO: SS navigate to the TicketPayment page
+  }, [activeLot, ticketCount]);
 
   return (
-    <Container>
-      <Typography>How many ticketCount would you like to buy?</Typography>
+    <Page>
+      <HeaderBar showBackButton />
 
-      <PrimaryButton small secondary onPress={() => onAddTickets(-1)}>
-        -
-      </PrimaryButton>
+      <Container>
+        <Typography>How many ticketCount would you like to buy?</Typography>
 
-      <Typography large bold>
-        {ticketCount}
-      </Typography>
+        <PrimaryButton small secondary onPress={() => onAddTickets(-1)}>
+          -
+        </PrimaryButton>
 
-      <PrimaryButton small secondary onPress={() => onAddTickets(1)}>
-        +
-      </PrimaryButton>
+        <Typography large bold>
+          {ticketCount}
+        </Typography>
 
-      <Typography>
-        {ticketCount} ticketCount = {ticketValueBTC} BTC ($
-        {numberToDigits(pricePerTicketUSD * ticketCount, 0)})
-      </Typography>
+        <PrimaryButton small secondary onPress={() => onAddTickets(1)}>
+          +
+        </PrimaryButton>
 
-      <Typography>
-        Your odds are{' '}
-        {getTicketOdds({
-          userTickets: ticketCount,
-          lotTickets: activeLot.ticketsAvailable,
-        })}
-      </Typography>
+        <Typography>
+          {ticketCount} ticketCount = {ticketValueBTC} BTC ($
+          {numberToDigits(pricePerTicketUSD * ticketCount, 0)})
+        </Typography>
 
-      <PrimaryButton disabled={isSubmitDisabled} onPress={onSubmitPress}>
-        {loading ? 'RESERVING YOUR TICKETS' : 'RESERVE TICKETS'}
-      </PrimaryButton>
-    </Container>
+        <Typography>
+          Your odds are{' '}
+          {getTicketOdds({
+            userTickets: ticketCount,
+            lotTickets: activeLot.ticketsAvailable,
+          })}
+        </Typography>
+
+        <PrimaryButton disabled={isSubmitDisabled} onPress={onSubmitPress}>
+          {loading ? 'RESERVING YOUR TICKETS' : 'RESERVE TICKETS'}
+        </PrimaryButton>
+      </Container>
+    </Page>
   );
 };
 

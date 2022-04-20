@@ -6,7 +6,7 @@ export enum Routes {
   signIn = 'signIn',
   onboarding = 'onboarding',
   home = 'home',
-  buyTickets = 'buyTickets',
+  reserveTickets = 'reserveTickets',
   QRCodeScanner = 'QRCodeScanner',
 }
 
@@ -15,7 +15,7 @@ export type RouteStackParamList = {
   [Routes.signIn]: undefined;
   [Routes.onboarding]: undefined;
   [Routes.home]: undefined;
-  [Routes.buyTickets]: undefined;
+  [Routes.reserveTickets]: undefined;
   [Routes.QRCodeScanner]: undefined;
 };
 
