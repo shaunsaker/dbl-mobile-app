@@ -28,7 +28,7 @@ export const TicketPayment = ({ route }: TicketPaymentProps): ReactElement => {
     selectTicketById(state, { lotId, ticketId: ticketIds[0] }),
   );
   const invoicePaymentAddress = ticket?.invoicePaymentAddress || '';
-  const invoicePaymentTotal = ticket?.invoicePaymentTotal || 0;
+  const invoicePaymentTotal = ticket?.invoicePaymentAmountBTC || 0;
   const invoicePaymentExpiry = ticket?.invoicePaymentExpiry || '';
 
   const hasTicketExpired = ticket?.status === TicketStatus.expired;

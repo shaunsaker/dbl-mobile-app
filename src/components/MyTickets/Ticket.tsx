@@ -25,7 +25,7 @@ interface TicketProps extends TicketType {
 
 export const Ticket = ({
   lotId,
-  price,
+  priceBTC,
   status,
   dateCreated,
   invoiceTicketIds,
@@ -48,7 +48,7 @@ export const Ticket = ({
     <Container onPress={onPress}>
       <Typography>{getFormattedTime(dateCreated)}</Typography>
 
-      <Typography>{price} BTC</Typography>
+      <Typography>{priceBTC} BTC</Typography>
 
       <StatusIcon
         style={{

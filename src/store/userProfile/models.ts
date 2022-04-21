@@ -1,3 +1,5 @@
+export type UserId = string;
+
 export type Username = string;
 
 export interface UserProfileData {

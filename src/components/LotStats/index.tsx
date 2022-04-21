@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { useTimer } from 'react-timer-hook';
 import styled from 'styled-components/native';
 import { selectActiveLot } from '../../store/lots/selectors';
-import { numberToDigits } from '../../utils/numberToDigits';
 import { Typography } from '../Typography';
 
 interface LotStatsProps {}
@@ -30,13 +29,10 @@ export const LotStats = ({}: LotStatsProps): ReactElement => {
     <Container>
       <Typography bold>Lot Stats</Typography>
 
-      <Typography>
-        Value: {activeLot.totalInBTC} BTC ($
-        {numberToDigits(activeLot.totalInBTC * activeLot.BTCPriceInUSD)})
-      </Typography>
+      <Typography>Value: {activeLot.totalBTC} BTC</Typography>
 
       <Typography>
-        {activeLot.confirmedTicketCount} Tickets Purchased
+        {activeLot.totalConfirmedTickets} Tickets Purchased
       </Typography>
 
       <Typography>

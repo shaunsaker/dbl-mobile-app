@@ -1,6 +1,12 @@
-import React, { ReactElement, useCallback, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useLayoutEffect,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { getBTCUSDPrice } from '../../coinGecko/getBTCUSDPrice';
 import { HeaderBar } from '../../components/HeaderBar';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
@@ -11,6 +17,7 @@ import { Lot, MAX_BTC_DIGITS } from '../../store/lots/models';
 import { selectActiveLot } from '../../store/lots/selectors';
 import { navigate } from '../../store/navigation/actions';
 import { TicketId } from '../../store/tickets/models';
+import { maybePluralise } from '../../utils/maybePluralise';
 import { numberToDigits } from '../../utils/numberToDigits';
 
 const getTicketOdds = ({
@@ -30,17 +37,33 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
 
   const [ticketCount, setTicketCount] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [rate, setRate] = useState(0);
 
   const activeLot = useSelector(selectActiveLot) as Lot;
-  const pricePerTicketBTC = activeLot ? activeLot.ticketPriceInBTC : 0;
-  const pricePerTicketUSD = activeLot
-    ? numberToDigits(activeLot.ticketPriceInBTC * activeLot.BTCPriceInUSD, 0)
-    : 0;
-  const ticketValueBTC = numberToDigits(
+
+  // calculate the ticket prices in USD and BTC
+  const pricePerTicketUSD = activeLot ? activeLot.ticketPriceUSD : 0;
+  const pricePerTicketBTC =
+    activeLot && rate ? activeLot.ticketPriceUSD / rate : 0;
+  const ticketsValueUSD = numberToDigits(pricePerTicketUSD * ticketCount, 0);
+  const ticketsValueBTC = numberToDigits(
     pricePerTicketBTC * ticketCount,
     MAX_BTC_DIGITS,
   );
+
   const isSubmitDisabled = !ticketCount || loading;
+
+  const getRate = useCallback(async () => {
+    // get the rate
+    // FIXME: handle error
+    const BTCUSDRate = await getBTCUSDPrice();
+
+    setRate(BTCUSDRate);
+  }, [setRate]);
+
+  useLayoutEffect(() => {
+    getRate();
+  });
 
   const onAddTickets = useCallback(
     (ticketsToAdd: number) => {
@@ -55,9 +78,9 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
         return;
       }
 
-      // limit ticket purchases to the ticketsAvailable
-      if (newTickets > activeLot.ticketsAvailable) {
-        newTickets = activeLot.ticketsAvailable;
+      // limit ticket purchases to the totalAvailableTickets
+      if (newTickets > activeLot.totalAvailableTickets) {
+        newTickets = activeLot.totalAvailableTickets;
       }
 
       // or perUserTicketLimit
@@ -112,15 +135,15 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
         </PrimaryButton>
 
         <Typography>
-          {ticketCount} ticketCount = {ticketValueBTC} BTC ($
-          {numberToDigits(pricePerTicketUSD * ticketCount, 0)})
+          {maybePluralise(ticketCount, 'ticket')} = {ticketsValueBTC} BTC ($
+          {ticketsValueUSD})
         </Typography>
 
         <Typography>
           Your odds are{' '}
           {getTicketOdds({
             userTickets: ticketCount,
-            lotTickets: activeLot.ticketsAvailable,
+            lotTickets: activeLot.totalConfirmedTickets,
           })}
         </Typography>
 

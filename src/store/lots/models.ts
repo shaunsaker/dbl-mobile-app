@@ -9,16 +9,15 @@ export type BlockchainAddress = string;
 export interface Lot {
   id: LotId; // it's not present when created but is present when fetched
   active: boolean; // only one lot is active at a time
-  ticketPriceInBTC: number;
-  BTCPriceInUSD: number;
-  ticketCommissionInBTC: number;
-  totalInBTC: number;
-  confirmedTicketCount: number;
-  ticketsAvailable: number;
+  ticketPriceUSD: number;
+  totalBTC: number;
+  totalTickets: number;
+  totalConfirmedTickets: number;
+  totalAvailableTickets: number;
   perUserTicketLimit: number;
-  drawTime: string;
-  lastCallTime: string;
   dateCreated: string;
+  lastCallTime: string;
+  drawTime: string;
   winnerUsername?: Username;
 }
 
