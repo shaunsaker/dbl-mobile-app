@@ -27,7 +27,7 @@ const getTicketOdds = ({
   userTickets: number;
   lotTickets: number;
 }): string => {
-  return `1 in ${numberToDigits(lotTickets / userTickets, 0)}`;
+  return `1 in ${numberToDigits(lotTickets + 1 / userTickets, 0)}`;
 };
 
 interface ReserveTicketsProps {}
