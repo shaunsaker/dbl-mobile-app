@@ -1,4 +1,6 @@
-export enum FirebaseCallableFunctions {}
+export enum FirebaseCallableFunctions {
+  bookie = 'bookie',
+}
 
 export interface FirebaseCallableFunctionsResponse<T> {
   error: boolean;

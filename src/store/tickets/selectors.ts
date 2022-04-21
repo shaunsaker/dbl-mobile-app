@@ -1,6 +1,11 @@
 import { LotId } from '../lots/models';
 import { selectActiveLot } from '../lots/selectors';
 import { ApplicationState } from '../reducers';
+import { TicketId } from './models';
+
+export const selectsDataLoading = (state: ApplicationState) => {
+  return state.tickets.loading;
+};
 
 export const selectTicketsByLotId = (state: ApplicationState, lotId: LotId) => {
   if (!state.tickets.data) {
@@ -22,6 +27,17 @@ export const selectActiveLotTickets = (state: ApplicationState) => {
   return tickets;
 };
 
-export const selectsDataLoading = (state: ApplicationState) => {
-  return state.tickets.loading;
+export const selectTicketById = (
+  state: ApplicationState,
+  { lotId, ticketId }: { lotId: LotId; ticketId: TicketId },
+) => {
+  const tickets = selectTicketsByLotId(state, lotId);
+
+  if (!tickets) {
+    return null;
+  }
+
+  const ticket = tickets[ticketId];
+
+  return ticket;
 };

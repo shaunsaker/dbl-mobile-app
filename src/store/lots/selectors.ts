@@ -26,6 +26,22 @@ export const selectActiveLot = (state: ApplicationState) => {
   return activeLot;
 };
 
+export const selectActiveLotId = (state: ApplicationState) => {
+  const lots = selectLots(state);
+
+  if (!lots) {
+    return null;
+  }
+
+  const activeLot = objectToArray(lots).find(lot => lot.active);
+
+  if (!activeLot) {
+    return null;
+  }
+
+  return activeLot.id;
+};
+
 export const selectLotById = (state: ApplicationState, lotId: LotId) => {
   const lots = selectLots(state);
 

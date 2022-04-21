@@ -1,5 +1,6 @@
 import { RouteProp } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { LotId } from '../store/lots/models';
 import { TicketId } from '../store/tickets/models';
 
 export enum Routes {
@@ -19,6 +20,7 @@ export type RouteStackParamList = {
   [Routes.home]: undefined;
   [Routes.reserveTickets]: undefined;
   [Routes.ticketPayment]: {
+    lotId: LotId;
     ticketIds: TicketId[];
   };
   [Routes.QRCodeScanner]: undefined;

@@ -10,6 +10,7 @@ import { Routes } from '../../router/models';
 import { Lot, MAX_BTC_DIGITS } from '../../store/lots/models';
 import { selectActiveLot } from '../../store/lots/selectors';
 import { navigate } from '../../store/navigation/actions';
+import { TicketId } from '../../store/tickets/models';
 import { numberToDigits } from '../../utils/numberToDigits';
 
 const getTicketOdds = ({
@@ -78,16 +79,14 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
       ticketCount,
     });
 
-    // TODO: SS reserveTicketsResponse is double response
-    console.log('HERE', { reserveTicketsResponse });
-
     setLoading(false);
 
     dispatch(
       navigate({
         route: Routes.ticketPayment,
         props: {
-          ticketIds: [],
+          lotId: activeLot.id,
+          ticketIds: reserveTicketsResponse.data as TicketId[],
         },
       }),
     );

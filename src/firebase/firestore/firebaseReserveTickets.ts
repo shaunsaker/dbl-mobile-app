@@ -4,15 +4,21 @@ import { TicketId } from '../../store/tickets/models';
 import {
   FirebaseCallableFunctions,
   FirebaseCallableFunctionsResponse,
-} from './models';
+} from '../functions/models';
 
 // istanbul ignore next
 export const firebaseReserveTickets = async (
   payload: ReserveTicketsRequestPayload,
 ): Promise<FirebaseCallableFunctionsResponse<TicketId[]>> => {
-  const response = (await functions().httpsCallable(
-    FirebaseCallableFunctions.bookie,
-  )(payload)) as FirebaseCallableFunctionsResponse<TicketId[]>;
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { data } = await functions().httpsCallable(
+        FirebaseCallableFunctions.bookie,
+      )(payload);
 
-  return response;
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
 };

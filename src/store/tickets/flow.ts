@@ -1,6 +1,5 @@
 import { SagaIterator } from 'redux-saga';
-import { fork, put, take, takeEvery, takeLatest } from 'redux-saga/effects';
-import { ActionType } from 'typesafe-actions';
+import { fork, put, take, takeEvery } from 'redux-saga/effects';
 import { firebaseSyncTickets } from '../../firebase/firestore/firebaseSyncTickets';
 import { arrayToObject } from '../../utils/arrayToObject';
 import { call } from '../../utils/call';

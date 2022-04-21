@@ -19,6 +19,7 @@ export interface Ticket {
   invoicePaymentAddress: string;
   invoicePaymentTotal: number;
   invoicePaymentExpiry: string;
+  invoiceTicketIds: TicketId[];
 }
 
 export type TicketsData = {
