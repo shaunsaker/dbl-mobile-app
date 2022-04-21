@@ -11,6 +11,7 @@ import { Typography } from '../../components/Typography';
 import { RouteProps, Routes } from '../../router/models';
 import { navigate } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
+import { TicketStatus } from '../../store/tickets/models';
 import { selectTicketById } from '../../store/tickets/selectors';
 import { maybePluralise } from '../../utils/maybePluralise';
 
@@ -30,7 +31,10 @@ export const TicketPayment = ({ route }: TicketPaymentProps): ReactElement => {
   const invoicePaymentTotal = ticket?.invoicePaymentTotal || 0;
   const invoicePaymentExpiry = ticket?.invoicePaymentExpiry || '';
 
-  const hasInvoiceExpired = moment().isSameOrAfter(invoicePaymentExpiry);
+  const hasTicketExpired = ticket?.status === TicketStatus.expired;
+  const hasTicketBeenConfirmed = ticket?.status === TicketStatus.confirmed;
+  const hasTicketReceivedPayment =
+    ticket?.status === TicketStatus.paymentReceived;
 
   const { minutes, seconds } = useTimer({
     expiryTimestamp: moment(invoicePaymentExpiry).toDate(),
@@ -45,9 +49,21 @@ export const TicketPayment = ({ route }: TicketPaymentProps): ReactElement => {
       <HeaderBar showBackButton />
 
       <Container>
-        {hasInvoiceExpired ? (
+        {hasTicketExpired ? (
           <Typography>
             Your ticket{ticketIds.length > 1 ? 's have' : ' has'} expired.
+          </Typography>
+        ) : hasTicketBeenConfirmed ? (
+          <Typography>
+            Great success 🎉 Your payment has been confirmed and your ticket
+            {ticketIds.length > 1 ? 's' : ''} have been entered into today's
+            draw 🤞
+          </Typography>
+        ) : hasTicketReceivedPayment ? (
+          <Typography>
+            We're processing your payment. Once it has received 6 confirmations
+            on the blockchain, we will enter your ticket
+            {ticketIds.length > 1 ? 's' : ''} into the draw.
           </Typography>
         ) : (
           <>
