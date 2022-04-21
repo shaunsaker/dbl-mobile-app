@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTimer } from 'react-timer-hook';
 import styled from 'styled-components/native';
 import { BlockchainAddress } from '../../components/BlockchainAddress';
+import { CopyIcon } from '../../components/CopyIcon';
 import { HeaderBar } from '../../components/HeaderBar';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
@@ -78,9 +79,14 @@ export const TicketPayment = ({ route }: TicketPaymentProps): ReactElement => {
 
             <Typography>To complete the purchase</Typography>
 
+            <Typography bold>Pay</Typography>
+
             <Typography large bold>
-              Pay {invoicePaymentTotal} BTC to the following address:
+              {invoicePaymentTotal} BTC
+              <CopyIcon value={invoicePaymentTotal.toString()} />
             </Typography>
+
+            <Typography bold>to the following address:</Typography>
 
             <BlockchainAddress>{invoicePaymentAddress}</BlockchainAddress>
 
