@@ -1,16 +1,11 @@
-import React, {
-  ReactElement,
-  useCallback,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { getBTCUSDPrice } from '../../coinGecko/getBTCUSDPrice';
 import { HeaderBar } from '../../components/HeaderBar';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { Typography } from '../../components/Typography';
+import { useBTCUSDRate } from '../../components/useBTCUSDRate';
 import { firebaseReserveTickets } from '../../firebase/firestore/firebaseReserveTickets';
 import { Routes } from '../../router/models';
 import { Lot, MAX_BTC_DIGITS } from '../../store/lots/models';
@@ -37,7 +32,7 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
 
   const [ticketCount, setTicketCount] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [rate, setRate] = useState(0);
+  const rate = useBTCUSDRate();
 
   const activeLot = useSelector(selectActiveLot) as Lot;
 
@@ -52,18 +47,6 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
   );
 
   const isSubmitDisabled = !ticketCount || loading;
-
-  const getRate = useCallback(async () => {
-    // get the rate
-    // FIXME: handle error
-    const BTCUSDRate = await getBTCUSDPrice();
-
-    setRate(BTCUSDRate);
-  }, [setRate]);
-
-  useLayoutEffect(() => {
-    getRate();
-  });
 
   const onAddTickets = useCallback(
     (ticketsToAdd: number) => {
