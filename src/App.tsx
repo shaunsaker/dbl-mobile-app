@@ -10,10 +10,11 @@ import './mixpanel';
 import { firebase } from '@react-native-firebase/app-check';
 import { Platform } from 'react-native';
 
-// TODO: SS test this in production on a real device (the docs are misleading)
+// NOTE: AppCheck is initialised on iOS by default
+// We pass "ignored" because activate expects an argument
+// but does not actually do anything with it on android 🤦‍♂️
 if (!__DEV__ && Platform.OS === 'android') {
-  // @ts-expect-error activate only expects an arg on iOS (which is activated by default)
-  firebase.appCheck().activate();
+  firebase.appCheck().activate('ignored');
 }
 
 const App = (): ReactElement => {
