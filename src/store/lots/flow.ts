@@ -1,10 +1,11 @@
 import { SagaIterator } from 'redux-saga';
 import { fork, put, take, takeEvery } from 'redux-saga/effects';
+import { firebaseFetchLatestInactiveLot } from '../../firebase/firestore/firebaseFetchLatestInactiveLot';
 import { firebaseSyncActiveLot } from '../../firebase/firestore/firebaseSyncActiveLot';
 import { call } from '../../utils/call';
 import { errorSaga } from '../../utils/errorSaga';
 import { signOut } from '../auth/actions';
-import { fetchActiveLot } from './actions';
+import { fetchActiveLot, fetchLatestInactiveLot } from './actions';
 import { Lot } from './models';
 
 // istanbul ignore next
@@ -33,7 +34,20 @@ function* fetchActiveLotSaga(): SagaIterator {
   }
 }
 
+function* fetchLatestInactiveLotSaga(): SagaIterator {
+  yield put(fetchLatestInactiveLot.request());
+
+  try {
+    const lot = yield* call(firebaseFetchLatestInactiveLot);
+
+    yield put(fetchLatestInactiveLot.success({ data: lot }));
+  } catch (error) {
+    yield* call(errorSaga, error, fetchLatestInactiveLot.failure);
+  }
+}
+
 // istanbul ignore next
 export function* lotsFlow(): SagaIterator {
   yield fork(fetchActiveLotSaga);
+  yield fork(fetchLatestInactiveLotSaga);
 }

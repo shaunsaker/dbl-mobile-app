@@ -1,4 +1,5 @@
 import { objectToArray } from '../../utils/objectToArray';
+import { sortArrayOfObjectsByKey } from '../../utils/sortArrayOfObjectsByKey';
 import { ApplicationState } from '../reducers';
 import { LotId } from './models';
 
@@ -27,19 +28,9 @@ export const selectActiveLot = (state: ApplicationState) => {
 };
 
 export const selectActiveLotId = (state: ApplicationState) => {
-  const lots = selectLots(state);
+  const activeLot = selectActiveLot(state);
 
-  if (!lots) {
-    return null;
-  }
-
-  const activeLot = objectToArray(lots).find(lot => lot.active);
-
-  if (!activeLot) {
-    return null;
-  }
-
-  return activeLot.id;
+  return activeLot?.id;
 };
 
 export const selectLotById = (state: ApplicationState, lotId: LotId) => {
@@ -56,6 +47,23 @@ export const selectLotById = (state: ApplicationState, lotId: LotId) => {
   }
 
   return lot;
+};
+
+export const selectLatestInactiveLot = (state: ApplicationState) => {
+  const lots = selectLots(state);
+
+  if (!lots) {
+    return null;
+  }
+
+  const inactiveLots = objectToArray(lots).filter(lot => !lot.active);
+  const latestInactiveLot = sortArrayOfObjectsByKey(
+    inactiveLots,
+    'dateCreated',
+    true,
+  )[0];
+
+  return latestInactiveLot;
 };
 
 export const selectLotsDataLoading = (state: ApplicationState) => {

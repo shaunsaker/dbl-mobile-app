@@ -7,6 +7,12 @@ export const fetchActiveLot = createAsyncAction(
   'LOTS/fetchActiveLotFailure',
 )<void, { data: Lot }, Error>();
 
+export const fetchLatestInactiveLot = createAsyncAction(
+  'LOTS/fetchLatestInactiveLotRequest',
+  'LOTS/fetchLatestInactiveLotSuccess',
+  'LOTS/fetchLatestInactiveLotFailure',
+)<void, { data: Lot }, Error>();
+
 export type ReserveTicketsRequestPayload = {
   lotId: LotId;
   ticketCount: number;

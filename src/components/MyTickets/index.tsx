@@ -42,4 +42,6 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
   );
 };
 
-const Container = styled.View``;
+const Container = styled.View`
+  border-width: 1px;
+`;
