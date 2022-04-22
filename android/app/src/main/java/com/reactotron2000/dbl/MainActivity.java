@@ -1,4 +1,4 @@
-package com.dbl;
+package com.reactotron2000.dbl;
 
 import com.facebook.react.ReactActivity;
 
