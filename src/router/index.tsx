@@ -20,8 +20,7 @@ import { Onboarding } from '../pages/Onboarding';
 import { QRCodeScanner } from '../pages/QRCodeScanner';
 import { ReserveTickets } from '../pages/ReserveTickets';
 import { TicketPayment } from '../pages/TicketPayment';
-
-const Stack = createStackNavigator<RouteStackParamList>();
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -38,6 +37,19 @@ export const navigateInternal = (
     }
   }
 };
+
+const Stack = createStackNavigator<RouteStackParamList>();
+const Drawer = createDrawerNavigator<RouteStackParamList>();
+
+const HomeScreens = () => (
+  <Drawer.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <Drawer.Screen name={Routes.home} component={Home} />
+  </Drawer.Navigator>
+);
 
 export const Router = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -64,9 +76,7 @@ export const Router = () => {
                 <Stack.Screen name={Routes.onboarding} component={Onboarding} />
               )}
 
-              <Stack.Group key="pages">
-                <Stack.Screen name={Routes.home} component={Home} />
-              </Stack.Group>
+              <Stack.Screen name={Routes.home} component={HomeScreens} />
 
               <Stack.Group
                 key="modals"
