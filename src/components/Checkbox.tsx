@@ -11,7 +11,6 @@ interface CheckboxProps {
   accessibilityLabel?: string;
   onPress: () => void;
 }
-// istanbul ignore next: we don't care much about ui
 export const Checkbox = ({
   label,
   checked,

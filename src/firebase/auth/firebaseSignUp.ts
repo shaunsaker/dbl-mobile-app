@@ -1,6 +1,5 @@
 import auth, { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
-// istanbul ignore next
 export const firebaseSignup = ({
   email,
   password,

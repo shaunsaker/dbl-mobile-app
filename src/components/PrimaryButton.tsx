@@ -38,7 +38,6 @@ interface ContainerProps {
   disabled?: boolean;
 }
 
-// istanbul ignore next: we don't care much about ui
 const Container = styled(CustomTouchableOpacity)<ContainerProps>`
   align-self: stretch;
   padding: ${({ small }) => (small ? RHYTHM / 4 : RHYTHM / 2)}px

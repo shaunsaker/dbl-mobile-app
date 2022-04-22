@@ -7,7 +7,6 @@ import { ActionType, getType } from 'typesafe-actions';
 import { navigate } from '../navigation/actions';
 import { AnalyticsEvent } from './models';
 
-// istanbul ignore next it's difficult to test if mixpanel is called
 export function* identifyUserFlow(): SagaIterator {
   const uid = yield* select(selectUid);
 
@@ -16,7 +15,6 @@ export function* identifyUserFlow(): SagaIterator {
   }
 }
 
-// istanbul ignore next it's difficult to test if mixpanel is called
 export function* onNavigateFlow(): SagaIterator {
   yield takeLatest(
     getType(navigate),
@@ -28,7 +26,6 @@ export function* onNavigateFlow(): SagaIterator {
   );
 }
 
-// istanbul ignore next
 export function* analyticsFlow(): SagaIterator {
   yield fork(identifyUserFlow);
   yield fork(onNavigateFlow);

@@ -12,7 +12,6 @@ import { selectActiveLot } from '../lots/selectors';
 import { fetchTickets } from './actions';
 import { Ticket, TicketsData } from './models';
 
-// istanbul ignore next
 function* fetchTicketsSaga(): SagaIterator {
   // only sync our tickets on the first active lot fetch
   yield take(fetchActiveLot.success);
@@ -64,7 +63,6 @@ function* fetchTicketsSaga(): SagaIterator {
   }
 }
 
-// istanbul ignore next
 export function* ticketsFlow(): SagaIterator {
   yield fork(fetchTicketsSaga);
 }

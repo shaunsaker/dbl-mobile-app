@@ -24,7 +24,6 @@ export interface ModalProps {
   onClose: () => void;
 }
 
-// istanbul ignore next: we don't care much about ui
 export const Modal = ({
   title,
   subtitle,

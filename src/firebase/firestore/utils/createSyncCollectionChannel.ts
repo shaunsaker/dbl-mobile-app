@@ -1,7 +1,6 @@
 import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { eventChannel } from 'redux-saga';
 
-// istanbul ignore next
 const syncCollection = <T>(
   ref: FirebaseFirestoreTypes.CollectionReference,
   cb: (data: T | { [key: string]: any }) => void,
@@ -33,7 +32,6 @@ const syncCollection = <T>(
   });
 };
 
-// istanbul ignore next
 export const createSyncCollectionChannel = <T>(
   ref: FirebaseFirestoreTypes.CollectionReference,
 ) => {

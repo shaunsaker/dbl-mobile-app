@@ -20,7 +20,6 @@ function* onNavigateFlow(): SagaIterator {
   );
 }
 
-// istanbul ignore next
 export function* navigationFlow(): SagaIterator {
   yield fork(onNavigateBackFlow);
   yield fork(onNavigateFlow);

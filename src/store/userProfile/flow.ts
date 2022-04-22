@@ -21,7 +21,6 @@ import { fetchUserProfile, createUser, updateUserProfile } from './actions';
 import { makeUserProfileData } from './data';
 import { UserProfileData } from './models';
 
-// istanbul ignore next
 function* fetchUserProfileFlow(): SagaIterator {
   yield put(fetchUserProfile.request());
 
@@ -77,7 +76,6 @@ export function* createUserFlow(): SagaIterator {
 
         yield put(createUser.success(data));
       } catch (error) {
-        // istanbul ignore next I can't seem to get this test to throw the error
         yield* call(errorSaga, error, createUser.failure);
       }
     },
@@ -111,7 +109,6 @@ export function* updateUserProfileFlow(): SagaIterator {
   );
 }
 
-// istanbul ignore next
 export function* userProfileFlow(): SagaIterator {
   yield fork(fetchUserProfileFlow);
   yield fork(updateUserProfileFlow);

@@ -2,7 +2,6 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { UserProfileData } from '../../store/userProfile/models';
 
-// istanbul ignore next
 export const firebaseUpdateUserProfile = (
   userProfileData: Partial<UserProfileData>,
 ): Promise<void> => {

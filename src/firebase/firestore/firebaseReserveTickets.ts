@@ -6,7 +6,6 @@ import {
   FirebaseCallableFunctionsResponse,
 } from '../functions/models';
 
-// istanbul ignore next
 export const firebaseReserveTickets = async (
   payload: ReserveTicketsRequestPayload,
 ): Promise<FirebaseCallableFunctionsResponse<TicketId[]>> => {

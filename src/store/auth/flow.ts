@@ -100,7 +100,6 @@ export function* signOutSaga(): SagaIterator {
   });
 }
 
-// istanbul ignore next
 export function* authSagas(): SagaIterator {
   yield fork(signUpSaga);
   yield fork(signInSaga);

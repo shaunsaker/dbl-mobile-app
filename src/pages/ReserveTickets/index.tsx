@@ -103,7 +103,7 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
       <HeaderBar showBackButton />
 
       <Container>
-        <Typography>How many ticketCount would you like to buy?</Typography>
+        <Typography>How many tickets would you like to buy?</Typography>
 
         <PrimaryButton small secondary onPress={() => onAddTickets(-1)}>
           -

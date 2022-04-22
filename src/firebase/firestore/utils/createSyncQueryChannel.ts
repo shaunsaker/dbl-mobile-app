@@ -2,7 +2,7 @@ import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore';
 import { eventChannel } from 'redux-saga';
 
 // FIXME: we could extend createSyncCollectionChannel's types
-// istanbul ignore next
+
 const syncQuery = <T>(
   ref: FirebaseFirestoreTypes.Query,
   cb: (data: T | { [key: string]: any }) => void,
@@ -34,7 +34,6 @@ const syncQuery = <T>(
   });
 };
 
-// istanbul ignore next
 export const createSyncQueryChannel = <T>(
   ref: FirebaseFirestoreTypes.Query,
 ) => {

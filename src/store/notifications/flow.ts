@@ -52,7 +52,6 @@ export function* notificationsSetupFlow(): SagaIterator {
   );
 }
 
-// istanbul ignore next
 export function* notificationsFlow(): SagaIterator {
   yield fork(notificationsSetupFlow);
 }

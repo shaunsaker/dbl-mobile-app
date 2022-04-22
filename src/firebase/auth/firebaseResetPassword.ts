@@ -1,6 +1,5 @@
 import auth from '@react-native-firebase/auth';
 
-// istanbul ignore next
 export const firebaseResetPassword = ({
   email,
 }: {
