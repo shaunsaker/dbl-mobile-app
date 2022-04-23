@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "692538629372",
+    "project_id": "dbl-development",
+    "storage_bucket": "dbl-development.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692538629372:android:bb0975e4cd1a6f8edf0b79",
+        "android_client_info": {
+          "package_name": "com.reactotron2000.dbl"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "692538629372-vplvn9cuev15p1drbjuiia9gsfbfg84l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhSP_EhN7o80WO_knb6pE_UtU5IN5mywo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "692538629372-vplvn9cuev15p1drbjuiia9gsfbfg84l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "692538629372-6uepc7d6ggfev038eqoass2h8q3is9d9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dbl"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

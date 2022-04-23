@@ -10,6 +10,7 @@ export const useLinking = () => {
   const openLink = useCallback(
     async url => {
       const supported = await Linking.canOpenURL(url);
+      console.log('HERE', { supported, url });
 
       if (supported) {
         await Linking.openURL(url);

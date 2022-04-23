@@ -20,6 +20,7 @@ import { QRCodeScanner } from '../pages/QRCodeScanner';
 import { ReserveTickets } from '../pages/ReserveTickets';
 import { TicketPayment } from '../pages/TicketPayment';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { CustomDrawer } from '../components/CustomDrawer';
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -45,6 +46,7 @@ const HomeScreens = () => (
     screenOptions={{
       headerShown: false,
     }}
+    drawerContent={CustomDrawer}
   >
     <Drawer.Screen name={Routes.home} component={Home} />
   </Drawer.Navigator>

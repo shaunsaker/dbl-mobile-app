@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "env:dev": "cp ./env/development/.env .env",
+    "env:prod": "cp ./env/production/.env .env",
     "dev:android": "react-native run-android",
     "dev:ios": "react-native run-ios",
     "start": "react-native start",
@@ -35,6 +37,7 @@
     "react-native": "0.67.4",
     "react-native-camera": "^4.2.1",
     "react-native-collapsible": "^1.6.0",
+    "react-native-config": "^1.4.5",
     "react-native-gesture-handler": "^2.4.1",
     "react-native-get-random-values": "^1.7.2",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",

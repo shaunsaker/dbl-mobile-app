@@ -61,7 +61,7 @@ buck-out/
 
 # env files
 env
-google-services.json
+.env
 
 # jest
 coverage
