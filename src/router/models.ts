@@ -4,14 +4,14 @@ import { LotId } from '../store/lots/models';
 import { TicketId } from '../store/tickets/models';
 
 export enum Routes {
-  signUp = 'signUp',
-  signIn = 'signIn',
-  onboarding = 'onboarding',
-  drawer = 'drawer',
-  home = 'home',
-  reserveTickets = 'reserveTickets',
-  ticketPayment = 'ticketPayment',
-  QRCodeScanner = 'QRCodeScanner',
+  signUp = 'Sign Up',
+  signIn = 'Sign In',
+  onboarding = 'Onboarding',
+  drawer = 'Drawer',
+  home = 'Home',
+  reserveTickets = 'Reserve Tickets',
+  ticketPayment = 'Ticket Payment',
+  QRCodeScanner = 'QR Code Scanner',
 }
 
 export type RouteStackParamList = {
