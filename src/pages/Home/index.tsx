@@ -6,7 +6,7 @@ import { LotStats } from '../../components/LotStats';
 import { MyTickets } from '../../components/MyTickets';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
-import { Results } from '../../components/Results';
+import { YesterdaysResults } from '../../components/YesterdaysResults';
 import { Typography } from '../../components/Typography';
 import { Routes } from '../../router/models';
 import { selectActiveLotId } from '../../store/lots/selectors';
@@ -30,7 +30,7 @@ export const Home = ({}: HomeProps): ReactElement => {
       <Container>
         <Typography bold>Home Page</Typography>
 
-        <Results />
+        <YesterdaysResults />
 
         <LotStats />
 
