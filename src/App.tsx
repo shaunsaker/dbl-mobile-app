@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { ReactElement } from 'react';
 import { NotifierWrapper } from 'react-native-notifier';
 import { Provider } from 'react-redux';

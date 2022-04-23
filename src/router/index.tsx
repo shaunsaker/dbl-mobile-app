@@ -4,7 +4,6 @@ import {
   NavigationContainer,
   NavigationContainerRef,
 } from '@react-navigation/native';
-import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../store/auth/selectors';
@@ -76,7 +75,7 @@ export const Router = () => {
                 <Stack.Screen name={Routes.onboarding} component={Onboarding} />
               )}
 
-              <Stack.Screen name={Routes.home} component={HomeScreens} />
+              <Stack.Screen name={Routes.drawer} component={HomeScreens} />
 
               <Stack.Group
                 key="modals"
