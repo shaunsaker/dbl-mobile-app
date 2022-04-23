@@ -3,7 +3,6 @@ import { persistStore, persistReducer, PersistConfig } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import createSagaMiddleware from 'redux-saga';
-import { createLogger } from 'redux-logger';
 
 import reducers, { ApplicationState } from './reducers';
 import sagas from './sagas';
@@ -15,13 +14,6 @@ const middlewares = [];
 const sagaMiddleware = createSagaMiddleware();
 
 middlewares.push(sagaMiddleware);
-
-const isTesting = process.env.JEST_WORKER_ID;
-if (__DEV__ && !isTesting) {
-  const loggerMiddleware = createLogger({ collapsed: true });
-
-  middlewares.push(loggerMiddleware);
-}
 
 // apply the middleware
 const middleware = applyMiddleware(...middlewares);
