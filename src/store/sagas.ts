@@ -1,7 +1,7 @@
 import { fork } from 'redux-saga/effects';
 import { connectSaga } from '../utils/connectSaga';
 import { select } from '../utils/typedSelect';
-import { authSagas } from './auth/flow';
+import { authFlow } from './auth/flow';
 import { selectIsAuthenticated } from './auth/selectors';
 
 import { navigationFlow } from './navigation/flow';
@@ -11,9 +11,10 @@ import { analyticsFlow } from './analytics/flow';
 import { lotsFlow } from './lots/flow';
 import { ticketsFlow } from './tickets/flow';
 import { notificationsFlow } from './notifications/flow';
+import { btcRateFlow } from './btcRate/flow';
 
 function* omnipresentFlows() {
-  yield fork(authSagas);
+  yield fork(authFlow);
   yield fork(navigationFlow);
   yield fork(snackbarsFlow);
   yield fork(createUserFlow); // user may not be authenticated in the store by this stage
@@ -27,6 +28,7 @@ function* authenticatedFlows() {
     yield fork(lotsFlow);
     yield fork(ticketsFlow);
     yield fork(notificationsFlow);
+    yield fork(btcRateFlow);
   }
 }
 

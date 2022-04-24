@@ -1,17 +1,22 @@
 import moment from 'moment';
 import React, { ReactElement } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { Currency } from '../../store/btcRate/models';
+import { selectBtcRateByCurrency } from '../../store/btcRate/selectors';
 import { Lot } from '../../store/lots/models';
+import { ApplicationState } from '../../store/reducers';
 import { numberToDigits } from '../../utils/numberToDigits';
 import { Typography } from '../Typography';
-import { useBTCUSDRate } from '../useBTCUSDRate';
 
 interface LotResultProps {
   lot: Lot;
 }
 
 export const LotResult = ({ lot }: LotResultProps): ReactElement | null => {
-  const rate = useBTCUSDRate();
+  const rate = useSelector((state: ApplicationState) =>
+    selectBtcRateByCurrency(state, Currency.usd),
+  );
 
   if (!lot) {
     return null;

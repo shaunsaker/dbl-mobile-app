@@ -100,7 +100,7 @@ export function* signOutSaga(): SagaIterator {
   });
 }
 
-export function* authSagas(): SagaIterator {
+export function* authFlow(): SagaIterator {
   yield fork(signUpSaga);
   yield fork(signInSaga);
   yield fork(resetPasswordSaga);

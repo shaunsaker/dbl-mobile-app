@@ -1,12 +1,13 @@
 import axios, { AxiosError } from 'axios';
+import { Currency } from '../store/btcRate/models';
 
-export const getBTCUSDPrice = async (): Promise<number> => {
+export const getBtcRate = async (currency: Currency): Promise<number> => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await axios.get(
-        'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd',
+        `https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=${currency.toLowerCase()}`,
       );
-      const rate = parseInt(response.data.bitcoin.usd);
+      const rate = parseInt(response.data.bitcoin[currency.toLowerCase()]);
 
       resolve(rate);
     } catch (error: Error | AxiosError | unknown) {

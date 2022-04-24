@@ -5,7 +5,7 @@ import { selectActiveLot } from '../lots/selectors';
 import { ApplicationState } from '../reducers';
 import { TicketId, TicketStatus } from './models';
 
-export const selectsDataLoading = (state: ApplicationState) => {
+export const selectLotsDataLoading = (state: ApplicationState) => {
   return state.tickets.loading;
 };
 

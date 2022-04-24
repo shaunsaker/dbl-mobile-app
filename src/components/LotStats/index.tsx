@@ -2,13 +2,15 @@ import React, { ReactElement } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { Currency } from '../../store/btcRate/models';
+import { selectBtcRateByCurrency } from '../../store/btcRate/selectors';
 import {
   selectActiveLot,
   selectLotsDataLoading,
 } from '../../store/lots/selectors';
+import { ApplicationState } from '../../store/reducers';
 import { CountdownTimer } from '../CountdownTimer';
 import { Typography } from '../Typography';
-import { useBTCUSDRate } from '../useBTCUSDRate';
 
 interface LotStatsProps {}
 
@@ -16,7 +18,9 @@ export const LotStats = ({}: LotStatsProps): ReactElement => {
   const activeLot = useSelector(selectActiveLot);
   const loading = useSelector(selectLotsDataLoading);
 
-  const rate = useBTCUSDRate();
+  const rate = useSelector((state: ApplicationState) =>
+    selectBtcRateByCurrency(state, Currency.usd),
+  );
 
   if (!activeLot) {
     return (
