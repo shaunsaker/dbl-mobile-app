@@ -24,6 +24,7 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
 
   const [ticketCount, setTicketCount] = useState(1);
   const [loading, setLoading] = useState(false);
+
   const rate = useBTCUSDRate();
 
   const activeLot = useSelector(selectActiveLot) as Lot; // lot is definitely defined here

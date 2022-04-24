@@ -8,12 +8,15 @@ import {
 } from '../../store/lots/selectors';
 import { CountdownTimer } from '../CountdownTimer';
 import { Typography } from '../Typography';
+import { useBTCUSDRate } from '../useBTCUSDRate';
 
 interface LotStatsProps {}
 
 export const LotStats = ({}: LotStatsProps): ReactElement => {
   const activeLot = useSelector(selectActiveLot);
   const loading = useSelector(selectLotsDataLoading);
+
+  const rate = useBTCUSDRate();
 
   if (!activeLot) {
     return (
@@ -29,7 +32,10 @@ export const LotStats = ({}: LotStatsProps): ReactElement => {
     <Container>
       <Typography bold>Lot Stats</Typography>
 
-      <Typography>Value: {activeLot.totalBTC} BTC</Typography>
+      <Typography>
+        Value: {activeLot.totalBTC} BTC ($
+        {Math.round(activeLot.totalBTC * rate)})
+      </Typography>
 
       <Typography>
         {activeLot.totalConfirmedTickets} Tickets Purchased
