@@ -1,7 +1,9 @@
+import { arrayToObject } from '../../utils/arrayToObject';
+import { objectToArray } from '../../utils/objectToArray';
 import { LotId } from '../lots/models';
 import { selectActiveLot } from '../lots/selectors';
 import { ApplicationState } from '../reducers';
-import { TicketId } from './models';
+import { TicketId, TicketStatus } from './models';
 
 export const selectsDataLoading = (state: ApplicationState) => {
   return state.tickets.loading;
@@ -25,6 +27,21 @@ export const selectActiveLotTickets = (state: ApplicationState) => {
   const tickets = selectTicketsByLotId(state, activeLot.id);
 
   return tickets;
+};
+
+export const selectConfirmedActiveLotTickets = (state: ApplicationState) => {
+  const tickets = selectActiveLotTickets(state);
+
+  if (!tickets) {
+    return null;
+  }
+
+  const ticketsArray = objectToArray(tickets);
+  const confirmedTickets = ticketsArray.filter(
+    ticket => ticket.status === TicketStatus.confirmed,
+  );
+
+  return confirmedTickets;
 };
 
 export const selectTicketById = (

@@ -12,18 +12,10 @@ import { Lot, MAX_BTC_DIGITS } from '../../store/lots/models';
 import { selectActiveLot } from '../../store/lots/selectors';
 import { navigate } from '../../store/navigation/actions';
 import { TicketId } from '../../store/tickets/models';
+import { selectConfirmedActiveLotTickets } from '../../store/tickets/selectors';
 import { maybePluralise } from '../../utils/maybePluralise';
 import { numberToDigits } from '../../utils/numberToDigits';
-
-const getTicketOdds = ({
-  userTickets,
-  lotTickets,
-}: {
-  userTickets: number;
-  lotTickets: number;
-}): string => {
-  return `1 in ${numberToDigits(lotTickets + 1 / userTickets, 0)}`;
-};
+import { getTicketOdds } from './getTicketOdds';
 
 interface ReserveTicketsProps {}
 
@@ -34,12 +26,23 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
   const [loading, setLoading] = useState(false);
   const rate = useBTCUSDRate();
 
-  const activeLot = useSelector(selectActiveLot) as Lot;
+  const activeLot = useSelector(selectActiveLot) as Lot; // lot is definitely defined here
+
+  // get the ticket odds
+  const userConfirmedActiveLotTickets = useSelector(
+    selectConfirmedActiveLotTickets,
+  );
+  const ticketOdds = getTicketOdds({
+    newUserTicketCount: ticketCount,
+    existingUserTicketCount: userConfirmedActiveLotTickets
+      ? userConfirmedActiveLotTickets.length
+      : 0,
+    totalLotTicketCount: activeLot.totalConfirmedTickets,
+  });
 
   // calculate the ticket prices in USD and BTC
-  const pricePerTicketUSD = activeLot ? activeLot.ticketPriceUSD : 0;
-  const pricePerTicketBTC =
-    activeLot && rate ? activeLot.ticketPriceUSD / rate : 0;
+  const pricePerTicketUSD = activeLot.ticketPriceUSD;
+  const pricePerTicketBTC = rate ? activeLot.ticketPriceUSD / rate : 0;
   const ticketsValueUSD = numberToDigits(pricePerTicketUSD * ticketCount, 0);
   const ticketsValueBTC = numberToDigits(
     pricePerTicketBTC * ticketCount,
@@ -50,11 +53,6 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
 
   const onAddTickets = useCallback(
     (ticketsToAdd: number) => {
-      // satisy ts
-      if (!activeLot) {
-        return;
-      }
-
       let newTickets = ticketCount + ticketsToAdd;
 
       if (newTickets < 0) {
@@ -77,6 +75,10 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
   );
 
   const onSubmitPress = useCallback(async () => {
+    if (!activeLot) {
+      return;
+    }
+
     setLoading(true);
 
     // FIXME: handle error
@@ -123,11 +125,7 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
         </Typography>
 
         <Typography>
-          Your odds are{' '}
-          {getTicketOdds({
-            userTickets: ticketCount,
-            lotTickets: activeLot.totalConfirmedTickets,
-          })}
+          Your odds would be 1 in {ticketOdds || 'Infinity'}
         </Typography>
 
         <PrimaryButton disabled={isSubmitDisabled} onPress={onSubmitPress}>
