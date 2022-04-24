@@ -32,9 +32,7 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
       <Typography bold>My Tickets</Typography>
 
       {userHasActiveLotTickets ? (
-        sortedTicketsArray.map(ticket => (
-          <Ticket key={ticket.id} lotId={lotId} {...ticket} />
-        ))
+        sortedTicketsArray.map(ticket => <Ticket key={ticket.id} {...ticket} />)
       ) : (
         <Typography>You have no tickets, shame on you!</Typography>
       )}

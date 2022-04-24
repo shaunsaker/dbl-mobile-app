@@ -1,4 +1,3 @@
-import { arrayToObject } from '../../utils/arrayToObject';
 import { objectToArray } from '../../utils/objectToArray';
 import { LotId } from '../lots/models';
 import { selectActiveLot } from '../lots/selectors';

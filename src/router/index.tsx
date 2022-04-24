@@ -18,7 +18,7 @@ import { Home } from '../pages/Home';
 import { Onboarding } from '../pages/Onboarding';
 import { QRCodeScanner } from '../pages/QRCodeScanner';
 import { ReserveTickets } from '../pages/ReserveTickets';
-import { TicketPayment } from '../pages/TicketPayment';
+import { Invoice } from '../pages/Invoice';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { CustomDrawer } from '../components/CustomDrawer';
 import { Results } from '../pages/Results';
@@ -93,10 +93,7 @@ export const Router = () => {
                   component={ReserveTickets}
                 />
 
-                <Stack.Screen
-                  name={Routes.ticketPayment}
-                  component={TicketPayment}
-                />
+                <Stack.Screen name={Routes.invoice} component={Invoice} />
 
                 <Stack.Screen
                   name={Routes.QRCodeScanner}

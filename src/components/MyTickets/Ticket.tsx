@@ -28,21 +28,21 @@ export const Ticket = ({
   priceBTC,
   status,
   dateCreated,
-  invoiceTicketIds,
+  invoiceId,
 }: TicketProps): ReactElement => {
   const dispatch = useDispatch();
 
   const onPress = useCallback(() => {
     dispatch(
       navigate({
-        route: Routes.ticketPayment,
+        route: Routes.invoice,
         props: {
           lotId,
-          ticketIds: invoiceTicketIds,
+          invoiceId,
         },
       }),
     );
-  }, [dispatch, invoiceTicketIds, lotId]);
+  }, [dispatch, lotId, invoiceId]);
 
   return (
     <Container onPress={onPress}>

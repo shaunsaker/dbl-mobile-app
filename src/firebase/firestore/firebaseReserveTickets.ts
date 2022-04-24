@@ -1,6 +1,6 @@
 import functions from '@react-native-firebase/functions';
+import { InvoiceId } from '../../store/invoices/models';
 import { ReserveTicketsRequestPayload } from '../../store/lots/actions';
-import { TicketId } from '../../store/tickets/models';
 import {
   FirebaseCallableFunctions,
   FirebaseCallableFunctionsResponse,
@@ -8,7 +8,7 @@ import {
 
 export const firebaseReserveTickets = async (
   payload: ReserveTicketsRequestPayload,
-): Promise<FirebaseCallableFunctionsResponse<TicketId[]>> => {
+): Promise<FirebaseCallableFunctionsResponse<InvoiceId>> => {
   return new Promise(async (resolve, reject) => {
     try {
       const { data } = await functions().httpsCallable(

@@ -9,11 +9,11 @@ import { firebaseReserveTickets } from '../../firebase/firestore/firebaseReserve
 import { Routes } from '../../router/models';
 import { Currency } from '../../store/btcRate/models';
 import { selectBtcRateByCurrency } from '../../store/btcRate/selectors';
+import { InvoiceId } from '../../store/invoices/models';
 import { Lot, MAX_BTC_DIGITS } from '../../store/lots/models';
 import { selectActiveLot } from '../../store/lots/selectors';
-import { navigate } from '../../store/navigation/actions';
+import { navigate, navigateBack } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
-import { TicketId } from '../../store/tickets/models';
 import { selectConfirmedActiveLotTickets } from '../../store/tickets/selectors';
 import { maybePluralise } from '../../utils/maybePluralise';
 import { numberToDigits } from '../../utils/numberToDigits';
@@ -94,12 +94,15 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
 
     setLoading(false);
 
+    // first go back home so that the user does not come back here from the Invoice page
+    dispatch(navigateBack());
+
     dispatch(
       navigate({
-        route: Routes.ticketPayment,
+        route: Routes.invoice,
         props: {
           lotId: activeLot.id,
-          ticketIds: reserveTicketsResponse.data as TicketId[],
+          invoiceId: reserveTicketsResponse.data as InvoiceId,
         },
       }),
     );

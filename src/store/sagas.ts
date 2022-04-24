@@ -12,23 +12,25 @@ import { lotsFlow } from './lots/flow';
 import { ticketsFlow } from './tickets/flow';
 import { notificationsFlow } from './notifications/flow';
 import { btcRateFlow } from './btcRate/flow';
+import { invoicesFlow } from './invoices/flow';
 
 function* omnipresentFlows() {
   yield fork(authFlow);
+  yield fork(createUserFlow); // user may not be authenticated in the store by this stage
   yield fork(navigationFlow);
   yield fork(snackbarsFlow);
-  yield fork(createUserFlow); // user may not be authenticated in the store by this stage
 }
 
 function* authenticatedFlows() {
   const isAuthenticated = yield* select(selectIsAuthenticated);
   if (isAuthenticated) {
-    yield fork(userProfileFlow);
     yield fork(analyticsFlow);
+    yield fork(btcRateFlow);
+    yield fork(invoicesFlow);
     yield fork(lotsFlow);
     yield fork(ticketsFlow);
     yield fork(notificationsFlow);
-    yield fork(btcRateFlow);
+    yield fork(userProfileFlow);
   }
 }
 

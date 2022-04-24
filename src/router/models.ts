@@ -1,7 +1,7 @@
 import { RouteProp } from '@react-navigation/core';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { InvoiceId } from '../store/invoices/models';
 import { LotId } from '../store/lots/models';
-import { TicketId } from '../store/tickets/models';
 
 export enum Routes {
   signUp = 'Sign Up',
@@ -10,7 +10,7 @@ export enum Routes {
   drawer = 'Drawer',
   home = 'Home',
   reserveTickets = 'Reserve Tickets',
-  ticketPayment = 'Ticket Payment',
+  invoice = 'Invoice',
   results = 'Results',
   QRCodeScanner = 'QR Code Scanner',
 }
@@ -22,9 +22,9 @@ export type RouteStackParamList = {
   [Routes.drawer]: undefined;
   [Routes.home]: undefined;
   [Routes.reserveTickets]: undefined;
-  [Routes.ticketPayment]: {
+  [Routes.invoice]: {
     lotId: LotId;
-    ticketIds: TicketId[];
+    invoiceId: InvoiceId;
   };
   [Routes.results]: undefined;
   [Routes.QRCodeScanner]: undefined;

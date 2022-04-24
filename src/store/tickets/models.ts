@@ -1,3 +1,4 @@
+import { InvoiceId } from '../invoices/models';
 import { LotId } from '../lots/models';
 import { UserId } from '../userProfile/models';
 
@@ -12,15 +13,12 @@ export enum TicketStatus {
 
 export interface Ticket {
   id: TicketId;
+  lotId: LotId;
   uid: UserId;
   priceBTC: number;
   status: TicketStatus;
   dateCreated: string;
-  invoicePaymentAddress: string;
-  invoicePaymentAmountBTC: number;
-  invoicePaymentRate: number; // USD/BTC
-  invoicePaymentExpiry: string;
-  invoiceTicketIds: TicketId[];
+  invoiceId: InvoiceId;
 }
 
 export type TicketsData = Record<TicketId, Ticket>;
