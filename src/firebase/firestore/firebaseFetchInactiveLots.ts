@@ -1,7 +1,13 @@
 import firestore from '@react-native-firebase/firestore';
 import { Lot } from '../../store/lots/models';
 
-export const firebaseFetchLatestInactiveLot = async (): Promise<Lot> => {
+export const firebaseFetchInactiveLots = async ({
+  startAfter,
+  limit,
+}: {
+  startAfter: string;
+  limit: number;
+}): Promise<Lot[]> => {
   return new Promise(async (resolve, reject) => {
     try {
       const lots = (
@@ -9,13 +15,12 @@ export const firebaseFetchLatestInactiveLot = async (): Promise<Lot> => {
           .collection('lots')
           .where('active', '==', false)
           .orderBy('drawTime', 'desc')
-          .limit(1)
+          .startAfter(startAfter)
+          .limit(limit)
           .get()
       ).docs.map(document => ({ id: document.id, ...document.data() } as Lot));
 
-      const lot = lots[0];
-
-      resolve(lot);
+      resolve(lots);
     } catch (error) {
       reject(error);
     }

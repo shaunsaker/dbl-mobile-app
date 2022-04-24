@@ -7,9 +7,11 @@ export const useBTCUSDRate = () => {
   const getRate = useCallback(async () => {
     // get the rate
     // FIXME: handle error
-    const BTCUSDRate = await getBTCUSDPrice();
+    try {
+      const BTCUSDRate = await getBTCUSDPrice();
 
-    setRate(BTCUSDRate);
+      setRate(BTCUSDRate);
+    } catch (error) {}
   }, [setRate]);
 
   useLayoutEffect(() => {

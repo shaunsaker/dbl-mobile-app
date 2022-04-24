@@ -3,6 +3,10 @@ import { sortArrayOfObjectsByKey } from '../../utils/sortArrayOfObjectsByKey';
 import { ApplicationState } from '../reducers';
 import { LotId } from './models';
 
+export const selectLotsDataLoading = (state: ApplicationState) => {
+  return state.lots.loading;
+};
+
 export const selectLots = (state: ApplicationState) => {
   if (!state.lots.data) {
     return null;
@@ -49,7 +53,7 @@ export const selectLotById = (state: ApplicationState, lotId: LotId) => {
   return lot;
 };
 
-export const selectLatestInactiveLot = (state: ApplicationState) => {
+export const selectInactiveLotsSortedByDate = (state: ApplicationState) => {
   const lots = selectLots(state);
 
   if (!lots) {
@@ -57,15 +61,29 @@ export const selectLatestInactiveLot = (state: ApplicationState) => {
   }
 
   const inactiveLots = objectToArray(lots).filter(lot => !lot.active);
-  const latestInactiveLot = sortArrayOfObjectsByKey(
+  const sortedInactiveLots = sortArrayOfObjectsByKey(
     inactiveLots,
-    'dateCreated',
-    true,
-  )[0];
+    'drawTime',
+    true, // newest to oldest
+  );
+
+  return sortedInactiveLots;
+};
+
+export const selectLatestInactiveLot = (state: ApplicationState) => {
+  const sortedInactiveLots = selectInactiveLotsSortedByDate(state);
+
+  if (!sortedInactiveLots) {
+    return null;
+  }
+
+  const latestInactiveLot = sortedInactiveLots[0];
 
   return latestInactiveLot;
 };
 
-export const selectLotsDataLoading = (state: ApplicationState) => {
-  return state.lots.loading;
+export const selectLatestInactiveLotId = (state: ApplicationState) => {
+  const lot = selectLatestInactiveLot(state);
+
+  return lot?.id;
 };

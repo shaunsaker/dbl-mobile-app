@@ -21,6 +21,7 @@ import { ReserveTickets } from '../pages/ReserveTickets';
 import { TicketPayment } from '../pages/TicketPayment';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { CustomDrawer } from '../components/CustomDrawer';
+import { Results } from '../pages/Results';
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -49,6 +50,8 @@ const HomeScreens = () => (
     drawerContent={CustomDrawer}
   >
     <Drawer.Screen name={Routes.home} component={Home} />
+
+    <Drawer.Screen name={Routes.results} component={Results} />
   </Drawer.Navigator>
 );
 

@@ -6,11 +6,10 @@ import { LotStats } from '../../components/LotStats';
 import { MyTickets } from '../../components/MyTickets';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
-import { YesterdaysResults } from '../../components/YesterdaysResults';
-import { Typography } from '../../components/Typography';
 import { Routes } from '../../router/models';
 import { selectActiveLotId } from '../../store/lots/selectors';
 import { navigate } from '../../store/navigation/actions';
+import { YesterdaysResults } from '../../components/YesterdaysResults';
 
 interface HomeProps {}
 
@@ -28,8 +27,6 @@ export const Home = ({}: HomeProps): ReactElement => {
       <HeaderBar />
 
       <Container>
-        <Typography bold>Home Page</Typography>
-
         <YesterdaysResults />
 
         <LotStats />

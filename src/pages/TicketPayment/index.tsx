@@ -90,9 +90,7 @@ export const TicketPayment = ({ route }: TicketPaymentProps): ReactElement => {
 
             <BlockchainAddress>{invoicePaymentAddress}</BlockchainAddress>
 
-            <PrimaryButton onPress={onSubmitPress}>
-              I'VE SENT MY BITCOIN
-            </PrimaryButton>
+            <PrimaryButton onPress={onSubmitPress}>CLOSE</PrimaryButton>
           </>
         )}
       </Container>

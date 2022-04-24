@@ -1,44 +1,49 @@
-import moment from 'moment';
-import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
+import React, { ReactElement, useCallback } from 'react';
+import { ActivityIndicator } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { selectLatestInactiveLot } from '../../store/lots/selectors';
-import { numberToDigits } from '../../utils/numberToDigits';
+import { Routes } from '../../router/models';
+import {
+  selectLatestInactiveLot,
+  selectLotsDataLoading,
+} from '../../store/lots/selectors';
+import { navigate } from '../../store/navigation/actions';
+import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
+import { LotResult } from '../LotResult';
 import { Typography } from '../Typography';
-import { useBTCUSDRate } from '../useBTCUSDRate';
 
 interface YesterdaysResultsProps {}
 
 export const YesterdaysResults =
   ({}: YesterdaysResultsProps): ReactElement | null => {
+    const dispatch = useDispatch();
+
+    const loading = useSelector(selectLotsDataLoading);
     const latestInactiveLot = useSelector(selectLatestInactiveLot);
 
-    const rate = useBTCUSDRate();
-
-    if (!latestInactiveLot) {
-      return null;
-    }
+    const onViewMoreResultsPress = useCallback(() => {
+      dispatch(navigate({ route: Routes.results }));
+    }, [dispatch]);
 
     return (
       <Container>
         <Typography bold>Yesterday's Results</Typography>
 
-        <Typography>
-          {moment(latestInactiveLot?.dateCreated).format('dddd, DD MMMM YYYY')}
-        </Typography>
+        {latestInactiveLot ? (
+          <>
+            <LotResult lot={latestInactiveLot} />
 
-        <Typography large bold>
-          {latestInactiveLot?.winnerUsername}
-        </Typography>
-
-        <Typography bold>
-          {latestInactiveLot?.totalBTC} BTC ($
-          {numberToDigits(latestInactiveLot?.totalBTC * rate, 0)})
-        </Typography>
+            <CustomTouchableOpacity onPress={onViewMoreResultsPress}>
+              <Typography bold>View More Results</Typography>
+            </CustomTouchableOpacity>
+          </>
+        ) : loading ? (
+          <ActivityIndicator size="small" />
+        ) : (
+          <Typography>No Results Yet</Typography>
+        )}
       </Container>
     );
   };
 
-const Container = styled.View`
-  border-width: 1px;
-`;
+const Container = styled.View``;

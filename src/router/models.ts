@@ -11,6 +11,7 @@ export enum Routes {
   home = 'Home',
   reserveTickets = 'Reserve Tickets',
   ticketPayment = 'Ticket Payment',
+  results = 'Results',
   QRCodeScanner = 'QR Code Scanner',
 }
 
@@ -25,6 +26,7 @@ export type RouteStackParamList = {
     lotId: LotId;
     ticketIds: TicketId[];
   };
+  [Routes.results]: undefined;
   [Routes.QRCodeScanner]: undefined;
 };
 

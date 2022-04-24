@@ -7,10 +7,11 @@ import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
 import { Typography } from '../Typography';
 import ChevronLeftIcon from '../../icons/chevron-left.svg';
 import { useDispatch } from 'react-redux';
-import { navigateBack } from '../../store/navigation/actions';
+import { navigate, navigateBack } from '../../store/navigation/actions';
 import MenuIcon from '../../icons/menu.svg';
 import { ParamListBase, useNavigation } from '@react-navigation/native';
 import { DrawerNavigationProp } from '@react-navigation/drawer';
+import { Routes } from '../../router/models';
 
 export const HEADER_BAR_BACK_BUTTON_LABEL = 'header bar back button';
 
@@ -22,12 +23,16 @@ export const HeaderBar = ({ showBackButton }: HeaderBarProps): ReactElement => {
   const dispatch = useDispatch();
   const navigation = useNavigation<DrawerNavigationProp<ParamListBase>>();
 
+  const onLogoPress = useCallback(() => {
+    dispatch(navigate({ route: Routes.home }));
+  }, [dispatch]);
+
   const onBackPress = useCallback(() => {
     dispatch(navigateBack());
   }, [dispatch]);
 
   const onMenuPress = useCallback(() => {
-    navigation.toggleDrawer();
+    navigation.openDrawer();
   }, [navigation]);
 
   return (
@@ -44,9 +49,13 @@ export const HeaderBar = ({ showBackButton }: HeaderBarProps): ReactElement => {
           </StyledBackButton>
         )}
 
-        <Logo />
+        <CustomTouchableOpacity onPress={onLogoPress}>
+          <LogoContainer>
+            <Logo />
 
-        <Typography bold>DBL</Typography>
+            <Typography bold>DBL</Typography>
+          </LogoContainer>
+        </CustomTouchableOpacity>
       </LogoContainer>
 
       <CustomTouchableOpacity onPress={onMenuPress}>

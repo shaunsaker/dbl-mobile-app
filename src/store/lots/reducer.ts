@@ -1,5 +1,10 @@
 import { ActionType, getType } from 'typesafe-actions';
-import { fetchActiveLot, fetchLatestInactiveLot } from './actions';
+import { arrayToObject } from '../../utils/arrayToObject';
+import {
+  fetchActiveLot,
+  fetchInactiveLots,
+  fetchLatestInactiveLot,
+} from './actions';
 import { LotsState } from './models';
 
 const reducerActions = {
@@ -9,6 +14,9 @@ const reducerActions = {
   fetchLatestInactiveLotRequest: fetchLatestInactiveLot.request,
   fetchLatestInactiveLotSuccess: fetchLatestInactiveLot.success,
   fetchLatestInactiveLotFailure: fetchLatestInactiveLot.failure,
+  fetchInactiveLotsRequest: fetchInactiveLots.request,
+  fetchInactiveLotsSuccess: fetchInactiveLots.success,
+  fetchInactiveLotsFailure: fetchInactiveLots.failure,
 };
 
 export const initialState: LotsState = {
@@ -23,6 +31,7 @@ export const lotsReducer = (
   switch (action.type) {
     case getType(fetchActiveLot.request):
     case getType(fetchLatestInactiveLot.request):
+    case getType(fetchInactiveLots.request):
       return {
         ...state,
         loading: true,
@@ -71,8 +80,21 @@ export const lotsReducer = (
         loading: false,
       };
 
+    case getType(fetchInactiveLots.success):
+      const lotsObject = arrayToObject(action.payload.data, 'id');
+
+      return {
+        ...state,
+        data: {
+          ...state.data,
+          ...lotsObject,
+        },
+        loading: false,
+      };
+
     case getType(fetchActiveLot.failure):
     case getType(fetchLatestInactiveLot.failure):
+    case getType(fetchInactiveLots.request):
       return {
         ...state,
         loading: false,

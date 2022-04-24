@@ -5,7 +5,5 @@ declare module 'react-native-config' {
     SUPPORT_EMAIL: string;
   }
 
-  export const Config: NativeConfig;
-
   export default Config;
 }
