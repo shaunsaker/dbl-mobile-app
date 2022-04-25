@@ -22,7 +22,7 @@ const persistConfig: PersistConfig<ApplicationState> = {
   key: 'root',
   storage: AsyncStorage,
   stateReconciler: autoMergeLevel2,
-  blacklist: ['invoices'],
+  blacklist: [],
   // @ts-expect-error fixes https://github.com/rt2zz/redux-persist/issues/717
   timeout: null,
 };

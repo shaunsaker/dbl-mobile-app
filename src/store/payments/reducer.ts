@@ -1,43 +1,43 @@
 import { ActionType, getType } from 'typesafe-actions';
 import { arrayToObject } from '../../utils/arrayToObject';
-import { fetchTickets } from './actions';
-import { TicketsState } from './models';
+import { fetchPayments } from './actions';
+import { PaymentsState } from './models';
 
 const reducerActions = {
-  fetchTicketsRequest: fetchTickets.request,
-  fetchTicketsSuccess: fetchTickets.success,
-  fetchTicketsFailure: fetchTickets.failure,
+  fetchPaymentsRequest: fetchPayments.request,
+  fetchPaymentsSuccess: fetchPayments.success,
+  fetchPaymentsFailure: fetchPayments.failure,
 };
 
-export const initialState: TicketsState = {
+export const initialState: PaymentsState = {
   data: undefined,
   loading: false,
 };
 
-export const ticketsReducer = (
+export const paymentsReducer = (
   state = initialState,
   action: ActionType<typeof reducerActions>,
-): TicketsState => {
+): PaymentsState => {
   switch (action.type) {
-    case getType(fetchTickets.request):
+    case getType(fetchPayments.request):
       return {
         ...state,
         loading: true,
       };
 
-    case getType(fetchTickets.success):
-      const ticketsObject = arrayToObject(action.payload.data, 'id');
+    case getType(fetchPayments.success):
+      const paymentsObject = arrayToObject(action.payload.data, 'id');
 
       return {
         ...state,
         data: {
           ...state.data,
-          ...ticketsObject,
+          ...paymentsObject,
         },
         loading: false,
       };
 
-    case getType(fetchTickets.failure):
+    case getType(fetchPayments.failure):
       return {
         ...state,
         loading: false,

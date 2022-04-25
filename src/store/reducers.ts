@@ -7,6 +7,8 @@ import { InvoicesState } from './invoices/models';
 import { invoicesReducer } from './invoices/reducer';
 import { LotsState } from './lots/models';
 import { lotsReducer } from './lots/reducer';
+import { PaymentsState } from './payments/models';
+import { paymentsReducer } from './payments/reducer';
 import { TicketsState } from './tickets/models';
 import { ticketsReducer } from './tickets/reducer';
 import { UserProfileState } from './userProfile/models';
@@ -17,6 +19,7 @@ export interface ApplicationState {
   btcRate: BtcRateState;
   invoices: InvoicesState;
   lots: LotsState;
+  payments: PaymentsState;
   tickets: TicketsState;
   userProfile: UserProfileState;
 }
@@ -26,6 +29,7 @@ export const rootReducer = combineReducers({
   btcRate: btcRateReducer,
   invoices: invoicesReducer,
   lots: lotsReducer,
+  payments: paymentsReducer,
   tickets: ticketsReducer,
   userProfile: userProfileReducer,
 });

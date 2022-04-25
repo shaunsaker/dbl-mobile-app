@@ -2,7 +2,7 @@ import firestore from '@react-native-firebase/firestore';
 import { Invoice, InvoiceId } from '../../store/invoices/models';
 import { LotId } from '../../store/lots/models';
 
-export const firebaseFetchInvoice = async ({
+export const firebaseSyncInvoice = async ({
   lotId,
   invoiceId,
 }: {

@@ -21,9 +21,7 @@ export interface Lot {
   winnerUsername?: Username;
 }
 
-export type LotsData = Record<LotId, Lot>;
-
 export interface LotsState {
-  data: LotsData | undefined;
+  data: { [key: LotId]: Lot } | undefined;
   loading: boolean;
 }

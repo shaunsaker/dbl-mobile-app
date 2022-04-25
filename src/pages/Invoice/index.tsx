@@ -7,6 +7,7 @@ import { CopyIcon } from '../../components/CopyIcon';
 import { CountdownTimer } from '../../components/CountdownTimer';
 import { HeaderBar } from '../../components/HeaderBar';
 import { Page } from '../../components/Page';
+import { Payments } from '../../components/Payments';
 import { Typography } from '../../components/Typography';
 import { RouteProps, Routes } from '../../router/models';
 import { fetchInvoice } from '../../store/invoices/actions';
@@ -15,6 +16,8 @@ import {
   selectInvoicesDataLoading,
 } from '../../store/invoices/selectors';
 import { ApplicationState } from '../../store/reducers';
+import { TicketStatus } from '../../store/tickets/models';
+import { selectTicketById } from '../../store/tickets/selectors';
 import { getTimeAsISOString } from '../../utils/getTimeAsISOString';
 import { maybePluralise } from '../../utils/maybePluralise';
 
@@ -29,24 +32,24 @@ export const Invoice = ({ route }: TicketPaymentProps): ReactElement => {
   const invoice = useSelector((state: ApplicationState) =>
     selectInvoiceById(state, invoiceId),
   );
+  const ticket = useSelector((state: ApplicationState) =>
+    invoice ? selectTicketById(state, invoice.ticketIds[0]) : null,
+  );
 
   const ticketIds = invoice?.ticketIds;
   const ticketCount = ticketIds?.length || 0;
   const invoicePaymentAddress = invoice?.address || '';
   const invoicePaymentTotal = invoice?.amountBTC || 0;
   const invoicePaymentExpiry = invoice?.expiry || getTimeAsISOString();
-
-  // get from tickets
-  const hasTicketExpired = false;
-  const hasTicketBeenConfirmed = false;
-  const hasTicketReceivedPayment = false;
+  const hasInvoiceExpired = ticket?.status === TicketStatus.expired;
+  const haveTicketsBeenConfirmed = ticket?.status === TicketStatus.confirmed;
+  const haveTicketsReceivedPayment =
+    ticket?.status === TicketStatus.paymentReceived;
 
   useLayoutEffect(
     () => {
-      // on mount fetch the invoice and payments
-      if (!invoice) {
-        dispatch(fetchInvoice.request({ lotId, invoiceId }));
-      }
+      // on mount fetch the invoice
+      dispatch(fetchInvoice.request({ lotId, invoiceId }));
     },
     // only run this once on mount
     // eslint-disable-next-line
@@ -58,15 +61,15 @@ export const Invoice = ({ route }: TicketPaymentProps): ReactElement => {
       return <ActivityIndicator size="small" />;
     }
 
-    if (hasTicketExpired) {
+    if (hasInvoiceExpired) {
       return (
         <Typography>
-          Your ticket{ticketCount > 1 ? 's have' : ' has'} expired.
+          Your ticket{ticketCount > 1 ? 's have' : ' has'} have expired.
         </Typography>
       );
     }
 
-    if (hasTicketBeenConfirmed) {
+    if (haveTicketsBeenConfirmed) {
       return (
         <Typography>
           Great success 🎉 Your payment has been confirmed and your ticket
@@ -75,7 +78,7 @@ export const Invoice = ({ route }: TicketPaymentProps): ReactElement => {
       );
     }
 
-    if (hasTicketReceivedPayment) {
+    if (haveTicketsReceivedPayment) {
       return (
         <Typography>
           We're processing your payment. Once it has received 6 confirmations on
@@ -112,9 +115,9 @@ export const Invoice = ({ route }: TicketPaymentProps): ReactElement => {
     );
   }, [
     loading,
-    hasTicketExpired,
-    hasTicketBeenConfirmed,
-    hasTicketReceivedPayment,
+    hasInvoiceExpired,
+    haveTicketsBeenConfirmed,
+    haveTicketsReceivedPayment,
     ticketCount,
     invoicePaymentAddress,
     invoicePaymentExpiry,
@@ -125,7 +128,11 @@ export const Invoice = ({ route }: TicketPaymentProps): ReactElement => {
     <Page>
       <HeaderBar showBackButton />
 
-      <Container>{renderContent()}</Container>
+      <Container>
+        {renderContent()}
+
+        <Payments lotId={lotId} invoiceId={invoiceId} />
+      </Container>
     </Page>
   );
 };

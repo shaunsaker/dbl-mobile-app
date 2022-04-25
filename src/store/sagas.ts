@@ -13,6 +13,7 @@ import { ticketsFlow } from './tickets/flow';
 import { notificationsFlow } from './notifications/flow';
 import { btcRateFlow } from './btcRate/flow';
 import { invoicesFlow } from './invoices/flow';
+import { paymentsFlow } from './payments/flow';
 
 function* omnipresentFlows() {
   yield fork(authFlow);
@@ -28,8 +29,9 @@ function* authenticatedFlows() {
     yield fork(btcRateFlow);
     yield fork(invoicesFlow);
     yield fork(lotsFlow);
-    yield fork(ticketsFlow);
     yield fork(notificationsFlow);
+    yield fork(paymentsFlow);
+    yield fork(ticketsFlow);
     yield fork(userProfileFlow);
   }
 }

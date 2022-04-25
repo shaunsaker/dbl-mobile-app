@@ -1,7 +1,6 @@
 import { SagaIterator } from 'redux-saga';
 import { fork, put, take, takeEvery } from 'redux-saga/effects';
 import { firebaseSyncTickets } from '../../firebase/firestore/firebaseSyncTickets';
-import { arrayToObject } from '../../utils/arrayToObject';
 import { call } from '../../utils/call';
 import { errorSaga } from '../../utils/errorSaga';
 import { select } from '../../utils/typedSelect';
@@ -10,7 +9,7 @@ import { selectUid } from '../auth/selectors';
 import { fetchActiveLot } from '../lots/actions';
 import { selectActiveLot } from '../lots/selectors';
 import { fetchTickets } from './actions';
-import { Ticket, TicketsData } from './models';
+import { Ticket } from './models';
 
 function* fetchTicketsSaga(): SagaIterator {
   // only sync our tickets on the first active lot fetch
@@ -22,7 +21,7 @@ function* fetchTicketsSaga(): SagaIterator {
     return;
   }
 
-  yield put(fetchTickets.request(activeLot.id));
+  yield put(fetchTickets.request({ lotId: activeLot.id }));
 
   const userId = yield* select(selectUid);
 
@@ -44,13 +43,10 @@ function* fetchTicketsSaga(): SagaIterator {
       userId as string,
     );
 
-    yield takeEvery(channel, function* (ticketsArray: Ticket[]) {
-      const data: TicketsData = arrayToObject(ticketsArray, 'id');
-
+    yield takeEvery(channel, function* (tickets: Ticket[]) {
       yield put(
         fetchTickets.success({
-          lotId: activeLot.id,
-          data,
+          data: tickets,
         }),
       );
     });

@@ -21,11 +21,7 @@ export interface Ticket {
   invoiceId: InvoiceId;
 }
 
-export type TicketsData = Record<TicketId, Ticket>;
-
-export type LotTicketsData = Record<LotId, TicketsData>;
-
 export interface TicketsState {
-  data: LotTicketsData | undefined;
+  data: { [key: TicketId]: Ticket } | undefined;
   loading: boolean;
 }

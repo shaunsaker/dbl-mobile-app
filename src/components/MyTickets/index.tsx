@@ -5,7 +5,6 @@ import { LotId } from '../../store/lots/models';
 import { ApplicationState } from '../../store/reducers';
 import { selectTicketsByLotId } from '../../store/tickets/selectors';
 import { isObjectEmpty } from '../../utils/isObjectEmpty';
-import { objectToArray } from '../../utils/objectToArray';
 import { sortArrayOfObjectsByKey } from '../../utils/sortArrayOfObjectsByKey';
 import { Typography } from '../Typography';
 import { Ticket } from './Ticket';
@@ -22,7 +21,7 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
   // convert the tickets object to an array
   // sort them from newest to oldest
   const sortedTicketsArray = tickets
-    ? sortArrayOfObjectsByKey(objectToArray(tickets), 'dateCreated', true)
+    ? sortArrayOfObjectsByKey(tickets, 'dateCreated', true)
     : [];
 
   const userHasActiveLotTickets = tickets && !isObjectEmpty(tickets);

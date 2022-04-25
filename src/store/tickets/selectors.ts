@@ -8,12 +8,27 @@ export const selectLotsDataLoading = (state: ApplicationState) => {
   return state.tickets.loading;
 };
 
-export const selectTicketsByLotId = (state: ApplicationState, lotId: LotId) => {
+export const selectTickets = (state: ApplicationState) => {
   if (!state.tickets.data) {
     return null;
   }
 
-  return state.tickets.data[lotId];
+  const tickets = state.tickets.data;
+
+  return tickets;
+};
+
+export const selectTicketsByLotId = (state: ApplicationState, lotId: LotId) => {
+  const tickets = selectTickets(state);
+
+  if (!tickets) {
+    return null;
+  }
+
+  const ticketsArray = objectToArray(tickets);
+  const lotTickets = ticketsArray.filter(ticket => ticket.lotId === lotId);
+
+  return lotTickets;
 };
 
 export const selectActiveLotTickets = (state: ApplicationState) => {
@@ -35,25 +50,21 @@ export const selectConfirmedActiveLotTickets = (state: ApplicationState) => {
     return null;
   }
 
-  const ticketsArray = objectToArray(tickets);
-  const confirmedTickets = ticketsArray.filter(
+  const confirmedTickets = tickets.filter(
     ticket => ticket.status === TicketStatus.confirmed,
   );
 
   return confirmedTickets;
 };
 
-export const selectTicketById = (
-  state: ApplicationState,
-  { lotId, ticketId }: { lotId: LotId; ticketId: TicketId },
-) => {
-  const tickets = selectTicketsByLotId(state, lotId);
+export const selectTicketById = (state: ApplicationState, id: TicketId) => {
+  const tickets = selectTickets(state);
 
   if (!tickets) {
     return null;
   }
 
-  const ticket = tickets[ticketId];
+  const ticket = tickets[id];
 
   return ticket;
 };
