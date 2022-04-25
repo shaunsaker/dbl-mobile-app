@@ -64,7 +64,7 @@ export const Invoice = ({ route }: TicketPaymentProps): ReactElement => {
     if (hasInvoiceExpired) {
       return (
         <Typography>
-          Your ticket{ticketCount > 1 ? 's have' : ' has'} have expired.
+          Your ticket{ticketCount > 1 ? 's have' : ' has'} expired.
         </Typography>
       );
     }
@@ -131,7 +131,7 @@ export const Invoice = ({ route }: TicketPaymentProps): ReactElement => {
       <Container>
         {renderContent()}
 
-        <Payments lotId={lotId} invoiceId={invoiceId} />
+        {!hasInvoiceExpired && <Payments lotId={lotId} invoiceId={invoiceId} />}
       </Container>
     </Page>
   );

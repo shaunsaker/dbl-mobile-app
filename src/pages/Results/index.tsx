@@ -21,13 +21,15 @@ export const Results = ({}: ResultsProps): ReactElement => {
   const loading = useSelector(selectLotsDataLoading);
   const lots = useSelector(selectInactiveLotsSortedByDate);
 
-  const initialOldestDate = lots ? lots[lots.length - 1].drawTime : '';
+  const initialOldestDate =
+    lots && lots.length ? lots[lots.length - 1].drawTime : '';
   const [oldestLotDate, setOldestLotDate] = useState(initialOldestDate);
 
   const onEndReached = useCallback(async () => {
     // fetch the results in a paginated fashion
     // based on the lots in the store, get the oldest date and fetch from there
-    const oldestDate = lots ? lots[lots.length - 1].drawTime : '';
+    const oldestDate =
+      lots && lots.length ? lots[lots.length - 1].drawTime : '';
     const hasFetchedAllLots = oldestDate === oldestLotDate;
 
     if (!oldestDate) {
@@ -63,15 +65,19 @@ export const Results = ({}: ResultsProps): ReactElement => {
       <Container>
         <Typography bold>Results</Typography>
 
-        <FlatList
-          data={lots}
-          keyExtractor={item => item.id}
-          renderItem={renderLotResult}
-          ListFooterComponent={
-            loading ? <ActivityIndicator size="small" /> : null
-          }
-          onEndReached={onEndReached}
-        />
+        {lots && lots.length ? (
+          <FlatList
+            data={lots}
+            keyExtractor={item => item.id}
+            renderItem={renderLotResult}
+            ListFooterComponent={
+              loading ? <ActivityIndicator size="small" /> : null
+            }
+            onEndReached={onEndReached}
+          />
+        ) : (
+          <Typography>No Results Yet</Typography>
+        )}
       </Container>
     </Page>
   );
