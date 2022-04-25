@@ -9,17 +9,21 @@ import { SagaIterator } from '@redux-saga/types';
 import { ActionType, getType } from 'typesafe-actions';
 import { firebaseSyncUserProfile } from '../../firebase/firestore/firebaseSyncUserProfile';
 import { firebaseUpdateUserProfile } from '../../firebase/firestore/firebaseUpdateUserProfile';
+import { Routes } from '../../router/models';
 import { call } from '../../utils/call';
 import { errorSaga } from '../../utils/errorSaga';
 import { getTimeAsISOString } from '../../utils/getTimeAsISOString';
 import { select } from '../../utils/typedSelect';
 import { signOut, signUp } from '../auth/actions';
 import { selectUid } from '../auth/selectors';
+import { LotId } from '../lots/models';
+import { navigate } from '../navigation/actions';
 import { showSnackbar } from '../snackbars/actions';
 import { SnackbarType } from '../snackbars/models';
 import { fetchUserProfile, createUser, updateUserProfile } from './actions';
 import { makeUserProfileData } from './data';
-import { UserProfileData } from './models';
+import { UserProfileData, UserWinnings } from './models';
+import { selectUserWinnings } from './selectors';
 
 function* fetchUserProfileFlow(): SagaIterator {
   yield put(fetchUserProfile.request());
@@ -109,7 +113,47 @@ export function* updateUserProfileFlow(): SagaIterator {
   );
 }
 
+export function* checkUserWinnerFlow(): SagaIterator {
+  yield takeLatest(fetchUserProfile.success, function* () {
+    // check if there is a winning that has not been seen
+    const userWinnings = yield* select(selectUserWinnings);
+
+    if (!userWinnings) {
+      return;
+    }
+
+    let winningLotId = '';
+    Object.keys(userWinnings).forEach(lotId => {
+      if (!userWinnings[lotId].hasSeenLink) {
+        // we assign to a variable here because we can't call a saga directly in the loop
+        winningLotId = lotId;
+      }
+    });
+
+    if (!winningLotId) {
+      return;
+    }
+
+    yield put(
+      navigate({ route: Routes.winner, props: { lotId: winningLotId } }),
+    );
+
+    // toggle hasSeenLink so that we don't show the Winner modal automatically again
+    const newWinnings: UserWinnings = {
+      ...userWinnings,
+      [winningLotId]: {
+        ...userWinnings[winningLotId],
+        hasSeenLink: true,
+      },
+    };
+    yield* call(firebaseUpdateUserProfile, {
+      winnings: newWinnings,
+    });
+  });
+}
+
 export function* userProfileFlow(): SagaIterator {
   yield fork(fetchUserProfileFlow);
   yield fork(updateUserProfileFlow);
+  yield fork(checkUserWinnerFlow);
 }

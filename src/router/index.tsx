@@ -22,6 +22,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { CustomDrawer } from '../components/CustomDrawer';
 import { Results } from '../pages/Results';
 import { Result } from '../pages/Result';
+import { Winner } from '../pages/Winner';
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -64,8 +65,6 @@ export const Router = () => {
     enableScreens();
   }, []);
 
-  // FIXME: there must be a better way to handle hasSignedUp route order
-
   return (
     <>
       <NavigationContainer ref={navigationRef}>
@@ -96,6 +95,8 @@ export const Router = () => {
                 <Stack.Screen name={Routes.invoice} component={Invoice} />
 
                 <Stack.Screen name={Routes.result} component={Result} />
+
+                <Stack.Screen name={Routes.winner} component={Winner} />
               </Stack.Group>
             </Stack.Group>
           ) : hasSignedUp ? (
