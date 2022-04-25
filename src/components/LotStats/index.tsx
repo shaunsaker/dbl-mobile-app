@@ -4,32 +4,31 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Currency } from '../../store/btcRate/models';
 import { selectBtcRateByCurrency } from '../../store/btcRate/selectors';
+import { LotId } from '../../store/lots/models';
 import {
-  selectActiveLot,
+  selectLotById,
   selectLotsDataLoading,
 } from '../../store/lots/selectors';
 import { ApplicationState } from '../../store/reducers';
 import { CountdownTimer } from '../CountdownTimer';
 import { Typography } from '../Typography';
 
-interface LotStatsProps {}
+interface LotStatsProps {
+  lotId: LotId;
+}
 
-export const LotStats = ({}: LotStatsProps): ReactElement => {
-  const activeLot = useSelector(selectActiveLot);
+export const LotStats = ({ lotId }: LotStatsProps): ReactElement | null => {
   const loading = useSelector(selectLotsDataLoading);
+  const lot = useSelector((state: ApplicationState) =>
+    selectLotById(state, lotId),
+  );
 
   const rate = useSelector((state: ApplicationState) =>
     selectBtcRateByCurrency(state, Currency.usd),
   );
 
-  if (!activeLot) {
-    return (
-      <Container>
-        <Typography>
-          Well this is embarrasing, we have no active lots 🤔
-        </Typography>
-      </Container>
-    );
+  if (!lot) {
+    return null;
   }
 
   return (
@@ -37,15 +36,13 @@ export const LotStats = ({}: LotStatsProps): ReactElement => {
       <Typography bold>Lot Stats</Typography>
 
       <Typography>
-        Value: {activeLot.totalBTC} BTC ($
-        {Math.round(activeLot.totalBTC * rate)})
+        Value: {lot.totalBTC} BTC ($
+        {Math.round(lot.totalBTC * rate)})
       </Typography>
 
-      <Typography>
-        {activeLot.totalConfirmedTickets} Tickets Purchased
-      </Typography>
+      <Typography>{lot.totalConfirmedTickets} Tickets Purchased</Typography>
 
-      {activeLot && <CountdownTimer timestamp={activeLot.drawTime} />}
+      {lot && <CountdownTimer timestamp={lot.drawTime} />}
 
       {loading && (
         <ActivityIndicatorContainer>

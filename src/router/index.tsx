@@ -22,6 +22,7 @@ import { Invoice } from '../pages/Invoice';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { CustomDrawer } from '../components/CustomDrawer';
 import { Results } from '../pages/Results';
+import { Result } from '../pages/Result';
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -94,6 +95,8 @@ export const Router = () => {
                 />
 
                 <Stack.Screen name={Routes.invoice} component={Invoice} />
+
+                <Stack.Screen name={Routes.result} component={Result} />
 
                 <Stack.Screen
                   name={Routes.QRCodeScanner}

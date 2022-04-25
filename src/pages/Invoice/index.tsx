@@ -21,9 +21,9 @@ import { selectTicketById } from '../../store/tickets/selectors';
 import { getTimeAsISOString } from '../../utils/getTimeAsISOString';
 import { maybePluralise } from '../../utils/maybePluralise';
 
-interface TicketPaymentProps extends RouteProps<Routes.invoice> {}
+interface InvoiceProps extends RouteProps<Routes.invoice> {}
 
-export const Invoice = ({ route }: TicketPaymentProps): ReactElement => {
+export const Invoice = ({ route }: InvoiceProps): ReactElement => {
   const dispatch = useDispatch();
 
   const { lotId, invoiceId } = route.params;

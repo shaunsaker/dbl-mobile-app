@@ -9,7 +9,7 @@ import { PrimaryButton } from '../../components/PrimaryButton';
 import { Routes } from '../../router/models';
 import { selectActiveLotId } from '../../store/lots/selectors';
 import { navigate } from '../../store/navigation/actions';
-import { YesterdaysResults } from '../../components/YesterdaysResults';
+import { YesterdaysResults } from './YesterdaysResults';
 
 interface HomeProps {}
 
@@ -29,7 +29,7 @@ export const Home = ({}: HomeProps): ReactElement => {
       <Container>
         <YesterdaysResults />
 
-        <LotStats />
+        <LotStats lotId={activeLotId} />
 
         <MyTickets lotId={activeLotId} />
 

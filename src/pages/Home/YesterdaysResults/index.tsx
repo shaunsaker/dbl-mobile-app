@@ -2,15 +2,15 @@ import React, { ReactElement, useCallback } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { Routes } from '../../router/models';
+import { Routes } from '../../../router/models';
 import {
-  selectLatestInactiveLot,
+  selectLatestInactiveLotId,
   selectLotsDataLoading,
-} from '../../store/lots/selectors';
-import { navigate } from '../../store/navigation/actions';
-import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
-import { LotResult } from '../LotResult';
-import { Typography } from '../Typography';
+} from '../../../store/lots/selectors';
+import { navigate } from '../../../store/navigation/actions';
+import { CustomTouchableOpacity } from '../../../components/CustomTouchableOpacity';
+import { LotResult } from '../../../components/LotResult';
+import { Typography } from '../../../components/Typography';
 
 interface YesterdaysResultsProps {}
 
@@ -19,7 +19,17 @@ export const YesterdaysResults =
     const dispatch = useDispatch();
 
     const loading = useSelector(selectLotsDataLoading);
-    const latestInactiveLot = useSelector(selectLatestInactiveLot);
+    const yesterdaysLotId = useSelector(selectLatestInactiveLotId);
+
+    const onLotPress = useCallback(() => {
+      if (!yesterdaysLotId) {
+        return;
+      }
+
+      dispatch(
+        navigate({ route: Routes.result, props: { lotId: yesterdaysLotId } }),
+      );
+    }, [dispatch, yesterdaysLotId]);
 
     const onViewMoreResultsPress = useCallback(() => {
       dispatch(navigate({ route: Routes.results }));
@@ -29,9 +39,9 @@ export const YesterdaysResults =
       <Container>
         <Typography bold>Yesterday's Results</Typography>
 
-        {latestInactiveLot ? (
+        {yesterdaysLotId ? (
           <>
-            <LotResult lot={latestInactiveLot} />
+            <LotResult lotId={yesterdaysLotId} onPress={onLotPress} />
 
             <CustomTouchableOpacity onPress={onViewMoreResultsPress}>
               <Typography bold>View More Results</Typography>
