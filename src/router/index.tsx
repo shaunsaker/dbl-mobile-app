@@ -16,7 +16,6 @@ import {
 import { SignUp } from '../pages/SignUp';
 import { Home } from '../pages/Home';
 import { Onboarding } from '../pages/Onboarding';
-import { QRCodeScanner } from '../pages/QRCodeScanner';
 import { ReserveTickets } from '../pages/ReserveTickets';
 import { Invoice } from '../pages/Invoice';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -97,11 +96,6 @@ export const Router = () => {
                 <Stack.Screen name={Routes.invoice} component={Invoice} />
 
                 <Stack.Screen name={Routes.result} component={Result} />
-
-                <Stack.Screen
-                  name={Routes.QRCodeScanner}
-                  component={QRCodeScanner}
-                />
               </Stack.Group>
             </Stack.Group>
           ) : hasSignedUp ? (

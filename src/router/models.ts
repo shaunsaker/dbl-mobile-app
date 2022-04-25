@@ -13,7 +13,6 @@ export enum Routes {
   invoice = 'Invoice',
   results = 'Results',
   result = 'Result',
-  QRCodeScanner = 'QR Code Scanner',
 }
 
 export type RouteStackParamList = {
@@ -31,7 +30,6 @@ export type RouteStackParamList = {
   [Routes.result]: {
     lotId: LotId;
   };
-  [Routes.QRCodeScanner]: undefined;
 };
 
 type ScreenNavigationProps<T extends Routes> = StackNavigationProp<
