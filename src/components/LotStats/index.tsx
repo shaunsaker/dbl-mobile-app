@@ -10,6 +10,7 @@ import {
   selectLotsDataLoading,
 } from '../../store/lots/selectors';
 import { ApplicationState } from '../../store/reducers';
+import { maybePluralise } from '../../utils/maybePluralise';
 import { CountdownTimer } from '../CountdownTimer';
 import { Typography } from '../Typography';
 
@@ -40,7 +41,9 @@ export const LotStats = ({ lotId }: LotStatsProps): ReactElement | null => {
         {Math.round(lot.totalBTC * rate)})
       </Typography>
 
-      <Typography>{lot.totalConfirmedTickets} Tickets Purchased</Typography>
+      <Typography>
+        {maybePluralise(lot.totalConfirmedTickets, 'Ticket')} Purchased
+      </Typography>
 
       {lot && <CountdownTimer timestamp={lot.drawTime} />}
 
