@@ -21,9 +21,7 @@ export const Results = ({}: ResultsProps): ReactElement => {
   const loading = useSelector(selectLotsDataLoading);
   const lots = useSelector(selectInactiveLotsSortedByDate);
 
-  const initialOldestDate =
-    lots && lots.length ? lots[lots.length - 1].drawTime : '';
-  const [oldestLotDate, setOldestLotDate] = useState(initialOldestDate);
+  const [oldestLotDate, setOldestLotDate] = useState('');
 
   const onEndReached = useCallback(async () => {
     // fetch the results in a paginated fashion
@@ -45,7 +43,7 @@ export const Results = ({}: ResultsProps): ReactElement => {
     dispatch(
       fetchInactiveLots.request({
         startAfter: oldestDate,
-        limit: 5,
+        limit: 10,
       }),
     );
   }, [lots, dispatch, oldestLotDate]);
