@@ -14,8 +14,10 @@ interface CustomDrawerProps extends DrawerContentComponentProps {}
 export const CustomDrawer = ({ ...props }: CustomDrawerProps): ReactElement => {
   const { openLink } = useLinking();
 
-  const onContactSupportPress = useCallback(() => {
-    openLink(`mailto:${Config.SUPPORT_EMAIL}`);
+  const onContactSupportPress = useCallback(async () => {
+    const link = `mailto:${Config.SUPPORT_EMAIL}`;
+
+    await openLink(link);
   }, [openLink]);
 
   return (

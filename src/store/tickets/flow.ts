@@ -12,7 +12,7 @@ import { fetchTickets } from './actions';
 import { Ticket } from './models';
 
 function* fetchTicketsSaga(): SagaIterator {
-  // only sync our tickets on the first active lot fetch
+  // only sync our tickets on the first active lot fetch (we need the lot id)
   yield take(fetchActiveLot.success);
 
   const activeLot = yield* select(selectActiveLot);
