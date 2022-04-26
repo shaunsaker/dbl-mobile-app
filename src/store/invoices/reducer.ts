@@ -1,8 +1,10 @@
 import { ActionType, getType } from 'typesafe-actions';
+import { signOut } from '../auth/actions';
 import { fetchInvoice } from './actions';
 import { InvoicesState } from './models';
 
 const reducerActions = {
+  signOutSuccess: signOut.success,
   fetchInvoiceRequest: fetchInvoice.request,
   fetchInvoiceSuccess: fetchInvoice.success,
   fetchInvoiceFailure: fetchInvoice.failure,
@@ -18,6 +20,9 @@ export const invoicesReducer = (
   action: ActionType<typeof reducerActions>,
 ): InvoicesState => {
   switch (action.type) {
+    case getType(signOut.success):
+      return initialState;
+
     case getType(fetchInvoice.request):
       return {
         ...state,

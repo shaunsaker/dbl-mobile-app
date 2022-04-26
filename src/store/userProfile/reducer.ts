@@ -1,8 +1,10 @@
 import { ActionType, getType } from 'typesafe-actions';
+import { signOut } from '../auth/actions';
 import { fetchUserProfile, createUser, updateUserProfile } from './actions';
 import { UserProfileState } from './models';
 
 const reducerActions = {
+  signOutSuccess: signOut.success,
   fetchUserProfileRequest: fetchUserProfile.request,
   fetchUserProfileSuccess: fetchUserProfile.success,
   fetchUserProfileFailure: fetchUserProfile.failure,
@@ -24,6 +26,9 @@ export const userProfileReducer = (
   action: ActionType<typeof reducerActions>,
 ): UserProfileState => {
   switch (action.type) {
+    case getType(signOut.success):
+      return initialState;
+
     case getType(fetchUserProfile.request):
     case getType(createUser.request):
     case getType(updateUserProfile.request):
