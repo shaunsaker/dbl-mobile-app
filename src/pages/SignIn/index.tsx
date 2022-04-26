@@ -11,9 +11,7 @@ import { PrimaryButton } from '../../components/PrimaryButton';
 import { TextButton } from '../../components/TextButton';
 import { TextInput } from '../../components/TextInput';
 import { Typography } from '../../components/Typography';
-import { mixpanel } from '../../mixpanel';
 import { Routes } from '../../router/models';
-import { AnalyticsEvent } from '../../store/analytics/models';
 import { resetPassword, signIn } from '../../store/auth/actions';
 import { selectAuthLoading } from '../../store/auth/selectors';
 import { navigate } from '../../store/navigation/actions';
@@ -64,15 +62,11 @@ export const SignIn = ({}: SignInProps): ReactElement => {
   }, []);
 
   const onForgotPasswordPress = useCallback(() => {
-    mixpanel.track(AnalyticsEvent.resetPassword, { email });
-
     dispatch(resetPassword.request({ email }));
   }, [dispatch, email]);
 
   const onSubmit = useCallback(() => {
     if (!isSignInDisabled) {
-      mixpanel.track(AnalyticsEvent.signIn, { email });
-
       dispatch(signIn.request({ email, password }));
     }
   }, [dispatch, email, password, isSignInDisabled]);

@@ -12,8 +12,6 @@ import {
 import { renderComponent } from '../../testUtils/renderComponent';
 import { initialState } from '../../store/reducers';
 import { resetPassword, signUp } from '../../store/auth/actions';
-import { mixpanel } from '../../mixpanel';
-import { AnalyticsEvent } from '../../store/analytics/models';
 import { Routes } from '../../router/models';
 import { navigate } from '../../store/navigation/actions';
 
@@ -50,9 +48,6 @@ describe('SignUp', () => {
     const signUpButton = getByLabelText(SIGN_UP_SUBMIT_BUTTON_LABEL);
     fireEvent.press(signUpButton);
 
-    expect(mixpanel.track).toHaveBeenCalledWith(AnalyticsEvent.signUp, {
-      email,
-    });
     expect(store.dispatch).toHaveBeenCalledWith(
       signUp.request({ username, email, password }),
     );
@@ -72,9 +67,6 @@ describe('SignUp', () => {
     );
     fireEvent.press(forgotPasswordButton);
 
-    expect(mixpanel.track).toHaveBeenCalledWith(AnalyticsEvent.resetPassword, {
-      email,
-    });
     expect(store.dispatch).toHaveBeenCalledWith(
       resetPassword.request({ email }),
     );

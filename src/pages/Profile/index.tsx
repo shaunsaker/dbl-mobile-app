@@ -8,8 +8,6 @@ import { PrimaryButton } from '../../components/PrimaryButton';
 import { TextButton } from '../../components/TextButton';
 import { TextInput } from '../../components/TextInput';
 import { Typography } from '../../components/Typography';
-import { mixpanel } from '../../mixpanel';
-import { AnalyticsEvent } from '../../store/analytics/models';
 import { signOut } from '../../store/auth/actions';
 import { updateUserProfile } from '../../store/userProfile/actions';
 import {
@@ -37,10 +35,8 @@ export const Profile = ({}: ProfileProps): ReactElement => {
   }, []);
 
   const onSignOutPress = useCallback(() => {
-    mixpanel.track(AnalyticsEvent.signOut, { email: userEmail });
-
     dispatch(signOut.request());
-  }, [dispatch, userEmail]);
+  }, [dispatch]);
 
   const onSubmit = useCallback(() => {
     dispatch(updateUserProfile.request({ username }));

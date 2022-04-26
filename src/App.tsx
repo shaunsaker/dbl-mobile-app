@@ -7,7 +7,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Router } from './router';
 import { persistor, store } from './store';
 import { sentry } from './sentry';
-import './mixpanel';
 import { firebase } from '@react-native-firebase/app-check';
 import { Platform } from 'react-native';
 

@@ -21,14 +21,3 @@ jest.mock('@sentry/react-native', () => ({
 
   captureException: () => {},
 }));
-
-jest.mock('mixpanel-react-native', () => ({
-  __esModule: true,
-  default: () => jest.fn(),
-  Mixpanel: jest.fn(() => ({
-    init: jest.fn(),
-    identify: jest.fn(),
-    setLoggingEnabled: jest.fn(),
-    track: jest.fn(),
-  })),
-}));

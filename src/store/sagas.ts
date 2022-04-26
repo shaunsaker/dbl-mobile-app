@@ -7,7 +7,6 @@ import { selectIsAuthenticated } from './auth/selectors';
 import { navigationFlow } from './navigation/flow';
 import { snackbarsFlow } from './snackbars/flow';
 import { createUserFlow, userProfileFlow } from './userProfile/flow';
-import { analyticsFlow } from './analytics/flow';
 import { lotsFlow } from './lots/flow';
 import { ticketsFlow } from './tickets/flow';
 import { notificationsFlow } from './notifications/flow';
@@ -25,7 +24,6 @@ function* omnipresentFlows() {
 function* authenticatedFlows() {
   const isAuthenticated = yield* select(selectIsAuthenticated);
   if (isAuthenticated) {
-    yield fork(analyticsFlow);
     yield fork(btcRateFlow);
     yield fork(invoicesFlow);
     yield fork(lotsFlow);
