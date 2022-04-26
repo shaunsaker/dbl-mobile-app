@@ -1,6 +1,10 @@
 import { LotId } from '../lots/models';
 import { ApplicationState } from '../reducers';
 
+export const selectUserProfileDataLoading = (state: ApplicationState) => {
+  return state.userProfile.loading;
+};
+
 export const selectUserProfileData = (state: ApplicationState) => {
   if (!state.userProfile.data) {
     return null;
@@ -44,4 +48,23 @@ export const selectUserWinningByLotId = (
   }
 
   return winnings[lotId];
+};
+
+export const selectUserTestimonials = (state: ApplicationState) => {
+  const data = selectUserProfileData(state);
+
+  return data?.testimonials;
+};
+
+export const selectUserTestimonialByLotId = (
+  state: ApplicationState,
+  lotId: LotId,
+) => {
+  const testimonials = selectUserTestimonials(state);
+
+  if (!testimonials) {
+    return null;
+  }
+
+  return testimonials[lotId];
 };

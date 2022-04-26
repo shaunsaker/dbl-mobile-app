@@ -9,6 +9,7 @@ import { useLinking } from '../../components/useLinking';
 import { RouteProps, Routes } from '../../router/models';
 import { ApplicationState } from '../../store/reducers';
 import { selectUserWinningByLotId } from '../../store/userProfile/selectors';
+import { TestimonialInput } from './TestimonialInput';
 
 interface WinnerProps extends RouteProps<Routes.winner> {}
 
@@ -41,9 +42,13 @@ export const Winner = ({ route }: WinnerProps): ReactElement => {
         <PrimaryButton onPress={onWithdrawPress}>
           SET UP WITHDRAWAL
         </PrimaryButton>
+
+        <TestimonialInput lotId={lotId} />
       </Container>
     </Page>
   );
 };
 
-const Container = styled.View``;
+const Container = styled.View`
+  flex: 1;
+`;

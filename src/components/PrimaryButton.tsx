@@ -1,4 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
+import { ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
 import { BORDER_RADIUS } from '../theme/borderRadius';
 import { colors } from '../theme/colors';
@@ -14,6 +15,7 @@ interface PrimaryButtonProps
     ContainerProps {
   children: ReactNode;
   disabled?: boolean;
+  loading?: boolean;
   onPress?: () => void;
 }
 
@@ -21,13 +23,18 @@ export const PrimaryButton = ({
   children,
   small,
   disabled,
+  loading,
   ...props
 }: PrimaryButtonProps): ReactElement => {
   return (
     <Container disabled={disabled} {...props}>
-      <Typography bold center small={small}>
-        {children}
-      </Typography>
+      {loading ? (
+        <ActivityIndicator size="small" />
+      ) : (
+        <Typography bold center small={small}>
+          {children}
+        </Typography>
+      )}
     </Container>
   );
 };
