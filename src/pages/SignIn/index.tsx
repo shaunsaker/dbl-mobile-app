@@ -1,9 +1,10 @@
 import React, { ReactElement, useCallback, useRef } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { Keyboard, ScrollView, TextInput as RNTextInput } from 'react-native';
+import { Keyboard, TextInput as RNTextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { InputContainer } from '../../components/InputContainer';
 import { LoadingModal } from '../../components/LoadingModal';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
@@ -82,12 +83,8 @@ export const SignIn = ({}: SignInProps): ReactElement => {
 
   return (
     <Page>
-      <ScrollView
-        style={{ flex: 1 }}
-        contentContainerStyle={{ flex: 1, justifyContent: 'center' }}
-        keyboardShouldPersistTaps="handled"
-      >
-        <ContentContainer>
+      <InputContainer>
+        <Container>
           <StyledImage source={0} />
 
           <Typography large bold center>
@@ -143,15 +140,15 @@ export const SignIn = ({}: SignInProps): ReactElement => {
           >
             Sign up instead?
           </TextButton>
-        </ContentContainer>
-      </ScrollView>
+        </Container>
+      </InputContainer>
 
       {isAuthLoading && <LoadingModal />}
     </Page>
   );
 };
 
-const ContentContainer = styled.View`
+const Container = styled.View`
   flex: 1;
   justify-content: center;
   padding: ${RHYTHM}px;

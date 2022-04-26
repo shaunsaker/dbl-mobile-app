@@ -14,6 +14,7 @@ export enum Routes {
   results = 'Results',
   result = 'Result',
   winner = 'Winner',
+  profile = 'Profile',
 }
 
 export type RouteStackParamList = {
@@ -34,6 +35,7 @@ export type RouteStackParamList = {
   [Routes.winner]: {
     lotId: LotId;
   };
+  [Routes.profile]: undefined;
 };
 
 type ScreenNavigationProps<T extends Routes> = StackNavigationProp<

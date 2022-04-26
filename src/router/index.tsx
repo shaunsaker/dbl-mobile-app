@@ -23,6 +23,7 @@ import { CustomDrawer } from '../components/CustomDrawer';
 import { Results } from '../pages/Results';
 import { Result } from '../pages/Result';
 import { Winner } from '../pages/Winner';
+import { Profile } from '../pages/Profile';
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -53,6 +54,8 @@ const HomeScreens = () => (
     <Drawer.Screen name={Routes.home} component={Home} />
 
     <Drawer.Screen name={Routes.results} component={Results} />
+
+    <Drawer.Screen name={Routes.profile} component={Profile} />
   </Drawer.Navigator>
 );
 

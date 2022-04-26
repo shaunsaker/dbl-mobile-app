@@ -1,7 +1,7 @@
 import React, { ReactElement, useCallback, useState } from 'react';
-import { ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
+import { InputContainer } from '../../../components/InputContainer';
 import { PrimaryButton } from '../../../components/PrimaryButton';
 import { TextInput } from '../../../components/TextInput';
 import { Typography } from '../../../components/Typography';
@@ -56,11 +56,7 @@ export const TestimonialInput = ({
   }, [dispatch, userTestimonials, lotId, testimonial]);
 
   return (
-    <ScrollView
-      style={{ flex: 1 }}
-      contentContainerStyle={{ flex: 1 }}
-      keyboardShouldPersistTaps="handled"
-    >
+    <InputContainer>
       <Container>
         <Typography>
           Would you mind writing a short testimonial to let other's know that
@@ -87,7 +83,7 @@ export const TestimonialInput = ({
           SUBMIT TESTIMONIAL
         </PrimaryButton>
       </Container>
-    </ScrollView>
+    </InputContainer>
   );
 };
 
