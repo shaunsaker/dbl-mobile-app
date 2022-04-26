@@ -6,10 +6,12 @@ import {
 } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useSelector } from 'react-redux';
-import { selectIsAuthenticated } from '../store/auth/selectors';
+import {
+  selectHasUserSignedUp,
+  selectIsAuthenticated,
+} from '../store/auth/selectors';
 import { SignIn } from '../pages/SignIn';
 import { Routes, RouteStackParamList } from './models';
-import { selectUsername } from '../store/userProfile/selectors';
 import { SignUp } from '../pages/SignUp';
 import { Home } from '../pages/Home';
 import { Onboarding } from '../pages/Onboarding';
@@ -58,7 +60,7 @@ const HomeScreens = () => (
 
 export const Router = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
-  const hasSignedUp = Boolean(useSelector(selectUsername));
+  const hasSignedUp = useSelector(selectHasUserSignedUp);
 
   useEffect(() => {
     enableScreens();
