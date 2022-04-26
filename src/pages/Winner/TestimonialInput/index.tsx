@@ -52,7 +52,12 @@ export const TestimonialInput = ({
       },
     };
 
-    dispatch(updateUserProfile.request({ testimonials: newTestimonials }));
+    dispatch(
+      updateUserProfile.request({
+        data: { testimonials: newTestimonials },
+        showSnackbar: true,
+      }),
+    );
   }, [dispatch, userTestimonials, lotId, testimonial]);
 
   return (

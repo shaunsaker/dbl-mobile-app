@@ -93,18 +93,20 @@ export function* updateUserProfileFlow(): SagaIterator {
     ): SagaIterator {
       try {
         yield* call(firebaseUpdateUserProfile, {
-          ...action.payload,
+          ...action.payload.data,
         });
 
         yield put(updateUserProfile.success());
 
-        yield put(
-          showSnackbar({
-            type: SnackbarType.success,
-            title: 'Success',
-            description: 'We successfully updated your profile.',
-          }),
-        );
+        if (action.payload.showSnackbar) {
+          yield put(
+            showSnackbar({
+              type: SnackbarType.success,
+              title: 'Success',
+              description: 'We successfully updated your profile.',
+            }),
+          );
+        }
       } catch (error) {
         yield* call(errorSaga, error, updateUserProfile.failure);
       }

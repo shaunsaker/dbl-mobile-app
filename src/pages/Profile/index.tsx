@@ -39,7 +39,9 @@ export const Profile = ({}: ProfileProps): ReactElement => {
   }, [dispatch]);
 
   const onSubmit = useCallback(() => {
-    dispatch(updateUserProfile.request({ username }));
+    dispatch(
+      updateUserProfile.request({ data: { username }, showSnackbar: true }),
+    );
   }, [dispatch, username]);
 
   return (

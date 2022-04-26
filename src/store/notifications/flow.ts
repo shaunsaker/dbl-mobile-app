@@ -34,7 +34,12 @@ export function* notificationsSetupFlow(): SagaIterator {
           if (!savedFcmTokens.includes(deviceFcmToken)) {
             // if it's different to what's in user profile data, save it
             const newFcmTokens = [...savedFcmTokens, deviceFcmToken];
-            yield put(updateUserProfile.request({ fcmTokens: newFcmTokens }));
+            yield put(
+              updateUserProfile.request({
+                data: { fcmTokens: newFcmTokens },
+                showSnackbar: false,
+              }),
+            );
           }
 
           // register for the winner topic

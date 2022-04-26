@@ -40,7 +40,9 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
   );
 
   const markCompletedOnboarding = useCallback(() => {
-    dispatch(updateUserProfile.request({ hasCompletedOnboarding: true }));
+    dispatch(
+      updateUserProfile.request({ data: { hasCompletedOnboarding: true } }),
+    );
   }, [dispatch]);
 
   const onSubmitPress = useCallback(

@@ -17,4 +17,4 @@ export const updateUserProfile = createAsyncAction(
   'USER_PROFILE/updateUserProfileRequest',
   'USER_PROFILE/updateUserProfileSuccess',
   'USER_PROFILE/updateUserProfileFailure',
-)<Partial<UserProfileData>, void, Error>();
+)<{ data: Partial<UserProfileData>; showSnackbar?: boolean }, void, Error>();
