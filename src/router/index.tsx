@@ -9,10 +9,7 @@ import { useSelector } from 'react-redux';
 import { selectIsAuthenticated } from '../store/auth/selectors';
 import { SignIn } from '../pages/SignIn';
 import { Routes, RouteStackParamList } from './models';
-import {
-  selectHasCompletedOnboarding,
-  selectUsername,
-} from '../store/userProfile/selectors';
+import { selectUsername } from '../store/userProfile/selectors';
 import { SignUp } from '../pages/SignUp';
 import { Home } from '../pages/Home';
 import { Onboarding } from '../pages/Onboarding';
@@ -62,7 +59,6 @@ const HomeScreens = () => (
 export const Router = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const hasSignedUp = Boolean(useSelector(selectUsername));
-  const hasCompletedOnboarding = useSelector(selectHasCompletedOnboarding);
 
   useEffect(() => {
     enableScreens();
@@ -78,10 +74,6 @@ export const Router = () => {
         >
           {isAuthenticated ? (
             <Stack.Group key="authenticatedScreens">
-              {!hasCompletedOnboarding && (
-                <Stack.Screen name={Routes.onboarding} component={Onboarding} />
-              )}
-
               <Stack.Screen name={Routes.drawer} component={HomeScreens} />
 
               <Stack.Group
@@ -90,6 +82,8 @@ export const Router = () => {
                   presentation: 'transparentModal',
                 }}
               >
+                <Stack.Screen name={Routes.onboarding} component={Onboarding} />
+
                 <Stack.Screen
                   name={Routes.reserveTickets}
                   component={ReserveTickets}
