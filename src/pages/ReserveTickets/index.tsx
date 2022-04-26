@@ -17,7 +17,7 @@ import { ApplicationState } from '../../store/reducers';
 import { selectConfirmedActiveLotTickets } from '../../store/tickets/selectors';
 import { maybePluralise } from '../../utils/maybePluralise';
 import { numberToDigits } from '../../utils/numberToDigits';
-import { getTicketOdds } from './getTicketOdds';
+import { getTicketOdds } from '../../utils/getTicketOdds';
 
 interface ReserveTicketsProps {}
 

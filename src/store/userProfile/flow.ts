@@ -16,7 +16,6 @@ import { getTimeAsISOString } from '../../utils/getTimeAsISOString';
 import { select } from '../../utils/typedSelect';
 import { signOut, signUp } from '../auth/actions';
 import { selectUid } from '../auth/selectors';
-import { LotId } from '../lots/models';
 import { navigate } from '../navigation/actions';
 import { showSnackbar } from '../snackbars/actions';
 import { SnackbarType } from '../snackbars/models';

@@ -6,6 +6,7 @@ import { LotStats } from '../../components/LotStats';
 import { MyTickets } from '../../components/MyTickets';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
+import { ShareLot } from '../../components/ShareLot';
 import { Routes } from '../../router/models';
 import { selectActiveLotId } from '../../store/lots/selectors';
 import { navigate } from '../../store/navigation/actions';
@@ -34,6 +35,10 @@ export const Home = ({}: HomeProps): ReactElement => {
         <MyTickets lotId={activeLotId} />
 
         <PrimaryButton onPress={onBuyTicketsPress}>BUY TICKETS</PrimaryButton>
+
+        <ShareLotContainer>
+          <ShareLot lotId={activeLotId} />
+        </ShareLotContainer>
       </Container>
     </Page>
   );
@@ -41,4 +46,10 @@ export const Home = ({}: HomeProps): ReactElement => {
 
 const Container = styled.View`
   flex: 1;
+`;
+
+const ShareLotContainer = styled.View`
+  position: absolute;
+  bottom: 0;
+  right: 0;
 `;
