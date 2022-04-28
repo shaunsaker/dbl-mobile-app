@@ -41,7 +41,7 @@ export const ShareLot = ({ lotId }: ShareLotProps): ReactElement => {
       isLotActive ? 'has been' : 'was'
     } purchased. Your odds of winning would ${
       isLotActive ? 'be' : 'have been'
-    } 1 in ${ticketOdds}!`;
+    } ${ticketOdds}%!`;
 
     share({ title, subject, message, url });
   }, [share, lot]);

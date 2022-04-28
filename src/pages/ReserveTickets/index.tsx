@@ -137,7 +137,7 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
         </Typography>
 
         <Typography>
-          Your odds would be 1 in {ticketOdds || 'Infinity'}
+          Your odds of winning would be {ticketOdds || 'Infinity'}%
         </Typography>
 
         <PrimaryButton disabled={isSubmitDisabled} onPress={onSubmitPress}>

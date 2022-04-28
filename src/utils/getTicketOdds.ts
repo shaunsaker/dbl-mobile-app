@@ -1,3 +1,4 @@
+// returns the % chance a user will win
 export const getTicketOdds = ({
   newUserTicketCount,
   existingUserTicketCount,
@@ -7,23 +8,18 @@ export const getTicketOdds = ({
   existingUserTicketCount: number;
   totalLotTicketCount: number;
 }): number => {
-  if (!newUserTicketCount) {
-    return 0;
-  }
-
   if (!newUserTicketCount && !existingUserTicketCount) {
     return 0;
   }
 
   if (!totalLotTicketCount) {
-    return 1;
+    return 100;
   }
 
-  const newTotalTicketCount = totalLotTicketCount + 1;
+  const ticketOdds =
+    100 *
+    ((newUserTicketCount + existingUserTicketCount) /
+      (totalLotTicketCount + newUserTicketCount));
 
-  const ticketOdds = Math.round(
-    newTotalTicketCount / (newUserTicketCount + existingUserTicketCount),
-  );
-
-  return ticketOdds;
+  return Math.round(ticketOdds);
 };
