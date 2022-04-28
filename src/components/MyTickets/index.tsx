@@ -2,6 +2,7 @@ import React, { ReactElement, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { LotId } from '../../store/lots/models';
+import { selectActiveLotId } from '../../store/lots/selectors';
 import { ApplicationState } from '../../store/reducers';
 import { fetchTickets } from '../../store/tickets/actions';
 import { selectTicketsByLotId } from '../../store/tickets/selectors';
@@ -17,6 +18,8 @@ interface MyTicketsProps {
 export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
   const dispatch = useDispatch();
 
+  const isActiveLot = useSelector(selectActiveLotId) === lotId;
+
   const tickets = useSelector((state: ApplicationState) =>
     selectTicketsByLotId(state, lotId),
   );
@@ -27,11 +30,12 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
     ? sortArrayOfObjectsByKey(tickets, 'dateCreated', true)
     : [];
 
-  const userHasActiveLotTickets = tickets && !isObjectEmpty(tickets);
+  const userHasTickets = tickets && !isObjectEmpty(tickets);
 
   useLayoutEffect(
     () => {
-      if (!tickets || !tickets.length) {
+      // we only fetch tickets for lot results because we sync on active lot tickets
+      if (!isActiveLot) {
         dispatch(fetchTickets.request({ lotId }));
       }
     },
@@ -43,7 +47,7 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
     <Container>
       <Typography bold>My Tickets</Typography>
 
-      {userHasActiveLotTickets ? (
+      {userHasTickets ? (
         sortedTicketsArray.map(ticket => <Ticket key={ticket.id} {...ticket} />)
       ) : (
         <Typography>You have no tickets, shame on you!</Typography>
