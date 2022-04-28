@@ -11,6 +11,7 @@ import { OnboardingThree } from './OnboardingThree';
 import { Page } from '../../components/Page';
 import { RHYTHM } from '../../theme/rhythm';
 import { updateUserProfile } from '../../store/userProfile/actions';
+import { navigateBack } from '../../store/navigation/actions';
 
 const SLIDES = [OnboardingOne, OnboardingTwo, OnboardingThree];
 
@@ -43,6 +44,8 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
     dispatch(
       updateUserProfile.request({ data: { hasCompletedOnboarding: true } }),
     );
+
+    dispatch(navigateBack());
   }, [dispatch]);
 
   const onSubmitPress = useCallback(
