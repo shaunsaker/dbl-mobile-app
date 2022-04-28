@@ -3,9 +3,9 @@ import { ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { BlockchainAddress } from '../../components/BlockchainAddress';
+import { CloseButton } from '../../components/CloseButton';
 import { CopyIcon } from '../../components/CopyIcon';
 import { CountdownTimer } from '../../components/CountdownTimer';
-import { HeaderBar } from '../../components/HeaderBar';
 import { Page } from '../../components/Page';
 import { Payments } from '../../components/Payments';
 import { Typography } from '../../components/Typography';
@@ -126,15 +126,23 @@ export const Invoice = ({ route }: InvoiceProps): ReactElement => {
 
   return (
     <Page>
-      <HeaderBar showBackButton />
-
       <Container>
         {renderContent()}
 
         {!hasInvoiceExpired && <Payments lotId={lotId} invoiceId={invoiceId} />}
       </Container>
+
+      <CloseButtonContainer>
+        <CloseButton />
+      </CloseButtonContainer>
     </Page>
   );
 };
 
 const Container = styled.View``;
+
+const CloseButtonContainer = styled.View`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;

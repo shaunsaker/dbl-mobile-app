@@ -43,7 +43,7 @@ export const navigateInternal = (
 const Stack = createStackNavigator<RouteStackParamList>();
 const Drawer = createDrawerNavigator<RouteStackParamList>();
 
-const HomeScreens = () => (
+const DrawerScreens = () => (
   <Drawer.Navigator
     screenOptions={{
       headerShown: false,
@@ -76,7 +76,7 @@ export const Router = () => {
         >
           {isAuthenticated ? (
             <Stack.Group key="authenticatedScreens">
-              <Stack.Screen name={Routes.drawer} component={HomeScreens} />
+              <Stack.Screen name={Routes.drawer} component={DrawerScreens} />
 
               <Stack.Group
                 key="modals"

@@ -1,21 +1,18 @@
 import React, { createRef, ReactElement, useCallback, useState } from 'react';
 import styled from 'styled-components/native';
 import PagerView from 'react-native-pager-view';
-import { CustomTouchableOpacity } from '../../components/CustomTouchableOpacity';
-import CloseIcon from '../../icons/close.svg';
-import { colors } from '../../theme/colors';
 import { useDispatch } from 'react-redux';
 import { OnboardingOne } from './OnboardingOne';
 import { OnboardingTwo } from './OnboardingTwo';
 import { OnboardingThree } from './OnboardingThree';
 import { Page } from '../../components/Page';
-import { RHYTHM } from '../../theme/rhythm';
 import { updateUserProfile } from '../../store/userProfile/actions';
 import { navigateBack } from '../../store/navigation/actions';
+import { CustomTouchableOpacity } from '../../components/CustomTouchableOpacity';
+import { CloseButton } from '../../components/CloseButton';
+import { colors } from '../../theme/colors';
 
 const SLIDES = [OnboardingOne, OnboardingTwo, OnboardingThree];
-
-const CLOSE_ICON_SIZE = 24;
 
 interface OnboardingProps {}
 
@@ -73,14 +70,6 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
         ))}
       </StyledPagerView>
 
-      <CloseButtonContainer onPress={onClosePress}>
-        <CloseIcon
-          width={CLOSE_ICON_SIZE}
-          height={CLOSE_ICON_SIZE}
-          fill={colors.primaryText}
-        />
-      </CloseButtonContainer>
-
       <DotsContainer>
         {SLIDES.map((_, index) => {
           return (
@@ -92,6 +81,10 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
           );
         })}
       </DotsContainer>
+
+      <CloseButtonContainer>
+        <CloseButton onPress={onClosePress} />
+      </CloseButtonContainer>
     </Page>
   );
 };
@@ -100,10 +93,10 @@ const StyledPagerView = styled(PagerView)`
   flex: 1;
 `;
 
-const CloseButtonContainer = styled(CustomTouchableOpacity)`
+const CloseButtonContainer = styled.View`
   position: absolute;
   top: 0;
-  right: ${RHYTHM}px;
+  right: 0;
 `;
 
 const DotsContainer = styled.View`

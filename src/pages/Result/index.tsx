@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/native';
-import { HeaderBar } from '../../components/HeaderBar';
+import { CloseButton } from '../../components/CloseButton';
 import { LotResult } from '../../components/LotResult';
 import { LotStats } from '../../components/LotStats';
 import { MyTickets } from '../../components/MyTickets';
@@ -15,8 +15,6 @@ export const Result = ({ route }: ResultProps): ReactElement => {
 
   return (
     <Page>
-      <HeaderBar showBackButton />
-
       <Container>
         <LotResult lotId={lotId} />
 
@@ -28,6 +26,10 @@ export const Result = ({ route }: ResultProps): ReactElement => {
           <ShareLot lotId={lotId} />
         </ShareLotContainer>
       </Container>
+
+      <CloseButtonContainer>
+        <CloseButton />
+      </CloseButtonContainer>
     </Page>
   );
 };
@@ -39,5 +41,11 @@ const Container = styled.View`
 const ShareLotContainer = styled.View`
   position: absolute;
   bottom: 0;
+  right: 0;
+`;
+
+const CloseButtonContainer = styled.View`
+  position: absolute;
+  top: 0;
   right: 0;
 `;

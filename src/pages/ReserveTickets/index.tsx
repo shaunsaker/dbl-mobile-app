@@ -1,7 +1,6 @@
 import React, { ReactElement, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { HeaderBar } from '../../components/HeaderBar';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { Typography } from '../../components/Typography';
@@ -18,6 +17,7 @@ import { selectConfirmedActiveLotTickets } from '../../store/tickets/selectors';
 import { maybePluralise } from '../../utils/maybePluralise';
 import { numberToDigits } from '../../utils/numberToDigits';
 import { getTicketOdds } from '../../utils/getTicketOdds';
+import { CloseButton } from '../../components/CloseButton';
 
 interface ReserveTicketsProps {}
 
@@ -110,8 +110,6 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
 
   return (
     <Page>
-      <HeaderBar showBackButton />
-
       <Container>
         <Typography>How many tickets would you like to buy?</Typography>
 
@@ -143,9 +141,19 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
         <PrimaryButton disabled={isSubmitDisabled} onPress={onSubmitPress}>
           {loading ? 'RESERVING YOUR TICKETS' : 'RESERVE TICKETS'}
         </PrimaryButton>
+
+        <CloseButtonContainer>
+          <CloseButton />
+        </CloseButtonContainer>
       </Container>
     </Page>
   );
 };
 
 const Container = styled.View``;
+
+const CloseButtonContainer = styled.View`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;

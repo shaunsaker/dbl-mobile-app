@@ -2,7 +2,7 @@ import React, { ReactElement, useCallback } from 'react';
 import Config from 'react-native-config';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { HeaderBar } from '../../components/HeaderBar';
+import { CloseButton } from '../../components/CloseButton';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { Typography } from '../../components/Typography';
@@ -49,8 +49,6 @@ export const Winner = ({ route }: WinnerProps): ReactElement => {
 
   return (
     <Page>
-      <HeaderBar showBackButton />
-
       <Container>
         <Typography>Holy shit, you just won 🎉</Typography>
 
@@ -64,10 +62,20 @@ export const Winner = ({ route }: WinnerProps): ReactElement => {
 
         <PrimaryButton onPress={onSharePress}>SHARE YOUR WIN</PrimaryButton>
       </Container>
+
+      <CloseButtonContainer>
+        <CloseButton />
+      </CloseButtonContainer>
     </Page>
   );
 };
 
 const Container = styled.View`
   flex: 1;
+`;
+
+const CloseButtonContainer = styled.View`
+  position: absolute;
+  top: 0;
+  right: 0;
 `;
