@@ -1,8 +1,9 @@
-import React, { ReactElement } from 'react';
-import { useSelector } from 'react-redux';
+import React, { ReactElement, useLayoutEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { LotId } from '../../store/lots/models';
 import { ApplicationState } from '../../store/reducers';
+import { fetchTickets } from '../../store/tickets/actions';
 import { selectTicketsByLotId } from '../../store/tickets/selectors';
 import { isObjectEmpty } from '../../utils/isObjectEmpty';
 import { sortArrayOfObjectsByKey } from '../../utils/sortArrayOfObjectsByKey';
@@ -14,6 +15,8 @@ interface MyTicketsProps {
 }
 
 export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
+  const dispatch = useDispatch();
+
   const tickets = useSelector((state: ApplicationState) =>
     selectTicketsByLotId(state, lotId),
   );
@@ -25,6 +28,16 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
     : [];
 
   const userHasActiveLotTickets = tickets && !isObjectEmpty(tickets);
+
+  useLayoutEffect(
+    () => {
+      if (!tickets || !tickets.length) {
+        dispatch(fetchTickets.request({ lotId }));
+      }
+    },
+    // eslint-disable-next-line
+    [],
+  );
 
   return (
     <Container>

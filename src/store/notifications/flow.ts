@@ -23,7 +23,6 @@ function* registerDeviceForNotificationsFlow(
 ): SagaIterator {
   // get the fcm token
   const deviceFcmToken = yield* call(firebaseGetMessagingToken);
-  console.log('HERE', deviceFcmToken);
   const savedFcmTokens = fcmTokens;
 
   if (!savedFcmTokens.includes(deviceFcmToken)) {
