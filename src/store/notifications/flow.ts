@@ -10,6 +10,39 @@ import { call } from '../../utils/call';
 import { errorSaga } from '../../utils/errorSaga';
 import { fetchUserProfile, updateUserProfile } from '../userProfile/actions';
 
+function* requestNotificationPermissionFlow(): SagaIterator {
+  const authorisationStatus = yield* call(firebaseRequestMessagingPermission);
+
+  return (
+    authorisationStatus === firebase.messaging.AuthorizationStatus.AUTHORIZED
+  );
+}
+
+function* registerDeviceForNotificationsFlow(
+  fcmTokens: string[] = [],
+): SagaIterator {
+  // get the fcm token
+  const deviceFcmToken = yield* call(firebaseGetMessagingToken);
+  console.log('HERE', deviceFcmToken);
+  const savedFcmTokens = fcmTokens;
+
+  if (!savedFcmTokens.includes(deviceFcmToken)) {
+    // if it's different to what's in user profile data, save it
+    const newFcmTokens = [...savedFcmTokens, deviceFcmToken];
+    yield put(
+      updateUserProfile.request({
+        data: { fcmTokens: newFcmTokens },
+        showSnackbar: false,
+      }),
+    );
+  }
+}
+
+function* subscribeDeviceToNotificationTopicsFlow(): SagaIterator {
+  // register for the winner topic
+  yield* call(firebaseSubscribeToMessagingTopic, FirebaseMessagingTopic.winner);
+}
+
 export function* notificationsSetupFlow(): SagaIterator {
   yield takeLatest(
     getType(fetchUserProfile.success),
@@ -19,37 +52,21 @@ export function* notificationsSetupFlow(): SagaIterator {
       try {
         // once we have the user profile data
         // request notifications permission if need be
-        const authorisationStatus = yield* call(
-          firebaseRequestMessagingPermission,
+        const hasNotificationsPermission = yield* call(
+          requestNotificationPermissionFlow,
         );
 
-        if (
-          authorisationStatus ===
-          firebase.messaging.AuthorizationStatus.AUTHORIZED
-        ) {
-          // get the fcm token
-          const deviceFcmToken = yield* call(firebaseGetMessagingToken);
-          const savedFcmTokens = action.payload.data.fcmTokens || [];
-
-          if (!savedFcmTokens.includes(deviceFcmToken)) {
-            // if it's different to what's in user profile data, save it
-            const newFcmTokens = [...savedFcmTokens, deviceFcmToken];
-            yield put(
-              updateUserProfile.request({
-                data: { fcmTokens: newFcmTokens },
-                showSnackbar: false,
-              }),
-            );
-          }
-
-          // register for the winner topic
-          yield* call(
-            firebaseSubscribeToMessagingTopic,
-            FirebaseMessagingTopic.winner,
-          );
-        } else {
-          // don't do anything, if the user doesn't want notifications, that's their prerogative
+        if (!hasNotificationsPermission) {
+          // fail silently
+          return;
         }
+
+        yield* call(
+          registerDeviceForNotificationsFlow,
+          action.payload.data.fcmTokens,
+        );
+
+        yield* call(subscribeDeviceToNotificationTopicsFlow);
       } catch (error) {
         yield* call(errorSaga, error);
       }
