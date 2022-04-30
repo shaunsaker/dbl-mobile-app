@@ -1,11 +1,15 @@
 import React, { ReactElement, useLayoutEffect } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { LotId } from '../../store/lots/models';
 import { selectActiveLotId } from '../../store/lots/selectors';
 import { ApplicationState } from '../../store/reducers';
 import { fetchTickets } from '../../store/tickets/actions';
-import { selectTicketsByLotId } from '../../store/tickets/selectors';
+import {
+  selectTicketsByLotId,
+  selectTicketsDataLoading,
+} from '../../store/tickets/selectors';
 import { isObjectEmpty } from '../../utils/isObjectEmpty';
 import { sortArrayOfObjectsByKey } from '../../utils/sortArrayOfObjectsByKey';
 import { Typography } from '../Typography';
@@ -19,7 +23,7 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
   const dispatch = useDispatch();
 
   const isActiveLot = useSelector(selectActiveLotId) === lotId;
-
+  const loading = useSelector(selectTicketsDataLoading);
   const tickets = useSelector((state: ApplicationState) =>
     selectTicketsByLotId(state, lotId),
   );
@@ -47,7 +51,9 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
     <Container>
       <Typography bold>My Tickets</Typography>
 
-      {userHasTickets ? (
+      {loading ? (
+        <ActivityIndicator size="small" />
+      ) : userHasTickets ? (
         sortedTicketsArray.map(ticket => <Ticket key={ticket.id} {...ticket} />)
       ) : (
         <Typography>You have no tickets, shame on you!</Typography>

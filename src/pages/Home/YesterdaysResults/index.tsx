@@ -39,7 +39,9 @@ export const YesterdaysResults =
       <Container>
         <Typography bold>Yesterday's Results</Typography>
 
-        {yesterdaysLotId ? (
+        {loading ? (
+          <ActivityIndicator size="small" />
+        ) : yesterdaysLotId ? (
           <>
             <LotResult lotId={yesterdaysLotId} onPress={onLotPress} />
 
@@ -47,8 +49,6 @@ export const YesterdaysResults =
               <Typography bold>View More Results</Typography>
             </CustomTouchableOpacity>
           </>
-        ) : loading ? (
-          <ActivityIndicator size="small" />
         ) : (
           <Typography>No Results Yet</Typography>
         )}
