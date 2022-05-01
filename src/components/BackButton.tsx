@@ -1,19 +1,19 @@
 import React, { ReactElement } from 'react';
 import styled from 'styled-components/native';
-import CloseIcon from '../icons/close.svg';
+import ChevronLeftIcon from '../icons/chevron-left.svg';
 import { colors } from '../theme/colors';
 import { CustomTouchableOpacity } from './CustomTouchableOpacity';
 
 const ICON_SIZE = 24;
 
-interface CloseButtonProps {
+interface BackButtonPropsProps {
   onPress: () => void;
 }
 
-export const CloseButton = ({ onPress }: CloseButtonProps): ReactElement => {
+export const BackButton = ({ onPress }: BackButtonPropsProps): ReactElement => {
   return (
     <Container onPress={onPress}>
-      <CloseIcon
+      <ChevronLeftIcon
         width={ICON_SIZE}
         height={ICON_SIZE}
         fill={colors.primaryText}

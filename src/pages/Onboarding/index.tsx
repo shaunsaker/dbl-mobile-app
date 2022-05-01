@@ -10,6 +10,8 @@ import { CustomTouchableOpacity } from '../../components/CustomTouchableOpacity'
 import { CloseButton } from '../../components/CloseButton';
 import { colors } from '../../theme/colors';
 import { setHasCompletedOnboarding } from '../../store/onboarding/actions';
+import { BackButton } from '../../components/BackButton';
+import { navigateBack } from '../../store/navigation/actions';
 
 const SLIDES = [OnboardingOne, OnboardingTwo, OnboardingThree];
 
@@ -21,6 +23,16 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
   const pagerViewRef = createRef<PagerView>();
 
   const [pageIndex, setPageIndex] = useState(0);
+
+  const onBackPress = useCallback(() => {
+    const isInitialSlide = pageIndex === 0;
+
+    if (isInitialSlide) {
+      dispatch(navigateBack());
+    } else {
+      pagerViewRef.current?.setPage(pageIndex - 1);
+    }
+  }, [dispatch, pageIndex, pagerViewRef]);
 
   const onPageSelected = useCallback(
     event => {
@@ -77,6 +89,10 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
         })}
       </DotsContainer>
 
+      <BackButtonContainer>
+        <BackButton onPress={onBackPress} />
+      </BackButtonContainer>
+
       <CloseButtonContainer>
         <CloseButton onPress={onClosePress} />
       </CloseButtonContainer>
@@ -86,6 +102,12 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
 
 const StyledPagerView = styled(PagerView)`
   flex: 1;
+`;
+
+const BackButtonContainer = styled.View`
+  position: absolute;
+  top: 0;
+  left: 0;
 `;
 
 const CloseButtonContainer = styled.View`

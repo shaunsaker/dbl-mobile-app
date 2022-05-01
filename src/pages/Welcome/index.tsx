@@ -25,6 +25,8 @@ export const Welcome = ({}: WelcomeProps): ReactElement => {
   return (
     <Page>
       <Container>
+        <StyledImage />
+
         <Typography large bold>
           Welcome
         </Typography>
@@ -45,6 +47,12 @@ export const Welcome = ({}: WelcomeProps): ReactElement => {
 };
 
 const Container = styled.View``;
+
+const StyledImage = styled.View`
+  width: 350px;
+  height: 311px;
+  background-color: black;
+`;
 
 const CloseButtonContainer = styled.View`
   position: absolute;
