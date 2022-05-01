@@ -108,6 +108,10 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
     );
   }, [activeLot, ticketCount, dispatch]);
 
+  const onClosePress = useCallback(() => {
+    dispatch(navigateBack());
+  }, [dispatch]);
+
   return (
     <Page>
       <Container>
@@ -143,7 +147,7 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
         </PrimaryButton>
 
         <CloseButtonContainer>
-          <CloseButton />
+          <CloseButton onPress={onClosePress} />
         </CloseButtonContainer>
       </Container>
     </Page>

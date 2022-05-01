@@ -25,12 +25,6 @@ export const selectUserEmail = (state: ApplicationState) => {
   return data?.email;
 };
 
-export const selectHasCompletedOnboarding = (state: ApplicationState) => {
-  const data = selectUserProfileData(state);
-
-  return data?.hasCompletedOnboarding;
-};
-
 export const selectUserWinnings = (state: ApplicationState) => {
   const data = selectUserProfileData(state);
 

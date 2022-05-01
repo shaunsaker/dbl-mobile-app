@@ -1,6 +1,6 @@
 import React, { ReactElement, useCallback } from 'react';
 import Config from 'react-native-config';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { CloseButton } from '../../components/CloseButton';
 import { Page } from '../../components/Page';
@@ -10,6 +10,7 @@ import { useLinking } from '../../components/useLinking';
 import { useSharing } from '../../components/useSharing';
 import { RouteProps, Routes } from '../../router/models';
 import { selectLotById } from '../../store/lots/selectors';
+import { navigateBack } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
 import { selectUserWinningByLotId } from '../../store/userProfile/selectors';
 import { TestimonialInput } from './TestimonialInput';
@@ -18,6 +19,8 @@ interface WinnerProps extends RouteProps<Routes.winner> {}
 
 export const Winner = ({ route }: WinnerProps): ReactElement => {
   const { lotId } = route.params;
+
+  const dispatch = useDispatch();
 
   const { openLink } = useLinking();
 
@@ -47,6 +50,10 @@ export const Winner = ({ route }: WinnerProps): ReactElement => {
     share({ title, subject, message, url });
   }, [share, lot]);
 
+  const onClosePress = useCallback(() => {
+    dispatch(navigateBack());
+  }, [dispatch]);
+
   return (
     <Page>
       <Container>
@@ -64,7 +71,7 @@ export const Winner = ({ route }: WinnerProps): ReactElement => {
       </Container>
 
       <CloseButtonContainer>
-        <CloseButton />
+        <CloseButton onPress={onClosePress} />
       </CloseButtonContainer>
     </Page>
   );

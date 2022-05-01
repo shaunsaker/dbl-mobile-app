@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { CloseButton } from '../../components/CloseButton';
 import { LotResult } from '../../components/LotResult';
@@ -7,11 +8,18 @@ import { MyTickets } from '../../components/MyTickets';
 import { Page } from '../../components/Page';
 import { ShareLot } from '../../components/ShareLot';
 import { RouteProps, Routes } from '../../router/models';
+import { navigateBack } from '../../store/navigation/actions';
 
 interface ResultProps extends RouteProps<Routes.result> {}
 
 export const Result = ({ route }: ResultProps): ReactElement => {
   const { lotId } = route.params;
+
+  const dispatch = useDispatch();
+
+  const onClosePress = useCallback(() => {
+    dispatch(navigateBack());
+  }, [dispatch]);
 
   return (
     <Page>
@@ -28,7 +36,7 @@ export const Result = ({ route }: ResultProps): ReactElement => {
       </Container>
 
       <CloseButtonContainer>
-        <CloseButton />
+        <CloseButton onPress={onClosePress} />
       </CloseButtonContainer>
     </Page>
   );

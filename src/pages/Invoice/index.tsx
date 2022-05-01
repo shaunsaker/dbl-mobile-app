@@ -15,6 +15,7 @@ import {
   selectInvoiceById,
   selectInvoicesDataLoading,
 } from '../../store/invoices/selectors';
+import { navigateBack } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
 import { TicketStatus } from '../../store/tickets/models';
 import { selectTicketById } from '../../store/tickets/selectors';
@@ -55,6 +56,10 @@ export const Invoice = ({ route }: InvoiceProps): ReactElement => {
     // eslint-disable-next-line
     [],
   );
+
+  const onClosePress = useCallback(() => {
+    dispatch(navigateBack());
+  }, [dispatch]);
 
   const renderContent = useCallback(() => {
     if (loading) {
@@ -133,7 +138,7 @@ export const Invoice = ({ route }: InvoiceProps): ReactElement => {
       </Container>
 
       <CloseButtonContainer>
-        <CloseButton />
+        <CloseButton onPress={onClosePress} />
       </CloseButtonContainer>
     </Page>
   );

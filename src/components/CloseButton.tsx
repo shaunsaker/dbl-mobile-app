@@ -1,7 +1,5 @@
-import React, { ReactElement, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components/native';
-import { navigateBack } from '../store/navigation/actions';
 import CloseIcon from '../icons/close.svg';
 import { colors } from '../theme/colors';
 import { CustomTouchableOpacity } from './CustomTouchableOpacity';
@@ -9,22 +7,10 @@ import { CustomTouchableOpacity } from './CustomTouchableOpacity';
 const CLOSE_ICON_SIZE = 24;
 
 interface CloseButtonProps {
-  onPress?: () => void;
+  onPress: () => void;
 }
 
-export const CloseButton = ({
-  onPress: onPressCb,
-}: CloseButtonProps): ReactElement => {
-  const dispatch = useDispatch();
-
-  const onPress = useCallback(() => {
-    dispatch(navigateBack());
-
-    if (onPressCb) {
-      onPressCb();
-    }
-  }, [dispatch, onPressCb]);
-
+export const CloseButton = ({ onPress }: CloseButtonProps): ReactElement => {
   return (
     <Container onPress={onPress}>
       <CloseIcon

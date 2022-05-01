@@ -4,9 +4,10 @@ import { InvoiceId } from '../store/invoices/models';
 import { LotId } from '../store/lots/models';
 
 export enum Routes {
+  welcome = 'Welcome',
+  onboarding = 'Onboarding',
   signUp = 'Sign Up',
   signIn = 'Sign In',
-  onboarding = 'Onboarding',
   drawer = 'Drawer',
   home = 'Home',
   reserveTickets = 'Reserve Tickets',
@@ -18,9 +19,10 @@ export enum Routes {
 }
 
 export type RouteStackParamList = {
+  [Routes.welcome]: undefined;
+  [Routes.onboarding]: undefined;
   [Routes.signUp]: undefined;
   [Routes.signIn]: undefined;
-  [Routes.onboarding]: undefined;
   [Routes.drawer]: undefined;
   [Routes.home]: undefined;
   [Routes.reserveTickets]: undefined;

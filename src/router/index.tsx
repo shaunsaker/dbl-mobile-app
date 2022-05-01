@@ -23,6 +23,8 @@ import { Results } from '../pages/Results';
 import { Result } from '../pages/Result';
 import { Winner } from '../pages/Winner';
 import { Profile } from '../pages/Profile';
+import { Welcome } from '../pages/Welcome';
+import { selectHasCompletedOnboarding } from '../store/onboarding/selectors';
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -61,6 +63,14 @@ const DrawerScreens = () => (
 export const Router = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated);
   const hasSignedUp = useSelector(selectHasUserSignedUp);
+  const hasCompletedOnboarding = useSelector(selectHasCompletedOnboarding);
+  const initialRouteName = isAuthenticated
+    ? Routes.drawer
+    : !hasCompletedOnboarding
+    ? Routes.welcome
+    : hasSignedUp
+    ? Routes.signIn
+    : Routes.signUp;
 
   useEffect(() => {
     enableScreens();
@@ -73,8 +83,35 @@ export const Router = () => {
           screenOptions={{
             headerShown: false,
           }}
+          initialRouteName={initialRouteName}
         >
-          {isAuthenticated ? (
+          {!hasCompletedOnboarding && (
+            <Stack.Group key="onboardingScreens">
+              <Stack.Screen name={Routes.welcome} component={Welcome} />
+
+              <Stack.Screen name={Routes.onboarding} component={Onboarding} />
+            </Stack.Group>
+          )}
+
+          {!isAuthenticated && (
+            <Stack.Group key="unauthenticatedScreens">
+              {hasSignedUp ? (
+                <>
+                  <Stack.Screen name={Routes.signIn} component={SignIn} />
+
+                  <Stack.Screen name={Routes.signUp} component={SignUp} />
+                </>
+              ) : (
+                <>
+                  <Stack.Screen name={Routes.signUp} component={SignUp} />
+
+                  <Stack.Screen name={Routes.signIn} component={SignIn} />
+                </>
+              )}
+            </Stack.Group>
+          )}
+
+          {isAuthenticated && (
             <Stack.Group key="authenticatedScreens">
               <Stack.Screen name={Routes.drawer} component={DrawerScreens} />
 
@@ -84,8 +121,6 @@ export const Router = () => {
                   presentation: 'transparentModal',
                 }}
               >
-                <Stack.Screen name={Routes.onboarding} component={Onboarding} />
-
                 <Stack.Screen
                   name={Routes.reserveTickets}
                   component={ReserveTickets}
@@ -97,18 +132,6 @@ export const Router = () => {
 
                 <Stack.Screen name={Routes.winner} component={Winner} />
               </Stack.Group>
-            </Stack.Group>
-          ) : hasSignedUp ? (
-            <Stack.Group key="unauthenticatedScreens">
-              <Stack.Screen name={Routes.signIn} component={SignIn} />
-
-              <Stack.Screen name={Routes.signUp} component={SignUp} />
-            </Stack.Group>
-          ) : (
-            <Stack.Group key="unauthenticatedScreens">
-              <Stack.Screen name={Routes.signUp} component={SignUp} />
-
-              <Stack.Screen name={Routes.signIn} component={SignIn} />
             </Stack.Group>
           )}
         </Stack.Navigator>

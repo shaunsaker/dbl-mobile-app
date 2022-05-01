@@ -22,7 +22,7 @@ import { SnackbarType } from '../snackbars/models';
 import { fetchUserProfile, createUser, updateUserProfile } from './actions';
 import { makeUserProfileData } from './data';
 import { UserProfileData, UserWinnings } from './models';
-import { selectHasCompletedOnboarding, selectUserWinnings } from './selectors';
+import { selectUserWinnings } from './selectors';
 
 function* fetchUserProfileFlow(): SagaIterator {
   yield put(fetchUserProfile.request());
@@ -114,16 +114,6 @@ export function* updateUserProfileFlow(): SagaIterator {
   );
 }
 
-export function* checkOnboardingFlow(): SagaIterator {
-  yield takeLatest(fetchUserProfile.success, function* () {
-    const hasCompletedOnboarding = yield* select(selectHasCompletedOnboarding);
-
-    if (!hasCompletedOnboarding) {
-      yield put(navigate({ route: Routes.onboarding }));
-    }
-  });
-}
-
 export function* checkUserWinnerFlow(): SagaIterator {
   yield takeLatest(fetchUserProfile.success, function* () {
     // check if there is a winning that has not been seen
@@ -166,6 +156,5 @@ export function* checkUserWinnerFlow(): SagaIterator {
 export function* userProfileFlow(): SagaIterator {
   yield fork(fetchUserProfileFlow);
   yield fork(updateUserProfileFlow);
-  yield fork(checkOnboardingFlow);
   yield fork(checkUserWinnerFlow);
 }

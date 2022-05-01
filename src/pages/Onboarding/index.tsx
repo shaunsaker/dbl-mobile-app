@@ -6,11 +6,10 @@ import { OnboardingOne } from './OnboardingOne';
 import { OnboardingTwo } from './OnboardingTwo';
 import { OnboardingThree } from './OnboardingThree';
 import { Page } from '../../components/Page';
-import { updateUserProfile } from '../../store/userProfile/actions';
-import { navigateBack } from '../../store/navigation/actions';
 import { CustomTouchableOpacity } from '../../components/CustomTouchableOpacity';
 import { CloseButton } from '../../components/CloseButton';
 import { colors } from '../../theme/colors';
+import { setHasCompletedOnboarding } from '../../store/onboarding/actions';
 
 const SLIDES = [OnboardingOne, OnboardingTwo, OnboardingThree];
 
@@ -38,11 +37,7 @@ export const Onboarding = ({}: OnboardingProps): ReactElement => {
   );
 
   const markCompletedOnboarding = useCallback(() => {
-    dispatch(
-      updateUserProfile.request({ data: { hasCompletedOnboarding: true } }),
-    );
-
-    dispatch(navigateBack());
+    dispatch(setHasCompletedOnboarding({ hasCompletedOnboarding: true }));
   }, [dispatch]);
 
   const onSubmitPress = useCallback(
