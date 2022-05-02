@@ -8,6 +8,7 @@ export enum Routes {
   onboarding = 'Onboarding',
   signUp = 'Sign Up',
   signIn = 'Sign In',
+  forgotPassword = 'Forgot Password',
   drawer = 'Drawer',
   home = 'Home',
   reserveTickets = 'Reserve Tickets',
@@ -23,6 +24,7 @@ export type RouteStackParamList = {
   [Routes.onboarding]: undefined;
   [Routes.signUp]: undefined;
   [Routes.signIn]: undefined;
+  [Routes.forgotPassword]: { email: string };
   [Routes.drawer]: undefined;
   [Routes.home]: undefined;
   [Routes.reserveTickets]: undefined;

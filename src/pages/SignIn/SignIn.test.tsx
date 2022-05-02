@@ -10,7 +10,7 @@ import {
 } from '.';
 import { renderComponent } from '../../testUtils/renderComponent';
 import { initialState } from '../../store/reducers';
-import { resetPassword, signIn } from '../../store/auth/actions';
+import { signIn } from '../../store/auth/actions';
 import { Routes } from '../../router/models';
 import { navigate } from '../../store/navigation/actions';
 
@@ -62,7 +62,7 @@ describe('SignIn', () => {
     fireEvent.press(forgotPasswordButton);
 
     expect(store.dispatch).toHaveBeenCalledWith(
-      resetPassword.request({ email }),
+      navigate({ route: Routes.forgotPassword, props: { email } }),
     );
   });
 

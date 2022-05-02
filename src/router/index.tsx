@@ -25,6 +25,7 @@ import { Winner } from '../pages/Winner';
 import { Profile } from '../pages/Profile';
 import { Welcome } from '../pages/Welcome';
 import { selectHasCompletedOnboarding } from '../store/onboarding/selectors';
+import { ForgotPassword } from '../pages/ForgotPassword';
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -134,6 +135,11 @@ export const Router = () => {
               </Stack.Group>
             </Stack.Group>
           )}
+
+          <Stack.Screen
+            name={Routes.forgotPassword}
+            component={ForgotPassword}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>

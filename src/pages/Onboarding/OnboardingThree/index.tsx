@@ -17,6 +17,8 @@ export const OnboardingThree = ({
         Onboarding Three
       </Typography>
 
+      <StyledImage />
+
       <Typography bold>Entrancing Subheading</Typography>
 
       <Typography>Physics-defying Explanation</Typography>
@@ -27,3 +29,9 @@ export const OnboardingThree = ({
 };
 
 const Container = styled.View``;
+
+const StyledImage = styled.View`
+  width: 368px;
+  height: 368px;
+  background-color: black;
+`;

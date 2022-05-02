@@ -7,12 +7,13 @@ import styled from 'styled-components/native';
 import { InputContainer } from '../../components/InputContainer';
 import { LoadingModal } from '../../components/LoadingModal';
 import { Page } from '../../components/Page';
+import { PasswordTextInput } from '../../components/PasswordTextInput';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { TextButton } from '../../components/TextButton';
 import { TextInput } from '../../components/TextInput';
 import { Typography } from '../../components/Typography';
 import { Routes } from '../../router/models';
-import { resetPassword, signIn } from '../../store/auth/actions';
+import { signIn } from '../../store/auth/actions';
 import { selectAuthLoading } from '../../store/auth/selectors';
 import { navigate } from '../../store/navigation/actions';
 import { selectUsername } from '../../store/userProfile/selectors';
@@ -38,7 +39,6 @@ export const SignIn = ({}: SignInProps): ReactElement => {
   const [password, setPassword] = useState('');
   const isEmailValid = validateEmail(email);
   const isPasswordValid = validatePassword(password);
-  const isForgotPasswordDisabled = !isEmailValid;
   const isSignInDisabled = !isEmailValid || !isPasswordValid;
 
   const passwordInputRef = useRef<RNTextInput>(null);
@@ -62,7 +62,7 @@ export const SignIn = ({}: SignInProps): ReactElement => {
   }, []);
 
   const onForgotPasswordPress = useCallback(() => {
-    dispatch(resetPassword.request({ email }));
+    dispatch(navigate({ route: Routes.forgotPassword, props: { email } }));
   }, [dispatch, email]);
 
   const onSubmit = useCallback(() => {
@@ -101,20 +101,18 @@ export const SignIn = ({}: SignInProps): ReactElement => {
             onSubmitEditing={onSubmitEmail}
           />
 
-          <TextInput
+          <PasswordTextInput
             accessibilityLabel={SIGN_IN_PASSWORD_INPUT_LABEL}
             ref={passwordInputRef}
             label="Password*"
             placeholder="Enter your password"
             value={password}
-            secureTextEntry
             onChangeText={onChangePassword}
             onSubmitEditing={onSubmit}
           />
 
           <TextButton
             accessibilityLabel={SIGN_IN_FORGOT_PASSWORD_BUTTON_LABEL}
-            disabled={isForgotPasswordDisabled}
             onPress={onForgotPasswordPress}
           >
             Forgot Password?
