@@ -103,6 +103,7 @@ export const SignUp = ({}: SignUpProps): ReactElement => {
             placeholder="Enter your email"
             value={email}
             blurOnSubmit={false}
+            autoFocus
             onChangeText={onChangeEmail}
             onSubmitEditing={onSubmitEmail}
           />
@@ -112,7 +113,6 @@ export const SignUp = ({}: SignUpProps): ReactElement => {
             label="What should we call you?*"
             placeholder="E.g. Nighthawk, Sandra, Xolisi, Kobus"
             value={username}
-            autoFocus
             blurOnSubmit={false}
             onChangeText={onChangeUsername}
             onSubmitEditing={onSubmitUsername}
