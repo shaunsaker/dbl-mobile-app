@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "env:dev": "cp ./env/development/.env .env",
-    "env:prod": "cp ./env/production/.env .env",
+    "env:dev": "cp ./env/development/.env .env && cp ./env/development/google-services.json ./android/app/google-services.json",
+    "env:prod": "cp ./env/production/.env .env && cp ./env/production/google-services.json ./android/app/google-services.json",
     "dev:android": "react-native run-android",
     "dev:ios": "react-native run-ios",
     "start": "react-native start",
