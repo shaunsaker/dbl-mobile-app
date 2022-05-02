@@ -11,6 +11,7 @@ import { ApplicationState } from '../../store/reducers';
 import { selectLotById } from '../../store/lots/selectors';
 import { ActionButton } from '../ActionButton';
 import { maybePluralise } from '../../utils/maybePluralise';
+import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
 
 interface ShareLotProps {
   lotId: LotId;
@@ -53,4 +54,4 @@ export const ShareLot = ({ lotId }: ShareLotProps): ReactElement => {
   );
 };
 
-const Container = styled(ActionButton)``;
+const Container = styled(CustomTouchableOpacity)``;

@@ -2,19 +2,16 @@ import React, { ReactElement, useCallback, useState } from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { CustomTouchableOpacity } from '../../components/CustomTouchableOpacity';
 import { HeaderBar } from '../../components/HeaderBar';
+import { LotResult } from '../../components/LotResult';
 import { Page } from '../../components/Page';
 import { Typography } from '../../components/Typography';
-import { Routes } from '../../router/models';
 import { fetchInactiveLots } from '../../store/lots/actions';
 import { Lot } from '../../store/lots/models';
 import {
   selectInactiveLotsSortedByDate,
   selectLotsDataLoading,
 } from '../../store/lots/selectors';
-import { navigate } from '../../store/navigation/actions';
-import { getFormattedTime } from '../../utils/getFormattedTime';
 
 interface ResultsProps {}
 
@@ -51,23 +48,9 @@ export const Results = ({}: ResultsProps): ReactElement => {
     );
   }, [lots, dispatch, oldestLotDate]);
 
-  const onLotPress = useCallback(
-    (lot: Lot) => {
-      dispatch(navigate({ route: Routes.result, props: { lotId: lot.id } }));
-    },
-    [dispatch],
-  );
-
-  const renderLotResult = useCallback(
-    ({ item: lot }: { item: Lot }) => {
-      return (
-        <CustomTouchableOpacity onPress={() => onLotPress(lot)}>
-          <Typography>{getFormattedTime(lot.drawTime)}</Typography>
-        </CustomTouchableOpacity>
-      );
-    },
-    [onLotPress],
-  );
+  const renderLotResult = useCallback(({ item: lot }: { item: Lot }) => {
+    return <LotResult lotId={lot.id} />;
+  }, []);
 
   return (
     <Page>

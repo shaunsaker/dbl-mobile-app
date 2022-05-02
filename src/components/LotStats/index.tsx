@@ -10,20 +10,25 @@ import {
   selectLotsDataLoading,
 } from '../../store/lots/selectors';
 import { ApplicationState } from '../../store/reducers';
+import { getFormattedTime } from '../../utils/getFormattedTime';
 import { maybePluralise } from '../../utils/maybePluralise';
 import { CountdownTimer } from '../CountdownTimer';
+import { ShareLot } from '../ShareLot';
 import { Typography } from '../Typography';
 
 interface LotStatsProps {
   lotId: LotId;
+  children?: React.ReactNode;
 }
 
-export const LotStats = ({ lotId }: LotStatsProps): ReactElement | null => {
+export const LotStats = ({
+  lotId,
+  children,
+}: LotStatsProps): ReactElement | null => {
   const loading = useSelector(selectLotsDataLoading);
   const lot = useSelector((state: ApplicationState) =>
     selectLotById(state, lotId),
   );
-
   const rate = useSelector((state: ApplicationState) =>
     selectBtcRateByCurrency(state, Currency.usd),
   );
@@ -34,7 +39,9 @@ export const LotStats = ({ lotId }: LotStatsProps): ReactElement | null => {
 
   return (
     <Container>
-      <Typography bold>Lot Stats</Typography>
+      <Typography large bold>
+        {getFormattedTime(lot.drawTime)}
+      </Typography>
 
       <Typography>
         Value: {lot.totalBTC} BTC ($
@@ -45,13 +52,29 @@ export const LotStats = ({ lotId }: LotStatsProps): ReactElement | null => {
         {maybePluralise(lot.totalConfirmedTickets, 'Ticket')} Purchased
       </Typography>
 
-      {lot && <CountdownTimer timestamp={lot.drawTime} />}
+      {lot && lot.active && <CountdownTimer timestamp={lot.drawTime} />}
+
+      {lot.winnerUsername && (
+        <>
+          <Typography>Winner</Typography>
+
+          <Typography large bold>
+            {lot.winnerUsername}
+          </Typography>
+        </>
+      )}
 
       {loading && (
         <ActivityIndicatorContainer>
           <ActivityIndicator size="small" />
         </ActivityIndicatorContainer>
       )}
+
+      <ShareLotContainer>
+        <ShareLot lotId={lotId} />
+      </ShareLotContainer>
+
+      {children}
     </Container>
   );
 };
@@ -63,5 +86,11 @@ const Container = styled.View`
 const ActivityIndicatorContainer = styled.View`
   position: absolute;
   top: 0;
+  right: 0;
+`;
+
+const ShareLotContainer = styled.View`
+  position: absolute;
+  bottom: 0;
   right: 0;
 `;

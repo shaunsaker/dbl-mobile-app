@@ -21,16 +21,6 @@ export const YesterdaysResults =
     const loading = useSelector(selectLotsDataLoading);
     const yesterdaysLotId = useSelector(selectLatestInactiveLotId);
 
-    const onLotPress = useCallback(() => {
-      if (!yesterdaysLotId) {
-        return;
-      }
-
-      dispatch(
-        navigate({ route: Routes.result, props: { lotId: yesterdaysLotId } }),
-      );
-    }, [dispatch, yesterdaysLotId]);
-
     const onViewMoreResultsPress = useCallback(() => {
       dispatch(navigate({ route: Routes.results }));
     }, [dispatch]);
@@ -43,7 +33,7 @@ export const YesterdaysResults =
           <ActivityIndicator size="small" />
         ) : yesterdaysLotId ? (
           <>
-            <LotResult lotId={yesterdaysLotId} onPress={onLotPress} />
+            <LotResult lotId={yesterdaysLotId} />
 
             <CustomTouchableOpacity onPress={onViewMoreResultsPress}>
               <Typography bold>View More Results</Typography>

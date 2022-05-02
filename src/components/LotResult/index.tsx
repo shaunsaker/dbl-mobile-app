@@ -16,13 +16,9 @@ import { Typography } from '../Typography';
 
 interface LotResultProps {
   lotId: LotId;
-  onPress?: () => void;
 }
 
-export const LotResult = ({
-  lotId,
-  onPress,
-}: LotResultProps): ReactElement | null => {
+export const LotResult = ({ lotId }: LotResultProps): ReactElement | null => {
   const dispatch = useDispatch();
 
   const lot = useSelector((state: ApplicationState) =>
@@ -38,6 +34,10 @@ export const LotResult = ({
       selectUserWinningByLotId(state, lotId),
     ),
   );
+
+  const onPress = useCallback(() => {
+    dispatch(navigate({ route: Routes.result, props: { lotId } }));
+  }, [dispatch, lotId]);
 
   const onViewWinningDetailsPress = useCallback(() => {
     dispatch(navigate({ route: Routes.winner, props: { lotId } }));

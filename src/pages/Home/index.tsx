@@ -5,7 +5,6 @@ import { HeaderBar } from '../../components/HeaderBar';
 import { LotStats } from '../../components/LotStats';
 import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
-import { ShareLot } from '../../components/ShareLot';
 import { TicketsSummary } from '../../components/TicketsSummary';
 import { Routes } from '../../router/models';
 import { selectActiveLotId } from '../../store/lots/selectors';
@@ -42,10 +41,6 @@ export const Home = ({}: HomeProps): ReactElement => {
         <PrimaryButton onPress={onBuyTicketsPress}>BUY TICKETS</PrimaryButton>
 
         {hasTickets ? <TicketsSummary lotId={activeLotId} /> : null}
-
-        <ShareLotContainer>
-          <ShareLot lotId={activeLotId} />
-        </ShareLotContainer>
       </Container>
     </Page>
   );
@@ -53,10 +48,4 @@ export const Home = ({}: HomeProps): ReactElement => {
 
 const Container = styled.View`
   flex: 1;
-`;
-
-const ShareLotContainer = styled.View`
-  position: absolute;
-  bottom: 0;
-  right: 0;
 `;

@@ -2,7 +2,6 @@ import React, { ReactElement, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { CloseButton } from '../../components/CloseButton';
-import { LotResult } from '../../components/LotResult';
 import { LotStats } from '../../components/LotStats';
 import { Page } from '../../components/Page';
 import { ShareLot } from '../../components/ShareLot';
@@ -24,8 +23,6 @@ export const Result = ({ route }: ResultProps): ReactElement => {
   return (
     <Page>
       <Container>
-        <LotResult lotId={lotId} />
-
         <LotStats lotId={lotId} />
 
         <TicketsSummary lotId={lotId} />

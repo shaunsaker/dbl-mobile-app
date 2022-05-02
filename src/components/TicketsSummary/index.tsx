@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback } from 'react';
+import React, { ReactElement, useCallback, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Routes } from '../../router/models';
@@ -6,6 +6,7 @@ import { LotId } from '../../store/lots/models';
 import { selectActiveLotId, selectLotById } from '../../store/lots/selectors';
 import { navigate } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
+import { fetchTickets } from '../../store/tickets/actions';
 import { TicketStatus } from '../../store/tickets/models';
 import {
   selectTicketsByLotId,
@@ -45,6 +46,17 @@ export const TicketsSummary = ({
       ticketsGroupedByStatus[TicketStatus.confirmed].length,
     totalLotTicketCount: lot?.totalConfirmedTickets || 0,
   });
+
+  useLayoutEffect(
+    () => {
+      // we only fetch tickets for lot results because we sync on active lot tickets
+      if (!isActiveLot) {
+        dispatch(fetchTickets.request({ lotId }));
+      }
+    },
+    // eslint-disable-next-line
+    [],
+  );
 
   const onPress = useCallback(() => {
     dispatch(navigate({ route: Routes.tickets, props: { lotId } }));
