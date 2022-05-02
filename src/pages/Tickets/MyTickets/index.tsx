@@ -2,17 +2,16 @@ import React, { ReactElement, useLayoutEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { LotId } from '../../store/lots/models';
-import { selectActiveLotId } from '../../store/lots/selectors';
-import { ApplicationState } from '../../store/reducers';
-import { fetchTickets } from '../../store/tickets/actions';
+import { LotId } from '../../../store/lots/models';
+import { selectActiveLotId } from '../../../store/lots/selectors';
+import { ApplicationState } from '../../../store/reducers';
+import { fetchTickets } from '../../../store/tickets/actions';
 import {
   selectTicketsByLotId,
   selectTicketsDataLoading,
-} from '../../store/tickets/selectors';
-import { isObjectEmpty } from '../../utils/isObjectEmpty';
-import { sortArrayOfObjectsByKey } from '../../utils/sortArrayOfObjectsByKey';
-import { Typography } from '../Typography';
+} from '../../../store/tickets/selectors';
+import { isObjectEmpty } from '../../../utils/isObjectEmpty';
+import { Typography } from '../../../components/Typography';
 import { Ticket } from './Ticket';
 
 interface MyTicketsProps {
@@ -27,12 +26,6 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
   const tickets = useSelector((state: ApplicationState) =>
     selectTicketsByLotId(state, lotId),
   );
-
-  // convert the tickets object to an array
-  // sort them from newest to oldest
-  const sortedTicketsArray = tickets
-    ? sortArrayOfObjectsByKey(tickets, 'dateCreated', true)
-    : [];
 
   const userHasTickets = tickets && !isObjectEmpty(tickets);
 
@@ -54,7 +47,7 @@ export const MyTickets = ({ lotId }: MyTicketsProps): ReactElement => {
       {loading ? (
         <ActivityIndicator size="small" />
       ) : userHasTickets ? (
-        sortedTicketsArray.map(ticket => <Ticket key={ticket.id} {...ticket} />)
+        tickets.map(ticket => <Ticket key={ticket.id} {...ticket} />)
       ) : (
         <Typography>You have no tickets, shame on you!</Typography>
       )}

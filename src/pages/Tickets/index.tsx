@@ -2,17 +2,14 @@ import React, { ReactElement, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { CloseButton } from '../../components/CloseButton';
-import { LotResult } from '../../components/LotResult';
-import { LotStats } from '../../components/LotStats';
+import { MyTickets } from './MyTickets';
 import { Page } from '../../components/Page';
-import { ShareLot } from '../../components/ShareLot';
-import { TicketsSummary } from '../../components/TicketsSummary';
 import { RouteProps, Routes } from '../../router/models';
 import { navigateBack } from '../../store/navigation/actions';
 
-interface ResultProps extends RouteProps<Routes.result> {}
+interface TicketsProps extends RouteProps<Routes.tickets> {}
 
-export const Result = ({ route }: ResultProps): ReactElement => {
+export const Tickets = ({ route }: TicketsProps): ReactElement => {
   const { lotId } = route.params;
 
   const dispatch = useDispatch();
@@ -24,15 +21,7 @@ export const Result = ({ route }: ResultProps): ReactElement => {
   return (
     <Page>
       <Container>
-        <LotResult lotId={lotId} />
-
-        <LotStats lotId={lotId} />
-
-        <TicketsSummary lotId={lotId} />
-
-        <ShareLotContainer>
-          <ShareLot lotId={lotId} />
-        </ShareLotContainer>
+        <MyTickets lotId={lotId} />
       </Container>
 
       <CloseButtonContainer>
@@ -44,12 +33,6 @@ export const Result = ({ route }: ResultProps): ReactElement => {
 
 const Container = styled.View`
   flex: 1;
-`;
-
-const ShareLotContainer = styled.View`
-  position: absolute;
-  bottom: 0;
-  right: 0;
 `;
 
 const CloseButtonContainer = styled.View`

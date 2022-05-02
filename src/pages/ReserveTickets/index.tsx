@@ -13,11 +13,14 @@ import { Lot, MAX_BTC_DIGITS } from '../../store/lots/models';
 import { selectActiveLot } from '../../store/lots/selectors';
 import { navigate, navigateBack } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
-import { selectConfirmedActiveLotTickets } from '../../store/tickets/selectors';
+import { selectTicketsByLotIdGroupedByStatus } from '../../store/tickets/selectors';
 import { maybePluralise } from '../../utils/maybePluralise';
 import { numberToDigits } from '../../utils/numberToDigits';
 import { getTicketOdds } from '../../utils/getTicketOdds';
 import { CloseButton } from '../../components/CloseButton';
+import { TicketStatus } from '../../store/tickets/models';
+import { showSnackbar } from '../../store/snackbars/actions';
+import { SnackbarType } from '../../store/snackbars/models';
 
 interface ReserveTicketsProps {}
 
@@ -34,14 +37,13 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
   const activeLot = useSelector(selectActiveLot) as Lot; // lot is definitely defined here
 
   // get the ticket odds
-  const userConfirmedActiveLotTickets = useSelector(
-    selectConfirmedActiveLotTickets,
+  const ticketsGroupedByStatus = useSelector((state: ApplicationState) =>
+    selectTicketsByLotIdGroupedByStatus(state, activeLot.id),
   );
   const ticketOdds = getTicketOdds({
     newUserTicketCount: ticketCount,
-    existingUserTicketCount: userConfirmedActiveLotTickets
-      ? userConfirmedActiveLotTickets.length
-      : 0,
+    existingUserTicketCount:
+      ticketsGroupedByStatus[TicketStatus.confirmed].length,
     totalLotTicketCount: activeLot.totalConfirmedTickets,
   });
 
@@ -86,26 +88,37 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
 
     setLoading(true);
 
-    // FIXME: handle error
-    const reserveTicketsResponse = await firebaseReserveTickets({
-      lotId: activeLot.id,
-      ticketCount,
-    });
+    try {
+      const reserveTicketsResponse = await firebaseReserveTickets({
+        lotId: activeLot.id,
+        ticketCount,
+      });
+
+      // first go back home so that the user does not come back here from the Invoice page
+      dispatch(navigateBack());
+
+      dispatch(
+        navigate({
+          route: Routes.invoice,
+          props: {
+            lotId: activeLot.id,
+            invoiceId: reserveTicketsResponse.data as InvoiceId,
+          },
+        }),
+      );
+    } catch (error) {
+      console.error(error);
+
+      dispatch(
+        showSnackbar({
+          type: SnackbarType.error,
+          title: 'Error',
+          description: (error as Error).message,
+        }),
+      );
+    }
 
     setLoading(false);
-
-    // first go back home so that the user does not come back here from the Invoice page
-    dispatch(navigateBack());
-
-    dispatch(
-      navigate({
-        route: Routes.invoice,
-        props: {
-          lotId: activeLot.id,
-          invoiceId: reserveTicketsResponse.data as InvoiceId,
-        },
-      }),
-    );
   }, [activeLot, ticketCount, dispatch]);
 
   const onClosePress = useCallback(() => {

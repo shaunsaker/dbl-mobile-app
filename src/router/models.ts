@@ -13,6 +13,7 @@ export enum Routes {
   home = 'Home',
   reserveTickets = 'Reserve Tickets',
   invoice = 'Invoice',
+  tickets = 'Tickets',
   results = 'Results',
   result = 'Result',
   winner = 'Winner',
@@ -31,6 +32,9 @@ export type RouteStackParamList = {
   [Routes.invoice]: {
     lotId: LotId;
     invoiceId: InvoiceId;
+  };
+  [Routes.tickets]: {
+    lotId: LotId;
   };
   [Routes.results]: undefined;
   [Routes.result]: {

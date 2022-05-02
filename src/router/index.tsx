@@ -26,6 +26,7 @@ import { Profile } from '../pages/Profile';
 import { Welcome } from '../pages/Welcome';
 import { selectHasCompletedOnboarding } from '../store/onboarding/selectors';
 import { ForgotPassword } from '../pages/ForgotPassword';
+import { Tickets } from '../pages/Tickets';
 
 const navigationRef = createRef<NavigationContainerRef<RouteStackParamList>>();
 
@@ -128,6 +129,8 @@ export const Router = () => {
                 />
 
                 <Stack.Screen name={Routes.invoice} component={Invoice} />
+
+                <Stack.Screen name={Routes.tickets} component={Tickets} />
 
                 <Stack.Screen name={Routes.result} component={Result} />
 

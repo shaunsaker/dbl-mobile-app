@@ -1,13 +1,16 @@
 import React, { ReactElement, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
-import { Routes } from '../../router/models';
-import { LotId } from '../../store/lots/models';
-import { navigate } from '../../store/navigation/actions';
-import { Ticket as TicketType, TicketStatus } from '../../store/tickets/models';
-import { getFormattedTime } from '../../utils/getFormattedTime';
-import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
-import { Typography } from '../Typography';
+import { Routes } from '../../../router/models';
+import { LotId } from '../../../store/lots/models';
+import { navigate } from '../../../store/navigation/actions';
+import {
+  Ticket as TicketType,
+  TicketStatus,
+} from '../../../store/tickets/models';
+import { getFormattedTime } from '../../../utils/getFormattedTime';
+import { CustomTouchableOpacity } from '../../../components/CustomTouchableOpacity';
+import { Typography } from '../../../components/Typography';
 
 const getTicketStatusIconColor = (status: TicketStatus): string => {
   return status === TicketStatus.confirmed

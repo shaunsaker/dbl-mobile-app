@@ -1,12 +1,12 @@
 import React, { ReactElement, useCallback } from 'react';
 import Config from 'react-native-config';
 import styled from 'styled-components/native';
-import { Payment as PaymentType } from '../../store/payments/models';
-import { getFormattedTime } from '../../utils/getFormattedTime';
-import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
-import { Typography } from '../Typography';
-import { useLinking } from '../useLinking';
-import OpenIcon from '../../icons/open.svg';
+import { Payment as PaymentType } from '../../../store/payments/models';
+import { getFormattedTime } from '../../../utils/getFormattedTime';
+import { CustomTouchableOpacity } from '../../../components/CustomTouchableOpacity';
+import { Typography } from '../../../components/Typography';
+import { useLinking } from '../../../components/useLinking';
+import OpenIcon from '../../../icons/open.svg';
 
 interface PaymentProps extends PaymentType {}
 

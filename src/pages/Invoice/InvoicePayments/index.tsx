@@ -1,20 +1,23 @@
 import React, { ReactElement, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
-import { InvoiceId } from '../../store/invoices/models';
-import { LotId } from '../../store/lots/models';
-import { fetchPayments } from '../../store/payments/actions';
-import { selectPaymentsByInvoiceId } from '../../store/payments/selectors';
-import { ApplicationState } from '../../store/reducers';
-import { Typography } from '../Typography';
+import { InvoiceId } from '../../../store/invoices/models';
+import { LotId } from '../../../store/lots/models';
+import { fetchPayments } from '../../../store/payments/actions';
+import { selectPaymentsByInvoiceId } from '../../../store/payments/selectors';
+import { ApplicationState } from '../../../store/reducers';
+import { Typography } from '../../../components/Typography';
 import { Payment } from './Payment';
 
-interface PaymentsProps {
+interface InvoicePaymentsProps {
   lotId: LotId;
   invoiceId: InvoiceId;
 }
 
-export const Payments = ({ lotId, invoiceId }: PaymentsProps): ReactElement => {
+export const InvoicePayments = ({
+  lotId,
+  invoiceId,
+}: InvoicePaymentsProps): ReactElement => {
   const dispatch = useDispatch();
 
   const payments = useSelector((state: ApplicationState) =>
