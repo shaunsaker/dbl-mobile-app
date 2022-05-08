@@ -35,6 +35,9 @@ export const LotResult = ({ lotId }: LotResultProps): ReactElement | null => {
     ),
   );
 
+  // we use the last call time because drawTime is midnight (technically the next day)
+  const lotDate = lot?.lastCallTime;
+
   const onPress = useCallback(() => {
     dispatch(navigate({ route: Routes.result, props: { lotId } }));
   }, [dispatch, lotId]);
@@ -49,9 +52,7 @@ export const LotResult = ({ lotId }: LotResultProps): ReactElement | null => {
 
   return (
     <Container disabled={!onPress} onPress={onPress}>
-      <Typography>
-        {moment(lot.drawTime).format('dddd, DD MMMM YYYY')}
-      </Typography>
+      <Typography>{moment(lotDate).format('dddd, DD MMMM YYYY')}</Typography>
 
       <Typography large bold>
         {lot.winnerUsername}
