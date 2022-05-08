@@ -8,7 +8,6 @@ import { navigationFlow } from './navigation/flow';
 import { snackbarsFlow } from './snackbars/flow';
 import { createUserFlow, userProfileFlow } from './userProfile/flow';
 import { lotsFlow } from './lots/flow';
-import { ticketsFlow } from './tickets/flow';
 import { notificationsFlow } from './notifications/flow';
 import { btcRateFlow } from './btcRate/flow';
 import { invoicesFlow } from './invoices/flow';
@@ -29,7 +28,6 @@ function* authenticatedFlows() {
     yield fork(lotsFlow);
     yield fork(notificationsFlow);
     yield fork(paymentsFlow);
-    yield fork(ticketsFlow);
     yield fork(userProfileFlow);
   }
 }

@@ -9,7 +9,6 @@ import Config from 'react-native-config';
 import { useSelector } from 'react-redux';
 import { ApplicationState } from '../../store/reducers';
 import { selectLotById } from '../../store/lots/selectors';
-import { ActionButton } from '../ActionButton';
 import { maybePluralise } from '../../utils/maybePluralise';
 import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
 

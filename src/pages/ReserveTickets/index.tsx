@@ -8,19 +8,18 @@ import { firebaseReserveTickets } from '../../firebase/firestore/firebaseReserve
 import { Routes } from '../../router/models';
 import { Currency } from '../../store/btcRate/models';
 import { selectBtcRateByCurrency } from '../../store/btcRate/selectors';
-import { InvoiceId } from '../../store/invoices/models';
+import { InvoiceId, InvoiceStatus } from '../../store/invoices/models';
 import { Lot, MAX_BTC_DIGITS } from '../../store/lots/models';
 import { selectActiveLot } from '../../store/lots/selectors';
 import { navigate, navigateBack } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
-import { selectTicketsByLotIdGroupedByStatus } from '../../store/tickets/selectors';
 import { maybePluralise } from '../../utils/maybePluralise';
 import { numberToDigits } from '../../utils/numberToDigits';
 import { getTicketOdds } from '../../utils/getTicketOdds';
 import { CloseButton } from '../../components/CloseButton';
-import { TicketStatus } from '../../store/tickets/models';
 import { showSnackbar } from '../../store/snackbars/actions';
 import { SnackbarType } from '../../store/snackbars/models';
+import { selectTicketIdsByLotIdGroupedByStatus } from '../../store/invoices/selectors';
 
 interface ReserveTicketsProps {}
 
@@ -37,13 +36,13 @@ export const ReserveTickets = ({}: ReserveTicketsProps): ReactElement => {
   const activeLot = useSelector(selectActiveLot) as Lot; // lot is definitely defined here
 
   // get the ticket odds
-  const ticketsGroupedByStatus = useSelector((state: ApplicationState) =>
-    selectTicketsByLotIdGroupedByStatus(state, activeLot.id),
+  const ticketIdsGroupedByStatus = useSelector((state: ApplicationState) =>
+    selectTicketIdsByLotIdGroupedByStatus(state, activeLot.id),
   );
   const ticketOdds = getTicketOdds({
     newUserTicketCount: ticketCount,
     existingUserTicketCount:
-      ticketsGroupedByStatus[TicketStatus.confirmed].length,
+      ticketIdsGroupedByStatus[InvoiceStatus.confirmed].length,
     totalLotTicketCount: activeLot.totalConfirmedTickets,
   });
 

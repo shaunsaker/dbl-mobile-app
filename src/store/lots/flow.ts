@@ -65,14 +65,6 @@ function* onFetchInactiveLotsSaga(): SagaIterator {
       }
     },
   );
-
-  try {
-    const lot = yield* call(firebaseFetchLatestInactiveLot);
-
-    yield put(fetchLatestInactiveLot.success({ data: lot }));
-  } catch (error) {
-    yield* call(errorSaga, error, fetchLatestInactiveLot.failure);
-  }
 }
 
 // istanbul ignore next

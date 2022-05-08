@@ -33,28 +33,24 @@ export const LotStats = ({
     selectBtcRateByCurrency(state, Currency.usd),
   );
 
-  if (!lot) {
-    return null;
-  }
-
   return (
     <Container>
       <Typography large bold>
-        {getFormattedTime(lot.drawTime)}
+        {lot ? getFormattedTime(lot?.id) : ''}
       </Typography>
 
       <Typography>
-        Value: {lot.totalBTC} BTC ($
-        {Math.round(lot.totalBTC * rate)})
+        Value: {lot?.totalBTC} BTC ($
+        {Math.round((lot?.totalBTC || 0) * rate)})
       </Typography>
 
       <Typography>
-        {maybePluralise(lot.totalConfirmedTickets, 'Ticket')} Purchased
+        {maybePluralise(lot?.totalConfirmedTickets || 0, 'Ticket')} Purchased
       </Typography>
 
       {lot && lot.active && <CountdownTimer timestamp={lot.drawTime} />}
 
-      {lot.winnerUsername && (
+      {lot && lot.winnerUsername ? (
         <>
           <Typography>Winner</Typography>
 
@@ -62,7 +58,7 @@ export const LotStats = ({
             {lot.winnerUsername}
           </Typography>
         </>
-      )}
+      ) : null}
 
       {loading && (
         <ActivityIndicatorContainer>

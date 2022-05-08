@@ -2,16 +2,16 @@ import React, { ReactElement, useCallback, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 import { Routes } from '../../router/models';
+import { fetchInvoices } from '../../store/invoices/actions';
+import { InvoiceStatus } from '../../store/invoices/models';
+import {
+  selectTicketIdsByLotId,
+  selectTicketIdsByLotIdGroupedByStatus,
+} from '../../store/invoices/selectors';
 import { LotId } from '../../store/lots/models';
 import { selectActiveLotId, selectLotById } from '../../store/lots/selectors';
 import { navigate } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
-import { fetchTickets } from '../../store/tickets/actions';
-import { TicketStatus } from '../../store/tickets/models';
-import {
-  selectTicketsByLotId,
-  selectTicketsByLotIdGroupedByStatus,
-} from '../../store/tickets/selectors';
 import { getTicketOdds } from '../../utils/getTicketOdds';
 import { maybePluralise } from '../../utils/maybePluralise';
 import { CustomTouchableOpacity } from '../CustomTouchableOpacity';
@@ -31,27 +31,27 @@ export const TicketsSummary = ({
   );
   const isActiveLot = useSelector(selectActiveLotId) === lotId;
   const ticketsGroupedByStatus = useSelector((state: ApplicationState) =>
-    selectTicketsByLotIdGroupedByStatus(state, lotId),
+    selectTicketIdsByLotIdGroupedByStatus(state, lotId),
   );
   const tickets = useSelector((state: ApplicationState) =>
-    selectTicketsByLotId(state, lotId),
+    selectTicketIdsByLotId(state, lotId),
   );
 
   const hasConfirmedTickets =
-    ticketsGroupedByStatus[TicketStatus.confirmed].length;
+    ticketsGroupedByStatus[InvoiceStatus.confirmed].length;
 
   const ticketOdds = getTicketOdds({
     newUserTicketCount: 0,
     existingUserTicketCount:
-      ticketsGroupedByStatus[TicketStatus.confirmed].length,
+      ticketsGroupedByStatus[InvoiceStatus.confirmed].length,
     totalLotTicketCount: lot?.totalConfirmedTickets || 0,
   });
 
   useLayoutEffect(
     () => {
-      // we only fetch tickets for lot results because we sync on active lot tickets
+      // we only fetch invoices for lot results because we already sync on active lot invoices
       if (!isActiveLot) {
-        dispatch(fetchTickets.request({ lotId }));
+        dispatch(fetchInvoices.request({ lotId }));
       }
     },
     // eslint-disable-next-line
@@ -70,29 +70,29 @@ export const TicketsSummary = ({
       </Typography>
 
       <Typography>
-        {ticketsGroupedByStatus[TicketStatus.reserved].length ? (
+        {ticketsGroupedByStatus[InvoiceStatus.reserved].length ? (
           <Typography>
-            {ticketsGroupedByStatus[TicketStatus.reserved].length} Awaiting
+            {ticketsGroupedByStatus[InvoiceStatus.reserved].length} Awaiting
             Payment
           </Typography>
         ) : null}
 
-        {ticketsGroupedByStatus[TicketStatus.paymentReceived].length ? (
+        {ticketsGroupedByStatus[InvoiceStatus.paymentReceived].length ? (
           <Typography>
-            {ticketsGroupedByStatus[TicketStatus.paymentReceived].length}{' '}
+            {ticketsGroupedByStatus[InvoiceStatus.paymentReceived].length}{' '}
             Payment Received
           </Typography>
         ) : null}
 
-        {ticketsGroupedByStatus[TicketStatus.confirmed].length ? (
+        {ticketsGroupedByStatus[InvoiceStatus.confirmed].length ? (
           <Typography>
-            {ticketsGroupedByStatus[TicketStatus.confirmed].length} Confirmed
+            {ticketsGroupedByStatus[InvoiceStatus.confirmed].length} Confirmed
           </Typography>
         ) : null}
 
-        {ticketsGroupedByStatus[TicketStatus.expired].length ? (
+        {ticketsGroupedByStatus[InvoiceStatus.expired].length ? (
           <Typography>
-            {ticketsGroupedByStatus[TicketStatus.expired].length} Expired
+            {ticketsGroupedByStatus[InvoiceStatus.expired].length} Expired
           </Typography>
         ) : null}
       </Typography>

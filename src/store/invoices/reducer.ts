@@ -1,13 +1,17 @@
 import { ActionType, getType } from 'typesafe-actions';
+import { arrayToObject } from '../../utils/arrayToObject';
 import { signOut } from '../auth/actions';
-import { fetchInvoice } from './actions';
+import { fetchActiveLotInvoices, fetchInvoices } from './actions';
 import { InvoicesState } from './models';
 
 const reducerActions = {
   signOutSuccess: signOut.success,
-  fetchInvoiceRequest: fetchInvoice.request,
-  fetchInvoiceSuccess: fetchInvoice.success,
-  fetchInvoiceFailure: fetchInvoice.failure,
+  fetchActiveLotInvoicesRequest: fetchActiveLotInvoices.request,
+  fetchActiveLotInvoicesSuccess: fetchActiveLotInvoices.success,
+  fetchActiveLotInvoicesFailure: fetchActiveLotInvoices.failure,
+  fetchInvoicesRequest: fetchInvoices.request,
+  fetchInvoicesSuccess: fetchInvoices.success,
+  fetchInvoicesFailure: fetchInvoices.failure,
 };
 
 export const initialState: InvoicesState = {
@@ -23,23 +27,28 @@ export const invoicesReducer = (
     case getType(signOut.success):
       return initialState;
 
-    case getType(fetchInvoice.request):
+    case getType(fetchActiveLotInvoices.request):
+    case getType(fetchInvoices.request):
       return {
         ...state,
         loading: true,
       };
 
-    case getType(fetchInvoice.success):
+    case getType(fetchActiveLotInvoices.success):
+    case getType(fetchInvoices.success):
+      const invoicesObject = arrayToObject(action.payload.data, 'id');
+
       return {
         ...state,
         data: {
           ...state.data,
-          [action.payload.invoiceId]: action.payload.data,
+          ...invoicesObject,
         },
         loading: false,
       };
 
-    case getType(fetchInvoice.failure):
+    case getType(fetchActiveLotInvoices.failure):
+    case getType(fetchInvoices.failure):
       return {
         ...state,
         loading: false,

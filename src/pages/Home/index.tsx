@@ -7,10 +7,10 @@ import { Page } from '../../components/Page';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { TicketsSummary } from '../../components/TicketsSummary';
 import { Routes } from '../../router/models';
+import { selectHasTicketsForLotId } from '../../store/invoices/selectors';
 import { selectActiveLotId } from '../../store/lots/selectors';
 import { navigate } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
-import { selectTicketsByLotId } from '../../store/tickets/selectors';
 import { YesterdaysResults } from './YesterdaysResults';
 
 interface HomeProps {}
@@ -19,11 +19,10 @@ export const Home = ({}: HomeProps): ReactElement => {
   const dispatch = useDispatch();
 
   const activeLotId = useSelector(selectActiveLotId) || '';
-  const tickets = useSelector((state: ApplicationState) =>
-    selectTicketsByLotId(state, activeLotId),
-  );
 
-  const hasTickets = tickets.length;
+  const hasTickets = useSelector((state: ApplicationState) =>
+    selectHasTicketsForLotId(state, activeLotId),
+  );
 
   const onBuyTicketsPress = useCallback(() => {
     dispatch(navigate({ route: Routes.reserveTickets }));

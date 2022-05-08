@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback } from 'react';
+import React, { ReactElement, useCallback, useLayoutEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components/native';
 import { CloseButton } from '../../components/CloseButton';
@@ -7,6 +7,7 @@ import { Page } from '../../components/Page';
 import { ShareLot } from '../../components/ShareLot';
 import { TicketsSummary } from '../../components/TicketsSummary';
 import { RouteProps, Routes } from '../../router/models';
+import { fetchInvoices } from '../../store/invoices/actions';
 import { navigateBack } from '../../store/navigation/actions';
 
 interface ResultProps extends RouteProps<Routes.result> {}
@@ -15,6 +16,16 @@ export const Result = ({ route }: ResultProps): ReactElement => {
   const { lotId } = route.params;
 
   const dispatch = useDispatch();
+
+  useLayoutEffect(
+    () => {
+      // on mount fetch the invoices for this lot
+      dispatch(fetchInvoices.request({ lotId }));
+    },
+    // only run this once on mount
+    // eslint-disable-next-line
+    [],
+  );
 
   const onClosePress = useCallback(() => {
     dispatch(navigateBack());

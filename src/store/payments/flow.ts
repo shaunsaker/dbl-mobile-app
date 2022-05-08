@@ -18,6 +18,12 @@ function* onFetchPaymentsSaga(): SagaIterator {
       const uid = yield* select(selectUid);
 
       if (!uid) {
+        yield* call(
+          errorSaga,
+          new Error('No user sign in'),
+          fetchPayments.failure,
+        );
+
         return;
       }
 
