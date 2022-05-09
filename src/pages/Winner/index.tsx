@@ -13,7 +13,6 @@ import { selectLotById } from '../../store/lots/selectors';
 import { navigateBack } from '../../store/navigation/actions';
 import { ApplicationState } from '../../store/reducers';
 import { selectUserWinningByLotId } from '../../store/userProfile/selectors';
-import { TestimonialInput } from './TestimonialInput';
 
 interface WinnerProps extends RouteProps<Routes.winner> {}
 
@@ -64,8 +63,6 @@ export const Winner = ({ route }: WinnerProps): ReactElement => {
         <PrimaryButton onPress={onWithdrawPress}>
           SET UP WITHDRAWAL
         </PrimaryButton>
-
-        <TestimonialInput lotId={lotId} />
 
         <PrimaryButton onPress={onSharePress}>SHARE YOUR WIN</PrimaryButton>
       </Container>
